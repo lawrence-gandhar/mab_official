@@ -1,0 +1,7 @@
+app--> url-->  path('contacts/search/', contacts.search_form,name="search_contacts")
+app--> views-->contact.py -->class ContactsView(View):-->def get(self, request): --> add search list
+app--> views-->contact.py -->def search_form(request):
+app-->templates-->app-->app file-->contacts-->search_list.html     #added new html
+app-->templates-->app-->app file-->contacts-->base.html #add search bar coded javascripts
+field chenges done front end
+field backend work done

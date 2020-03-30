@@ -1,0 +1,144 @@
+<div class="row">
+    <div class="col-lg-12" style="padding:0px">
+        <div class="card">
+            <div class="card-header bg-blue">
+                <h5 class="card-title">
+                    <span style="color:#000000; background-color:#FFFFFF; padding:0px 10px;margin-right:10px">{{instance_title|upper}}</span>
+                    CONTACT'S ACCOUNTS DETAILS
+                    
+                    <a href="{% url 'create-contact-invoice' contact_form_instance %}" class="btn btn-sm button-black" style="float:right; color:#FFFFFF">Create Invoice</a>
+                </h5>
+                <h6 class="card-subtitle mb-2 text-muted">Manage Contact's Account Details</h6>
+            </div>
+            <div class="card-body">
+                <div class="table">
+                    <table class="table-bordered" width="100%" cellspacing="0">
+                        <tr style="background-color:#5d5d5d;">
+                            <td class="text-center font-bold font-white" style="padding:10px;">Account Number</td>
+                            <td class="text-center font-bold font-white">Account Holder's Name</td class="text-center font-bold font-white">
+                            <td class="text-center font-bold font-white">IFSC Code</td class="text-center font-bold font-white">
+                            <td class="text-center font-bold font-white">Bank</td class="text-center font-bold font-white">
+                            <td class="text-center font-bold font-white">Bank Branch</td class="text-center font-bold font-white">
+                            <td class="text-center font-bold font-white">Created On</td class="text-center font-bold font-white">
+                            <td class="text-center font-bold font-white">Action</td class="text-center font-bold font-white">
+                        </tr>
+                        {% for account_detail in contact_account_details %}
+                            <tr>
+                                <td>{{account_detail.account_number}}</td>
+                                <td>{{account_detail.account_holder_name}}</td>
+                                <td>{{account_detail.ifsc_code}}</td>
+                                <td>{{account_detail.bank_name}}</td>
+                                <td>{{account_detail.bank_branch_name}}</td>
+                                <td>{{account_detail.created_on}}</td>
+                                <td class="text-center" width="80px">
+                                    {% csrf_token %}
+                                    <button class="btn btn-primary btn-sm" style="margin-right: 2px" onclick="edit_form_button('edit_contact_account_details',{{account_detail.id}})">
+                                        <i class="fas fa-fw fa-pencil-alt" style="font-size:70%"></i>
+                                    </button>
+                                    <a class="btn btn-danger btn-sm" href="{% url 'delete-contacts' 'step4' contact_form_instance account_detail.id %}">
+                                        <i class="fas fa-fw fa-trash-alt" style="font-size:70%"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        {% endfor %}    
+                    </table>
+                </div>
+            </div>
+            <div class="card-footer text-center">
+                <a href="{% url 'add-contacts' 'step3' contact_form_instance %}" type="button" class="btn button button-blue">Back</a>        
+                <button type="button" class="btn button button-green" data-toggle="modal" data-target="#addModal">Add Another</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- Add Modal -->
+<div class="modal" id="addModal">
+    <div class="modal-dialog">
+        <div class="modal-content">            
+            <form method="post" action="">
+                {% csrf_token %}
+                <input type="hidden" name="add_proxy" value="1">
+                <div class="modal-header">
+                    <h4 class="modal-title">Add Contact Account Details</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="table" style="padding:10px 0px;">
+                        <div class="d-table-row" style="padding:10px 0px;">
+                            <div class="d-table-cell" style="padding:0px 10px;">
+                                <label>Account Number</label>
+                            </div>
+                            <div class="d-table-cell" style="padding:5px 10px;">
+                                {{ contact_account_details_form.account_number }}
+                            </div>
+                        </div>
+                        <div class="d-table-row" style="padding:10px 0px;">
+                            <div class="d-table-cell" style="padding:0px 10px;">
+                                <label>Account Holder</label>
+                            </div>
+                            <div class="d-table-cell" style="padding:5px 10px;">
+                                {{ contact_account_details_form.account_holder_name }}
+                            </div>
+                        </div>
+                        <div class="d-table-row" style="padding:10px 0px;">
+                            <div class="d-table-cell" style="padding:0px 10px;">
+                                <label>IFSC Code</label>
+                            </div>
+                            <div class="d-table-cell" style="padding:5px 10px;">
+                                {{ contact_account_details_form.ifsc_code }}
+                            </div>
+                        </div>
+                        <div class="d-table-row" style="padding:10px 0px;">
+                            <div class="d-table-cell" style="padding:0px 10px;">
+                                <label>Bank Name</label>
+                            </div>
+                            <div class="d-table-cell" style="padding:5px 10px;">
+                                {{ contact_account_details_form.bank_name }}
+                            </div>
+                        </div>
+                        <div class="d-table-row" style="padding:10px 0px;">
+                            <div class="d-table-cell" style="padding:0px 10px;">
+                                <label>Branch Name</label>
+                            </div>
+                            <div class="d-table-cell" style="padding:5px 10px;">
+                                {{ contact_account_details_form.bank_branch_name }}
+                            </div>
+                        </div>                        
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn button button-green">Submit</button>
+                    <button type="button" class="btn button button-red" data-dismiss="modal">Close</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<!-- Edit Modal -->
+<div class="modal" id="editModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form method="post" action="{% url 'edit-contact-forms' %}">
+                <input type="hidden" name="slug" value="{{slug}}">
+                <input type="hidden" name="form_ins" value="{{contact_form_instance}}">
+                {% csrf_token %}
+                <div class="modal-header">
+                    <h4 class="modal-title">Edit Account Details</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body" id="extra_form_layout">
+
+                </div>
+                <div class="modal-footer">
+                    <button class="btn button button-green">Submit</button>
+                    <button type="button" class="btn button button-red" data-dismiss="modal">Close</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

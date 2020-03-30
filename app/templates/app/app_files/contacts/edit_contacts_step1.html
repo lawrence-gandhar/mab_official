@@ -1,0 +1,160 @@
+<div class="row">
+    <div class="col-lg-12" style="padding:0px">
+        <div class="card">
+            <div class="card-header card-header-primary">
+                <h4 class="card-title ">{{instance_title|upper}}</h4>
+                <p class="card-category"><strong>Edit Basic Details</strong></p>
+            </div>     
+            <form method="post" class="disabled_form_elements" action="/contacts/edit/step1/{{contact_form_instance}}/">
+                <div class="card-body">
+                    {% csrf_token %}
+                    <div class="table" style="padding:10px 0px;">
+                        <div class="d-table-row" style="padding:10px 0px;">
+                            <div class="d-table-cell" style="padding:5px 10px;">
+                                <label>Has Application ID</label>
+                            </div>
+                            <div class="d-table-cell form-check" style="padding:0px 10px;">
+                                <label class="form-check-label">
+                                    <input class="form-check-input" type="checkbox" id="id_has_app" onclick="has_app_id(this)">
+                                    <span class="form-check-sign">
+                                        <span class="check"></span>
+                                    </span>
+                                </label>
+                            </div>                       
+                        </div>
+                        <div class="d-table-row hide-row" style="padding:10px 0px;" id="app_id_input">
+                            <div class="d-table-cell" style="padding:0px 10px;">
+                                <label>Application ID</label>
+                            </div>
+                            <div class="d-table-cell" style="padding:0px 1px 10px 10px;">
+                                <input class="form-control" type="text" name="app_id" id="id_app_id" onfocusout="check_app_id(this)">
+                            </div>
+                            <div class="d-table-cell" style="padding:0px 13px;" id="id_app_id_check"></div>
+    
+                        </div>
+                        <div class="d-table-row hide-row" style="padding:10px 0px;" id="app_id_input_2">
+                            <div class="d-table-cell" style="padding:5px 10px;">
+                                <label>Use User Details</label>
+                            </div>
+                            <div class="d-table-cell" style="padding:0px 13px;">
+                                {{ contact_form.is_imported_user }}
+                                {{ contact_form.imported_user }}
+                            </div>
+                        </div>
+                        <div class="d-table-row" style="padding:10px 0px;">
+                            <div class="d-table-cell" style="padding:5px 10px;">
+                                <label>Customer Type</label>
+                            </div>
+                            <div class="d-table-cell" style="padding:0px 13px;">
+                                {{ contact_form.customer_type }}
+                            </div>
+                        </div>
+                        <div class="d-table-row" style="padding:10px 0px;">
+                            <div class="d-table-cell" style="padding:0px 10px;">
+                                <label>Is Sub Customer</label>
+                            </div>
+                            <div class="d-table-cell" style="padding:5px 10px;">
+                                {{ contact_form.is_sub_customer }}
+                            </div>
+                        </div>
+                        <div class="d-table-row" style="padding:10px 0px;">
+                            <div class="d-table-cell" style="padding:0px 10px;">
+                                <label>Salutation</label>
+                            </div>
+                            <div class="d-table-cell" style="padding:5px 10px;">
+                                {{ contact_form.salutation }}
+                            </div>
+                        </div>
+                        <div class="d-table-row" style="padding:10px 0px;">
+                            <div class="d-table-cell" style="padding:0px 10px;">
+                                <label>Contact</label>
+                            </div>
+                            <div class="d-table-cell" style="padding:5px 10px;">
+                                {{ contact_form.contact_name }}
+                            </div>
+                        </div>                    
+                        <div class="d-table-row" style="padding:10px 0px;">
+                            <div class="d-table-cell" style="padding:0px 10px;">
+                                <label>Contact Display Name</label>
+                            </div>
+                            <div class="d-table-cell" style="padding:5px 10px;">
+                                {{ contact_form.display_name }}
+                            </div>
+                        </div>
+                        <div class="d-table-row" style="padding:10px 0px;">
+                            <div class="d-table-cell" style="padding:0px 10px;">
+                                <label>Organisation Type</label>
+                            </div>
+                            <div class="d-table-cell" style="padding:5px 10px;">
+                                {{ contact_form.organization_type }}
+                            </div>
+                        </div>
+                        <div class="d-table-row" style="padding:10px 0px;">
+                            <div class="d-table-cell" style="padding:0px 10px;">
+                                <label>Organisation Name</label>
+                            </div>
+                            <div class="d-table-cell" style="padding:5px 10px;">
+                                {{ contact_form.organization_name }}
+                            </div>
+                        </div>
+                        <div class="d-table-row" style="padding:10px 0px;">
+                            <div class="d-table-cell" style="padding:0px 10px;">
+                                <label>Is MSME Registered</label>
+                            </div>
+                            <div class="d-table-cell" style="padding:5px 10px;">
+                                {{ contact_form.is_msme_reg }}
+                            </div>
+                        </div>
+                        <div class="d-table-row" style="padding:10px 0px;">
+                            <div class="d-table-cell" style="padding:0px 10px;">
+                                <label>Email</label>
+                            </div>
+                            <div class="d-table-cell" style="padding:5px 10px;">
+                                {{ contact_form.email }}
+                            </div>
+                        </div>
+                        <div class="d-table-row" style="padding:10px 0px;">
+                            <div class="d-table-cell" style="padding:0px 10px;">
+                                <label>Phone</label>
+                            </div>
+                            <div class="d-table-cell" style="padding:5px 10px;">
+                                {{ contact_form.phone }}
+                            </div>
+                        </div>
+                        <div class="d-table-row" style="padding:10px 0px;">
+                            <div class="d-table-cell" style="padding:0px 10px;">
+                                <label>Website</label>
+                            </div>
+                            <div class="d-table-cell" style="padding:5px 10px;">
+                                {{ contact_form.website }}
+                            </div>
+                        </div>
+                        <div class="d-table-row" style="padding:10px 0px;">
+                            <div class="d-table-cell" style="padding:0px 10px;">
+                                <label>Facebook Link</label>
+                            </div>
+                            <div class="d-table-cell" style="padding:5px 10px;">
+                                {{ contact_form.facebook }}
+                            </div>
+                        </div>
+                        <div class="d-table-row" style="padding:10px 0px;">
+                            <div class="d-table-cell" style="padding:0px 10px;">
+                                <label>Twitter</label>
+                            </div>
+                            <div class="d-table-cell" style="padding:5px 10px;">
+                                {{ contact_form.twitter }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer" style="justify-content: center;">
+                    <button type="button" class="btn btn-warning" id="edit_contact">Edit</button>
+                    <button style="display:none;" type="button" class="btn btn-danger" id="cancel_edit_contact">Cancel</button>
+                    <button style="display:none;" class="btn btn-success" id="save_edit_contact">Save</button>
+                    <a href="{% url 'add-contacts' 'step2' contact_form_instance %}" type="button" class="btn btn-info">Next</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+

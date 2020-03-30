@@ -1,0 +1,75 @@
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header card-header-primary">
+                <h4 class="card-title ">View Contacts</h4>
+            </div>
+            <div class="card-body">
+                <div class="table">
+                    <table class="table-responsive table-bordered" width="100%" cellspacing="0">
+                        <thead  style="background-color: #EEEEEE; color:#000000; font-size:11px">
+                            <th class="text-center" style="color:#000000; font-size:11px">SL. No.</th>
+                            <th class="text-center" style="color:#000000; font-size:11px">UID</th>
+                            <th class="text-center" style="color:#000000; font-size:11px">Contact Name</th>
+                            <th class="text-center" style="color:#000000; font-size:11px">User APP-ID</th>
+                            <th class="text-center" style="color:#000000; font-size:11px">Customer Type</th>
+                            <th class="text-center" style="color:#000000; font-size:11px">Is Sub Customer</th>
+                            <th class="text-center" style="color:#000000; font-size:11px">Active</th>
+                            <th class="text-center" style="color:#000000; font-size:11px">Organisation Type</th>
+                            <th class="text-center" style="color:#000000; font-size:11px">Organisation Name</th>
+                            <th class="text-center" style="color:#000000; font-size:11px">Email</th>
+                            <th class="text-center" style="color:#000000; font-size:11px">Phone</th>
+                            <th class="text-center" style="color:#000000; font-size:11px">Website</th>                
+                            <th class="text-center" style="color:#000000; font-size:11px;">Action</th>                
+                        </thead>
+                        <tbody>
+                            {% for contact in contacts %}
+                                <tr>
+                                    <td>{{forloop.counter}}</td>
+                                    <td>CT-0000{{contact.id}}</td>
+                                    <td>{{contact.display_name}}</td>
+                                    <td>{{contact.app_id}}</td>
+                                    <td>{{contact.get_customer_type_display|upper}}</td>
+                                    <td>{{contact.get_is_sub_customer_display|upper}}</td>
+                                    <td class="text-center">
+                                        {% if contact.is_active %}
+                                            <i class="material-icons">check</i>
+                                        {% else %}
+                                            <i class="material-icons">clear</i>
+                                        {% endif %}
+                                    </td>
+                                    <td>{{contact.get_organization_type_display|upper}}</td>
+                                    <td>{{contact.organization_name|upper}}</td>
+                                    <td>{{contact.email}}</td>
+                                    <td>{{contact.phone}}</td>
+                                    <td>{{contact.website}}</td>                        
+                                    <td class="text-center">
+                                        <a title="Edit Contact" href="{% url 'edit-contact' contact.id %}" class="btn btn-primary btn-sm" style="padding:5px 5px;">
+                                            <i class="material-icons">create</i>
+                                        </a>
+                                        {% if contact.is_active %}
+                                            <a title="Deactivate Contact" href="{% url 'contact-status-change' 'deactivate' contact.id %}" class="btn btn-sm btn-default" style="padding:5px 5px;">
+                                                <i class="material-icons">clear</i>
+                                            </a>
+                                        {% else %}
+                                            <a title="Activate Contact" href="{% url 'contact-status-change' 'activate' contact.id %}" class="btn btn-sm btn-success" style="padding:5px 5px;">
+                                                <i class="material-icons">check</i>
+                                            </a>
+                                        {% endif %}
+                                        <a title="Delete Contact" href="{% url 'contact-delete' contact.id %}" class="btn btn-danger btn-sm" style="padding:5px 5px;">
+                                            <i class="material-icons">delete_forever</i>
+                                        </a>
+                                        <a title="View Collection For Contact" href="{% url 'contact-collections' contact.id %}" class="btn btn-warning btn-sm" style="padding:5px 5px;">
+                                            <i class="material-icons">attach_money</i>
+                                        </a>                                        
+                                    </td>   
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>    
+                </div>
+            </div>
+        </div>    
+    </div>     
+</div>

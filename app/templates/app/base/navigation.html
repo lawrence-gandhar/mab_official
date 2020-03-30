@@ -1,0 +1,44 @@
+{% load static %}
+
+<div class="sidebar-wrapper ps-container ps-theme-default">
+    <div class="sidebar-background" style="background-image: url({% static 'all_page/img/sidebar-2.jpg' %}) "> 
+        <ul class="nav" id="menu">
+            <li class="nav-item active">
+                <a class="nav-link" href="{% url 'dashboard' %}">
+                <i class="material-icons" style="color:#ffe047;">dashboard</i>
+                <p>Dashboard</p>
+            </a>
+            </li>
+            <li class="nav-item ">
+                <a class="nav-link" href="{% url 'contacts' %}">
+                <i class="material-icons" style="color:#ffe047;">person</i>
+                <p>Contacts</p>
+                </a>
+            </li>
+            <li class="nav-item ">
+                <a class="nav-link" href="{% url 'view_inventory' %}">
+                <i class="material-icons" style="color:#ffe047;">developer_board</i>
+                <p>Inventory</p>
+                </a>
+            </li>
+            <li class="nav-item ">
+                <a class="nav-link" href="{% url 'view_products' %}">
+                <i class="material-icons" style="color:#ffe047;">library_books</i>
+                <p>Products</p>
+                </a>
+            </li>
+            <li class="nav-item ">
+                <a class="nav-link" href="{% url 'collections' %}">
+                <i class="material-icons" style="color:#ffe047;">money</i>
+                <p>Collections</p>
+                </a>
+            </li>      
+            <li class="nav-item ">
+                <a class="nav-link" href="{% url 'invoice' %}">
+                <i class="material-icons" style="color:#ffe047;">file_copy</i>
+                <p>Invoices</p>
+                </a>
+            </li>     
+        </ul>
+    </div>
+</div>  

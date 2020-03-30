@@ -1,0 +1,195 @@
+<style>
+    p{
+        margin-bottom:0px;
+        line-height:20px;
+    }
+    </style>
+    <!DOCTYPE html>
+   
+    <!-- changes made by dipika -->
+    {% load static %}
+    <div class="row" >
+        <div class="col-lg-12" style="padding:0px">
+            <div class="card">
+                <div class="card-header card-header-primary">
+                    <h4 class="card-title ">Import Contacts</h4>
+                    <p class="card-category"><strong>Upload CSV</strong></p>
+                </div> 
+                
+                {% for message in messages %}
+                <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert" style="width: 40%;margin-left: 28%;padding-top: 10px;padding-bottom: 8px;">
+                    <strong style="margin-left: 28%;">{{ message }}</strong> 
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                {% endfor %}
+                <form action="{% url 'contacts-upload' 'upload' %}"method="post" enctype="multipart/form-data" >
+                    <div class="card-body">
+                        {% csrf_token %}
+    
+                        {% if error %}
+                            <div class="alert alert-danger">
+                                {{ error|safe }}
+                            </div>
+                        {% endif %}
+    
+                        <div class="table" style="padding:10px 0px;margin-left: 27%;">
+                            <div class="d-table-row" style="padding:10px 0px;">
+                                <div class="d-table-cell" style="padding:0px 10px;">
+                                    <label>Upload CSV</label>
+                                </div>
+                                <div class="d-table-cell" style="padding:5px 10px;">
+                                    {{ upload_form.csv_file }}                                
+                                </div><br>
+                                <div style="align:left;padding: 0%;margin-left: -27%;position: absolute;margin-top:-0.2%">
+                                    <font color="white" style="font-size:x-small;">(Maximum File Size: 2 MB  |  File Format: CSV)</font>
+                                </div>
+                                <br><br>
+    
+                                <div  style="align:left;padding: 0%;margin-left: -9%;position: absolute;">
+                                    <a href="{% static 'images/sample_CSV.csv' %}">
+                                        <h5 style=""><i class="fa fa-download"></i>  sample csv</h5>  
+                                    </a >
+                                </div>     
+                               
+                                    
+                               
+                                <div class="d-table-cell" style="padding:0px;margin-right: -10%;position: relative;margin-top: 0.2%">
+                                    <button class="btn btn-success btn-sm" style="vertical-align: inherit;margin-right: 30%;" >Upload</button>
+                                </div><br><br>
+                                <!-- <div  style="align:left;padding: 0%">
+                                    <a href="{% static 'images/sample_CSV.csv' %}">
+                                        <h5 style="align:left;"><i class="fa fa-download"></i>sample csv</h5>  
+                                    </a >
+                                </div>       
+                                  -->
+    
+     
+                                
+                                <br>
+    
+                                <!-- <div  style="padding:0px;"> -->
+                                    <!-- <h3>For Filling The CSV File Follow The Documentation, For That Download The File</h3>
+                                    <a href="{% static 'images/file3.xlsx' %}" class="btn btn-danger fo btn-sm" target="_new" >
+                                      Documentation 
+                                    </a > -->
+                                 <!--    
+                                </div> -->
+    
+                       
+                        
+                        </div>
+    
+                        <!-- <div  style="align:left;padding: 0%">
+                                    <a href="{% static 'images/sample_CSV.csv' %}">
+                                        <h5 style="align:left;"><i class="fa fa-download"></i>sample csv</h5>  
+                                    </a >
+                        </div>    --> 
+                        <a href="{% static 'images/file-new.xlsx' %}" ><u style="margin-left: 9%;">Steps To Fill The Form</u></a >
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    {%load static%}
+    <form>
+        <form style="background-color: lightblue;">
+            <body> 
+                <h3 style="margin-left: 39%"><font color="lightblue" ><b>IMPORT CONTACT</b></font></h><br>
+                  <h5 style="margin-left: 23%"> <font color="lightblue">To import Contact from Another System Please follow the Steps Below</font></h5><br><br>
+                <!-- <div class="row" > -->
+                    <center>
+                <div class="col-lg-8" style="overflow: hidden;background-color: white;float:left;margin-left: 15% "   > 
+                    <!-- <div class="col-lg-4" style="padding:10px;float: left;">
+                        <div class="card" style="float: left;" > -->
+                            <div class="card-header" style="background-color:white">
+    
+                                <h3><font color="black"><b>STEP1: Download The Contact Sample File</b></font></h3>
+                                <!-- <h3 class="card-title " style="text-decoration-color: black;"><font color="black"><b>STEP1: Download The Contact Sample File</b></font></h3> -->
+                                <font size="2">Start By the Downloading our Contacts CSV(comma seperated value) Templates File.This File Has the correect Column Headings MyAccountBook need to import Your Contact Data</font><br>
+                                <!-- <b>Start By the Downloading our Contacts CSV(comma seperated value) Templates File.This File Has the correect Column Headings MyAccountBook need to import Your Contact Data<b><br><br> -->
+                                Download Sample File<br><br>
+                            </div>
+                        <!-- </div>
+                    </div> -->
+                    <!-- <div class="col-lg-4" style="padding:10px;float: left;"> -->
+                        <!-- <div class="card" style="float: left;"> -->
+                        <div class="card-header" style="background-color: white;" >
+    
+                                <h3><font color="black"><b>STEP 2: Copy Your contacts Into Templates</b></font></h3>
+                                <font size="2">Export Your contacts from your old System.Using Excel or Another Spreadsheet Editer, copy and paste your Contacts from the Exported File into the MyAccountBook template.Make sure the contact data you copy matches the column headings provided into the templates </font><br>
+                                <font color="red"><h4><b>IMPORTANT:</b></h4></font>
+                                <font color="red" size="2"><h6>Do Not Change The column Headings in The Templates file.This Need to be unchanged for the import to work in the next step.</h6></font><br>
+                                <!-- <font color="blue">Help On Import Fileds</font><br> -->
+    
+                            <!-- </div>
+                        </div> -->
+                    </div>
+    
+                     <!-- <div class="col-lg-4" style="padding:10px;float: left;">
+                        <div class="card"> -->
+                            <div class="card-header" style="background-color: white;">
+                                <h3><font color="black"><b>STEP 3: Import The Updated Template File</b></font></h3>
+                                Choose a file to Import<br>
+                                <font size="2">The file You Imported Must Be a CSV(comma seperated value).The name Of Your File Should be with .csv</font><br><br>
+                                <!-- <font size="2">How Do You Want Xero To Handle Empty Filed When Updating Existing Contacts?</font><br> -->
+                                <!-- <input type="radio" checked="checked" />Ignore empty fileds<br> -->
+                                <!-- <input type="radio"/>Empty fields delete existing information -->
+                                <!-- <font color="red"><br><b>Warning:</b></font><font color="red" size="2"><h6>
+                                    Existing Additional person(s) will be deleted and new additional person(s) will be imported</h6></font><br> -->
+                                <!-- <font color="black">Help On Updating existing Contacts</font><br><br> -->
+                                <!-- <button style="float: right;background-color: #4CAF50;"><font color="white">Cancle</font></button> -->
+    
+                                <!-- <button style="float: right;background-color: #008CBA" > <font color="white">Import</font></button> -->
+                                
+                           <!--  </div>
+                        </div> -->
+                    </div> 
+                </div>
+                </center>
+            </body>
+        </form>
+    </form>
+    <!-- 
+        DOCUMENTATION FOR CSV
+    -->
+    
+    <!-- <div class="row">
+        <div class="col-lg-12" style="padding:0px">
+            <div class="card">
+                <div class="card-header card-header-info">
+                    <h4 class="card-title ">CSV DOCUMENTATION FOR IMPORTING CONTACTS</h4>
+                    <p class="card-category"><strong>Please fllow the documentation</p>
+                </div> 
+                <div class="card-body">
+                    <div class="table table-responsive">
+                        <table class="table table-bordered" style="background-color:#FFFFFF">
+                            <tr class="bg-info" style="font-weight:bold">
+                                <td class="text-center" width="200px" style="font-size:110%; padding:10px; color:#000000 !important;">Column Header</td>
+                                <td class="text-center" style="font-size:110%; padding:10px; color:#000000 !important;">Column Value</td>
+                                <td class="text-center" style="font-size:110%; padding:10px; color:#000000 !important;">Datatype</td>
+                                <td class="text-center" style="font-size:110%; padding:10px; color:#000000 !important;">Optional</td>
+                                <td class="text-center" width="400px" style="font-size:110%; padding:10px; color:#000000 !important;">Description</td>
+                            </tr>
+                            {% for i,j in documentation_dict.items %}
+                            <tr style="background-color: #000000; color:#FFFFFF; ">
+                                <td colspan="5" style="font-size:110%; padding:10px;"><strong>{{i}}</strong></td>
+                            </tr>
+                                {% for x,v in j.items %}
+                                    <tr>
+                                        <td style="font-size:110%"><strong>{{x}}</strong></td>
+                                        <td>{{v.value|safe}}</td>
+                                        <td style="font-size:110%"><strong>{{v.datatype}}</strong></td>
+                                        <td class="text-center">{{v.optional|safe}}</td>
+                                        <td>{{v.description|safe}}</td>
+                                    </tr>
+                                {% endfor %}
+                            {% endfor %}
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> -->

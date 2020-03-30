@@ -1,0 +1,185 @@
+<div class="row">
+    <div class="col-lg-12" style="padding:0px">
+        <div class="card">
+            <div class="card-header bg-blue">
+                <h5 class="card-title">
+                    <span style="color:#000000; background-color:#FFFFFF; padding:0px 10px;margin-right:10px">{{instance_title|upper}}</span>
+                    CONTACT'S ADDRESS DETAILS
+                    <a href="{% url 'create-contact-invoice' contact_form_instance %}" class="btn btn-sm button-black" style="float:right; color:#FFFFFF">Create Invoice</a>
+                </h5>
+                <h6 class="card-subtitle mb-2 text-muted">Manage Contact's Addresses</h6>
+            </div>
+            <div class="card-body">
+                <div class="table">
+                    <table class="table-bordered" width="100%" cellspacing="0">
+                        <tr style="background-color:#5d5d5d;">
+                            <td class="text-center font-bold font-white" style="padding:10px;">Contact Person</td>
+                            <td class="text-center font-bold font-white">Flat/Door No</td class="text-center font-bold font-white">
+                            <td class="text-center font-bold font-white">Street/Locality</td class="text-center font-bold font-white">
+                            <td class="text-center font-bold font-white">City</td class="text-center font-bold font-white">
+                            <td class="text-center font-bold font-white">Zip</td class="text-center font-bold font-white">
+                            <td class="text-center font-bold font-white">State</td class="text-center font-bold font-white">
+                            <td class="text-center font-bold font-white">Country</td class="text-center font-bold font-white">
+                            <td class="text-center font-bold font-white">Is Billing Address</td class="text-center font-bold font-white">
+                            <td class="text-center font-bold font-white">Is Shipping Address</td class="text-center font-bold font-white">
+                            <td class="text-center font-bold font-white">Billing & Shipping is same</td class="text-center font-bold font-white">
+                            <td class="text-center font-bold font-white">Created On</td class="text-center font-bold font-white">
+                            <td class="text-center font-bold font-white">Action</td class="text-center font-bold font-white">
+                        </tr>
+                        {% for address in contact_addresses %}
+                            <tr>
+                                <td>{{address.contact_name}}</td>
+                                <td>{{address.flat_no}}</td>
+                                <td>{{address.street}}</td>
+                                <td>{{address.city}}</td>
+                                <td>{{address.pincode}}</td>
+                                <td>{{address.state}}</td>
+                                <td>{{address.country}}</td>
+                                <td>{{address.is_billing_address_full}}</td>
+                                <td>{{address.is_shipping_address_full}}</td>
+                                <td>{{address.same_billing_shipping_address_full}}</td>
+                                <td>{{address.created_on}}</td>
+                                <td class="text-center" width="80px">
+                                    {% csrf_token %}
+                                    <button class="btn btn-primary btn-sm" style="margin-right: 2px" onclick="edit_form_button('edit_contact_address',{{address.id}})">
+                                        <i class="fas fa-fw fa-pencil-alt" style="font-size:70%"></i>
+                                    </button>
+                                    <a class="btn btn-danger btn-sm" href="{% url 'delete-contacts' 'step3' contact_form_instance address.id %}">
+                                        <i class="fas fa-fw fa-trash-alt" style="font-size:70%"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        {% endfor %}    
+                    </table>                    
+                </div>
+            </div>            
+            <div class="card-footer text-center">
+                <a href="{% url 'add-contacts' 'step2' contact_form_instance %}" type="button" class="btn button button-blue">Back</a>
+                <button type="button" class="btn button button-green" data-toggle="modal" data-target="#addModal">Add Another</button>
+                <a href="{% url 'add-contacts' 'step4' contact_form_instance %}" type="button" class="btn button button-blue">Next</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Add Modal -->
+<div class="modal" id="addModal">
+    <div class="modal-dialog">
+        <div class="modal-content">            
+            <form method="post" action="">
+                {% csrf_token %}
+                <input type="hidden" name="add_proxy" value="1">
+                <div class="modal-header">
+                    <h4 class="modal-title">Add Contact Address</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="table" style="padding:10px 0px;">
+                        <div class="d-table-row" style="padding:10px 0px;">
+                            <div class="d-table-cell" style="padding:0px 10px;">
+                                <label>Contact Name</label>
+                            </div>
+                            <div class="d-table-cell" style="padding:5px 10px;">
+                                {{ contact_address_form.contact_name }}
+                            </div>
+                        </div>
+                        <div class="d-table-row" style="padding:10px 0px;">
+                            <div class="d-table-cell" style="padding:0px 10px;">
+                                <label>Flat/Door No.</label>
+                            </div>
+                            <div class="d-table-cell" style="padding:5px 10px;">
+                                {{ contact_address_form.flat_no }}
+                            </div>
+                        </div>
+                        <div class="d-table-row" style="padding:10px 0px;">
+                            <div class="d-table-cell" style="padding:0px 10px;">
+                                <label>Street</label>
+                            </div>
+                            <div class="d-table-cell" style="padding:5px 10px;">
+                                {{ contact_address_form.street }}
+                            </div>
+                        </div>
+                        <div class="d-table-row" style="padding:10px 0px;">
+                            <div class="d-table-cell" style="padding:0px 10px;">
+                                <label>City</label>
+                            </div>
+                            <div class="d-table-cell" style="padding:5px 10px;">
+                                {{ contact_address_form.city }}
+                            </div>
+                        </div>
+                        <div class="d-table-row" style="padding:10px 0px;">
+                            <div class="d-table-cell" style="padding:0px 10px;">
+                                <label>Zip</label>
+                            </div>
+                            <div class="d-table-cell" style="padding:5px 10px;">
+                                {{ contact_address_form.pincode }}
+                            </div>
+                        </div>
+                        <div class="d-table-row" style="padding:10px 0px;">
+                            <div class="d-table-cell" style="padding:0px 10px;">
+                                <label>State</label>
+                            </div>
+                            <div class="d-table-cell" style="padding:5px 10px;">
+                                {{ contact_address_form.state }}
+                            </div>
+                        </div>
+                        <div class="d-table-row" style="padding:10px 0px;">
+                            <div class="d-table-cell" style="padding:0px 10px;">
+                                <label>Country</label>
+                            </div>
+                            <div class="d-table-cell" style="padding:5px 10px;">
+                                {{ contact_address_form.country }}
+                            </div>
+                        </div>
+                        <div class="d-table-row" style="padding:10px 0px;">
+                            <div class="d-table-cell" style="padding:0px 10px;">
+                                <label>Is Billing Address</label>
+                            </div>
+                            <div class="d-table-cell" style="padding:5px 10px;">
+                                {{ contact_address_form.is_billing_address }}
+                            </div>
+                        </div>
+                        <div class="d-table-row" style="padding:10px 0px;">
+                            <div class="d-table-cell" style="padding:0px 10px;">
+                                <label>Is Shipping Address</label>
+                            </div>
+                            <div class="d-table-cell" style="padding:5px 10px;">
+                                {{ contact_address_form.is_shipping_address }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn button button-green">Submit</button>
+                    <button type="button" class="btn button button-red" data-dismiss="modal">Close</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<!-- Edit Modal -->
+<div class="modal" id="editModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form method="post" action="{% url 'edit-contact-forms' %}">
+                <input type="hidden" name="slug" value="{{slug}}">
+                <input type="hidden" name="form_ins" value="{{contact_form_instance}}">
+                {% csrf_token %}
+                <div class="modal-header">
+                    <h4 class="modal-title">Edit Address Details</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body" id="extra_form_layout">
+
+                </div>
+                <div class="modal-footer">
+                    <button class="btn button button-green">Submit</button>
+                    <button type="button" class="btn button button-red" data-dismiss="modal">Close</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
