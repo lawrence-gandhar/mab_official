@@ -50,7 +50,7 @@ function validate_Phone(elem){
    var format = /^\d{10}$/;
 
     if(value.length != 0){
-        if (!value.match(format)) return Array(false,"INVALID NUMBER*");
+        if (!value.match(format)) return Array(false,"*Please enter 10 digit valid mobile number");
         else return Array(true,"");
     } 
     else {
@@ -68,7 +68,7 @@ function validate_PAN(elem){
     var format = /[A-Z]{5}[0-9]{4}[A-Z]{1}$/;
 
     if(value.length != 0){
-        if (!value.match(format)) return Array(false,"INVALID PAN NUMBER*");
+        if (!value.match(format)) return Array(false,"*Please enter valid pan card number");
         else return Array(true,"");
     } 
     else {
@@ -86,7 +86,7 @@ function validate_GST(elem){
     var format = /^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}$/;
 
     if(value.length != 0){
-        if (!value.match(format)) return Array(false, "INVALID GST*");
+        if (!value.match(format)) return Array(false, "*Please enter valid GST number");
         else return Array(true,"");
     } 
     else {
@@ -104,7 +104,7 @@ function validate_IFSC(elem){
     var format = /^[A-Za-z]{4}[a-zA-Z0-9]{7}$/;
 
     if(value.length != 0){
-        if (!value.match(format)) return Array(false,"INVALID IFCS CODE*");
+        if (!value.match(format)) return Array(false,"*Please enter valid ifcs code");
         else return Array(true,"");
     } 
     else {
@@ -122,7 +122,7 @@ function validate_URL(elem){
     var format = /^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/;
 
     if(value.length != 0){
-        if (!value.match(format)) return Array(false,"INVALID URL*");
+        if (!value.match(format)) return Array(false,"*Please enter valid url");
         else return Array(true,"");
     }    
     else {
@@ -140,7 +140,7 @@ function validate_Email(elem){
     var format = /^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/
 
     if(value.length != 0){
-        if (!value.match(format)) return Array(false,"INVALID Email*");
+        if (!value.match(format)) return Array(false,"*Please enter valid email address");
         else return Array(true,"");
     }
     else {
@@ -162,4 +162,16 @@ $('.modal').on('hidden.bs.modal', function () {
     });
 
     $(this).find('form').trigger('reset');
-})
+});
+
+
+/**************************************************************/
+// Get Error Count On Form from localstorage
+/**************************************************************/
+function getLocalStorageValue(i_name){
+    return localStorage.getItem(i_name);
+}
+
+function setLocalStorageValue(i_name, value){
+    localStorage.setItem(i_name, value);
+}

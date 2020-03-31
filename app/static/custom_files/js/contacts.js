@@ -1,3 +1,12 @@
+$(document).ready(function(){
+    setLocalStorageValue('form_errors_email', false);
+    setLocalStorageValue('form_errors_phone', false);
+    setLocalStorageValue('form_errors_pan', false);
+    setLocalStorageValue('form_errors_gst', false);
+    setLocalStorageValue('form_errors_url', false);
+    setLocalStorageValue('form_errors_ifsc', false);
+});
+
 $("#app_id_input_2").removeClass("show-row").addClass("hide-row");
 
 $("#more_address_table").find("input").attr('disabled', "true");
@@ -20,12 +29,14 @@ $(".is_billing_address, .is_shipping_address").prop("required",false);
 function valid_Email(elem){
     ret = validate_Email($(elem));
     if(!ret[0]){
-        $("#email_error").html("*Please enter valid email address");
-        // $(elem).focus();
-        // $("#save_button, #editContactModal > #save_button").prop("disabled",true);
+        setLocalStorageValue('form_errors_email', true);
+        $("#email_error").html(ret[1]);        
+        $(elem).focus();
+        $(".save_button, #editContactModal > .save_button").prop("disabled",true);
     }else{
+        setLocalStorageValue('form_errors_email', false);
         $("#email_error").html("");
-        // $("#save_button, #editContactModal > #save_button").prop("disabled",false);
+        $(".save_button, #editContactModal > .save_button").prop("disabled",false);
     } 
 }
 
@@ -37,12 +48,14 @@ function valid_Email(elem){
 function valid_Phone(elem){
     ret = validate_Phone($(elem));
     if(!ret[0]){
-        $("#phone_error").html("*Please enter 10 digit valid mobile number");
-        // $(elem).focus();
-        // $("#save_button, #editContactModal > #save_button").prop("disabled",true);
+        setLocalStorageValue('form_errors_phone', true);
+        $("#phone_error").html(ret[1]);
+        $(elem).focus();
+        $(".save_button, #editContactModal > .save_button").prop("disabled",true);
     }else{
+        setLocalStorageValue('form_errors_phone', false);
         $("#phone_error").html("");
-        // $("#save_button, #editContactModal > #save_button").prop("disabled",false);
+        $(".save_button, #editContactModal > .save_button").prop("disabled",false);
     } 
 }
 
@@ -54,12 +67,14 @@ function valid_Phone(elem){
 function valid_PAN(elem){
     ret = validate_PAN($(elem));
     if(!ret[0]){
+        setLocalStorageValue('form_errors_pan', true);
         $("#pan_error").html("*Please enter valid pan card number");
-        // $(elem).focus();
-        // $("#save_button, #editContactModal > #save_button").prop("disabled",true);
+        $(elem).focus();
+        $(".save_button, #editContactModal > .save_button").prop("disabled",true);
     }else{
+        setLocalStorageValue('form_errors_pan', false);
         $("#pan_error").html("");
-        // $("#save_button, #editContactModal > #save_button").prop("disabled",false);
+        $(".save_button, #editContactModal > .save_button").prop("disabled",false);
     } 
 }
 
@@ -71,12 +86,14 @@ function valid_PAN(elem){
 function valid_GST(elem){
     ret = validate_GST($(elem));
     if(!ret[0]){
-        $("#gst_error").html("*Please enter valid GST number");
-        // $(elem).focus();
-        // $("#save_button, #editContactModal > #save_button").prop("disabled",true);
+        setLocalStorageValue('form_errors_get', true);
+        $("#gst_error").html(ret[1]);
+        $(elem).focus();
+        $(".save_button, #editContactModal > .save_button").prop("disabled",true);
     }else{
+        setLocalStorageValue('form_errors_get', false);
         $("#gst_error").html("");
-        // $("#save_button, #editContactModal > #save_button").prop("disabled",false);
+        $(".save_button, #editContactModal > .save_button").prop("disabled",false);
     }  
 }
 
@@ -87,15 +104,16 @@ function valid_GST(elem){
 function valid_URL(elem){
     ret = validate_URL($(elem));
     if(!ret[0]){
+        setLocalStorageValue('form_errors_url', true);
         console.log(elem.toString())
-        $("#website_error").html("*Please enter valid url");
-        
-        // $(elem).focus();
-        // $("#save_button, #editContactModal > #save_button").prop("disabled",true);
+        $("#website_error").html(ret[1]);
+        $(elem).focus();
+        $(".save_button, #editContactModal > .save_button").prop("disabled",true);
     }else{
+        setLocalStorageValue('form_errors_url', false);
         $("#website_error").html("");
-        // $(elem).css({"background-color":"transparent"});
-        // $("#save_button, #editContactModal > #save_button").prop("disabled",false);
+        $(elem).css({"background-color":"transparent"});
+        $(".save_button, #editContactModal > .save_button").prop("disabled",false);
     }  
 }
 
@@ -108,36 +126,18 @@ function valid_URL(elem){
 function valid_IFSC(elem){
     ret = validate_IFSC($(elem));
     if(!ret[0]){
-        $("#ifcs_error").html("*Please enter valid ifcs code");
-        // $(elem).focus();
-        // $("#save_button, #editContactModal > #save_button").prop("disabled",true);
+        setLocalStorageValue('form_errors_ifsc', true);
+        $("#ifcs_error").html(ret[1]);
+        $(elem).focus();
+        $(".save_button, #editContactModal > .save_button").prop("disabled",true);
     }else{
+        setLocalStorageValue('form_errors_ifsc', false);
         $("#ifcs_error").html("");
-        // $(elem).css({"background-color":"transparent"});        
-        // $("#save_button, #editContactModal > #save_button").prop("disabled",false);
+        $(elem).css({"background-color":"transparent"});        
+        $(".save_button, #editContactModal > .save_button").prop("disabled",false);
     }  
 }
 
-/************************************************************ */
-// Validations save button
-/************************************************************ */
-function check() {
-
-    var a = document.getElementById("email_error").innerHTML
-    var b = document.getElementById("phone_error").innerHTML
-    var c = document.getElementById("pan_error").innerHTML
-    var d = document.getElementById("ifcs_error").innerHTML
-    var e = document.getElementById("website_error").innerHTML
-    var f = document.getElementById("gst_error").innerHTML
-
-    if (a.length > 0 || b.length > 0 || c.length > 0 || d.length > 0 || e.length > 0 || f.length > 0 ) {
-
-        alert("Please Fill the form properly");
-        return false
-    } else {
-        return true
-    }
-}
 /************************************************************ */
 //
 /************************************************************ */
@@ -387,6 +387,9 @@ function delete_accounts(ids){
     });
 }
 
+
+/* Below Code By Roshan*/
+
 /********************************************************************/
 // GST NUMBER SHOW AND HIDE
 /********************************************************************/
@@ -401,5 +404,101 @@ function hide_gst(elem){
     }
 }
 
+$('#search').keyup(function() {
+        
+    $.ajax({
+        type: "GET",
+        url: "/contacts/search/",
+        data: {
+            'search' : $('#search').val(),
+            'csrfmiddlewaretoken' : $("input[name=csrfmiddlewaretoken]").val()
+        },
+        success: searchSuccess,
+        dataType: 'html'
+    });
+});
+function searchSuccess(data, textStatus, jqXHR)
+{
+$('#search-results').html(data)
+}
+
+// activte / deactive
+function status(a) {
+    console.log(a)
+    var status = 's'+a.toString()
+    var b = document.getElementById(status).innerHTML;
+    console.log(b.length)
+    if(b.length == 13){
+        $.ajax({
+        type: 'GET',
+        url: "/contacts/status_change/deactivate/"+a+"",
+        success: function() {
+            console.log('xxxxxxxxxxxxxxxxxxxx')
+            document.getElementById(a).innerHTML = 'clear'
+            document.getElementById(status).innerHTML = 'Make Active'
+        },
+        error: function(XMLHttpRequest, textStatus, errorThrown) {
+            alert("some error");
+        }
+
+    });
+    }
+    if(b.length == 11){
+        $.ajax({
+        type: 'GET',
+        url: "/contacts/status_change/activate/"+a+"",
+        success: function() {
+            console.log('aaaaaaaaaaaaaaaaaaaaaaa')
+            document.getElementById(a).innerHTML = 'check'
+            document.getElementById(status).innerHTML = 'Make Deactive'
+        },
+        error: function(XMLHttpRequest, textStatus, errorThrown) {
+            alert("some error");
+        }
+
+    });
+    }    
+}
+// //////////////////////////////////////////////////
+// delete and cancel
+function remove(c) {
+console.log(c)
+var remove = 't'+c.toString()
+$.ajax({
+        type: 'GET',
+        url: "/contacts/delete/"+c+"",
+        success: function() {
+            console.log('xxxxxxxx')
+            $("#"+remove).hide();
+            $('#'+'del'+c.toString()).modal('hide')
+        },
+        error: function(XMLHttpRequest, textStatus, errorThrown) {
+            alert("some error");
+        }
+
+    });
+}
+
+function can(d) {
+$('#'+'del'+d.toString()).modal('hide')
+}
 
 
+/************************************************************ */
+// Validations save button - code by Roshan
+/************************************************************ */
+function check() {
+    if (getLocalStorageValue('form_errors_email') &&
+    getLocalStorageValue('form_errors_phone') &&
+    getLocalStorageValue('form_errors_pan') &&
+    getLocalStorageValue('form_errors_gst') &&
+    getLocalStorageValue('form_errors_url') &&
+    getLocalStorageValue('form_errors_ifsc')){
+        $(".save_button").prop("disabled",false);
+        return true;
+    }else{
+        $(".save_button").prop("disabled",true);
+        return false;
+    } 
+    
+}
