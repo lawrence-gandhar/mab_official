@@ -313,19 +313,22 @@ input[type=number]::-webkit-inner-spin-button,
                                                                     <tr>
                                                                         <td style="text-align:left; padding:0px 0px 0px 10px; width:150px; border:0px; vertical-align: inherit">
                                                                             Is Shipping Address
+                                                                            {{ form.is_shipping_address }}
                                                                         </td>
                                                                         <td style="border:0px; padding:0px">                                                                    
                                                                             <label class="switch">
-                                                                                {{ form.is_shipping_address }}
+                                                                                
+                                                                                <input type="checkbox" value="False" class="address_is_billing_diff" onclick="set_shipping($(this),{{forloop.counter}})">
                                                                                 <span class="slider round"></span>
                                                                             </label>
 
                                                                             <span style="margin-left: 40px; position: relative; top: -7px;">
                                                                                 Billing Address Is Different
+                                                                                {{ form.is_billing_address_diff }}
                                                                             </span>
 
                                                                             <label class="switch" style="margin-left: 20px;">
-                                                                                {{ form.is_billing_address_diff }}
+                                                                                <input type="checkbox" value="False" class="address_is_billing_diff" onclick="set_billing_diff($(this),{{forloop.counter}})">
                                                                                 <span class="slider round"></span>
                                                                             </label>
                                                                         </td>                                  

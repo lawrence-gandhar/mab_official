@@ -1,3 +1,7 @@
+/************************************************************ */
+// code by Lawrence - Start
+/************************************************************ */
+
 $(document).ready(function(){
     setLocalStorageValue('form_errors_email', false);
     setLocalStorageValue('form_errors_phone', false);
@@ -20,6 +24,36 @@ $("#tr-id_user_address_details_set-tr-0 td:nth-child(2)").find("table > tbody tr
 
 $("tr#tr-id_user_address_details_set-tr-0 > td:nth-child(2)").hide()
 $(".is_billing_address, .is_shipping_address").prop("required",false);
+
+
+function set_shipping(elem,ids){
+    value = "False";
+    if($(elem).prop("checked")) value = "True";
+    $("select#id_user_address_details_set-"+(ids-1)+"-is_shipping_address").val(value);
+}
+
+function set_billing_diff(elem,ids){
+
+    ids = ids - 1;
+
+    value = "False";
+    if($(elem).prop("checked")) value = "True";
+    $("select#id_user_address_details_set-"+ids+"-is_billing_address_diff").val(value);
+
+    if(ids == 0){
+        elem_htm = $("tr#tr-id_user_address_details_set-tr-0 > td:nth-child(2)");
+    }else{
+        ids = parseInt(ids)-2;
+        elem_htm = $("tr#tr-id_user_address_details_set-tr-"+ids+" > td:nth-child(2)");
+    }
+
+    if($(elem).prop("checked") == true){
+        $(elem_htm).show();
+    }else{
+        $(elem_htm).hide();
+    }
+}
+
 
 
 /**************************************************************/
@@ -139,7 +173,7 @@ function valid_IFSC(elem){
 }
 
 /************************************************************ */
-//
+// Check if APP ID exists
 /************************************************************ */
 function has_app_id(elem){
 
@@ -199,7 +233,7 @@ function check_app_id(elem){
 }
 
 //******************************************* 
-//  
+//  Check imported User
 //********************************************
 
 $("#id_is_imported_user").on("click", function(){
@@ -231,7 +265,7 @@ $("#id_is_imported_user").on("click", function(){
 });
 
 /****************************************************************/
-//
+// Add Accounts Block
 /****************************************************************/
 
 $("#add_more_accounts").on("click", function(){
@@ -388,6 +422,27 @@ function delete_accounts(ids){
 }
 
 
+function check() {
+    if (getLocalStorageValue('form_errors_email') &&
+    getLocalStorageValue('form_errors_phone') &&
+    getLocalStorageValue('form_errors_pan') &&
+    getLocalStorageValue('form_errors_gst') &&
+    getLocalStorageValue('form_errors_url') &&
+    getLocalStorageValue('form_errors_ifsc')){
+        $(".save_button").prop("disabled",false);
+        return true;
+    }else{
+        $(".save_button").prop("disabled",true);
+        return false;
+    } 
+    
+}
+
+/************************************************************ */
+// code by Lawrence - Ended
+/************************************************************ */
+
+
 /* Below Code By Roshan*/
 
 /********************************************************************/
@@ -481,21 +536,4 @@ $('#'+'del'+d.toString()).modal('hide')
 }
 
 
-/************************************************************ */
-// Validations save button - code by Roshan
-/************************************************************ */
-function check() {
-    if (getLocalStorageValue('form_errors_email') &&
-    getLocalStorageValue('form_errors_phone') &&
-    getLocalStorageValue('form_errors_pan') &&
-    getLocalStorageValue('form_errors_gst') &&
-    getLocalStorageValue('form_errors_url') &&
-    getLocalStorageValue('form_errors_ifsc')){
-        $(".save_button").prop("disabled",false);
-        return true;
-    }else{
-        $(".save_button").prop("disabled",true);
-        return false;
-    } 
-    
-}
+
