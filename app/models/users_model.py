@@ -315,18 +315,24 @@ class User_Address_Details(models.Model):
         db_index = True,
         choices = user_constants.IS_TRUE,
         default = False,
+        null = True,
+        blank = True,
     ) 
-
+    
     is_billing_address = models.BooleanField(
         db_index = True,
         choices = user_constants.IS_TRUE,
         default = False,
+        null = True,
+        blank = True,
     ) 
 
     is_shipping_address = models.BooleanField(
         db_index = True,
         choices = user_constants.IS_TRUE,
         default = True,
+        null = True,
+        blank = True,
     )
 
     created_on = models.DateTimeField(

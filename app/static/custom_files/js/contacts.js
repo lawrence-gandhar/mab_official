@@ -433,7 +433,6 @@ function status(a) {
         type: 'GET',
         url: "/contacts/status_change/deactivate/"+a+"",
         success: function() {
-            console.log('xxxxxxxxxxxxxxxxxxxx')
             document.getElementById(a).innerHTML = 'clear'
             document.getElementById(status).innerHTML = 'Make Active'
         },
@@ -448,7 +447,6 @@ function status(a) {
         type: 'GET',
         url: "/contacts/status_change/activate/"+a+"",
         success: function() {
-            console.log('aaaaaaaaaaaaaaaaaaaaaaa')
             document.getElementById(a).innerHTML = 'check'
             document.getElementById(status).innerHTML = 'Make Deactive'
         },
@@ -468,7 +466,6 @@ $.ajax({
         type: 'GET',
         url: "/contacts/delete/"+c+"",
         success: function() {
-            console.log('xxxxxxxx')
             $("#"+remove).hide();
             $('#'+'del'+c.toString()).modal('hide')
         },
