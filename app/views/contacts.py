@@ -1186,6 +1186,7 @@ class ContactsFileUploadView(View):
     
     data["error_now"] = []
     data["row_count"] = 0
+    data["saved_msg"] = '0'
 
     # Documentation Import
     data["documentation_dict"] = documentation_dict.CSV_IMPORT_DICT
@@ -1207,25 +1208,38 @@ class ContactsFileUploadView(View):
                 self.data["upload_form"].save(commit = False)
                 self.data["upload_form"].user = request.user
                 obj = self.data["upload_form"].save()
-                if(a == 'upload'):
-                    messages.success(request, 'Upload Successfully.')
 
                 #***************************************************************
-                #   Write data to database
+                #   Validate and Write data to database
                 #***************************************************************
 
                 file_path = settings.MEDIA_ROOT+"/"+str(obj.csv_file)
                 err, self.data["row_count"] = csv_2_contacts(request.user,file_path)
 
+                self.data["saved_msg"] = '0'
+                if len(err) > 0:
+                    self.data["saved_msg"] = '3'
+                    obj.delete()
+                else:
+                    if obj:
+                        self.data["saved_msg"] = '1'
+                    else:
+                        self.data["saved_msg"] = '2'
+                
+                #if(a == 'upload'):
+                #    messages.success(request, 'Upload Successfully.')
+
+                
+
                 self.data["error"] = '<br>'.join(err)
             else:
                 pass
         else:
-            messages.error(request, 'Only CSV file is supported.')
-            # self.data["error"] = "Only CSV file is supported"
+            #messages.error(request, 'Only CSV file is supported.')
+            self.data["error"] = "Only CSV file is supported"
 
-        return redirect('contacts-upload', permanent=False, a = 'views')
-        # return render(request, self.template_name, self.data)
+        #return redirect('contacts-upload', permanent=False, a = 'views')
+        return render(request, self.template_name, self.data)
 
 #==============================================================================
 # Function to insert contact import csv data into database
@@ -1300,9 +1314,9 @@ def csv_2_contacts(user, file_path):
             # Validations
             #***************************************************************
 
-            email_pattern = '/^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/'
+            email_pattern = '^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$'
 
-            url_pattern = '/^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/'
+            url_pattern = '^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$'
 
             ifsc_pattern = '/^[A-Za-z]{4}[a-zA-Z0-9]{7}$/'
 
@@ -1316,60 +1330,50 @@ def csv_2_contacts(user, file_path):
 
             # check email
             if not re.search(email_pattern, email) and email is not None:
-                error_row.append("Error On Row {}: In-Valid Email. Row Skipped".format(row_count))    
-
-                return error_row, row_count
+                error_row.append("Error On Row {}: In-Valid Email. Process Aborted".format(row_count))    
 
             # check url
             if not re.search(url_pattern, website) and website is not None:
-                error_row.append("Error On Row {}: In-Valid Website. Row Skipped".format(row_count))    
-
-                return error_row, row_count
+                error_row.append("Error On Row {}: In-Valid Website. Process Aborted".format(row_count))    
 
             if not re.search(url_pattern, facebook) and facebook is not None:
-                error_row.append("Error On Row {}: In-Valid Facebook Link. Row Skipped".format(row_count))    
-
-                return error_row, row_count
+                error_row.append("Error On Row {}: In-Valid Facebook Link. Process Aborted".format(row_count))    
 
             if not re.search(url_pattern, twitter) and twitter is not None:
-                error_row.append("Error On Row {}: In-Valid Twitter Link. Row Skipped".format(row_count))    
-
-                return error_row, row_count
+                error_row.append("Error On Row {}: In-Valid Twitter Link. Process Aborted".format(row_count))    
 
             # check PAN
             if not re.search(pan_pattern, pan) and pan is not None:
-                error_row.append("Error On Row {}: In-Valid PAN. Row Skipped".format(row_count))    
+                error_row.append("Error On Row {}: In-Valid PAN. Process Aborted".format(row_count))    
 
                 return error_row, row_count
 
             # check IFSC
             if not re.search(ifsc_pattern, ifsc_code) and ifsc_code is not None:
-                error_row.append("Error On Row {}: In-Valid IFSC. Row Skipped".format(row_count))    
-
-                return error_row, row_count
+                error_row.append("Error On Row {}: In-Valid IFSC. Process Aborted".format(row_count))    
 
             # check GST
             if not re.search(gst_pattern, gstin) and gstin is not None:
-                error_row.append("Error On Row {}: In-Valid GST. Row Skipped".format(row_count))    
-
-                return error_row, row_count
+                error_row.append("Error On Row {}: In-Valid GST. Process Aborted".format(row_count))    
 
             # check Phone
             if not re.search(phone_pattern, phone) and phone is not None:
-                error_row.append("Error On Row {}: In-Valid Phone. Row Skipped".format(row_count))    
-
-                return error_row, row_count
+                error_row.append("Error On Row {}: In-Valid Phone. Process Aborted".format(row_count))    
 
             # check Account Number
             if not re.search(number_pattern, account_number) and account_number is not None:
-                error_row.append("Error On Row {}: In-Valid Account Number. Row Skipped".format(row_count))    
+                error_row.append("Error On Row {}: In-Valid Account Number. Process Aborted".format(row_count))    
 
-                return error_row, row_count
+            row_count += 1
 
-            #***************************************************************
-            # Phase 1
-            #***************************************************************
+        if len(error_row) > 0:
+            return error_row, row_count
 
+
+        #***************************************************************
+        # Phase 1
+        #***************************************************************
+        for row in records:
             if row["is_parent_record"] == 'TRUE':
                 
                 #***************************************************************

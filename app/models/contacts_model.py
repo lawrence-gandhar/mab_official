@@ -217,3 +217,10 @@ class ContactsFileUpload(models.Model):
     class Meta:
         verbose_name_plural = 'contacts_fileupload_tbl'
     
+#=========================================================================================
+# DELETE FILES FROM MEDIA ON DELETING A CSV 
+#=========================================================================================
+#
+@receiver(models.signals.post_delete, sender=ContactsFileUpload)
+def image_delete(sender, instance, **kwargs):
+    instance.csv_file.delete(False)
