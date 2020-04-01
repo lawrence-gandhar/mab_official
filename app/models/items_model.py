@@ -130,33 +130,11 @@ class ProductsModel(models.Model):
         null = True,
     )
 
-    
-    manufactured_date = models.DateField(
-        blank = True,
-        null = True,
-        db_index = True,
-    )
-
-    expiry_date = models.DateField(
-        blank = True,
-        null = True,
-        db_index = True,
-    )
-
-    product_dimension = models.TextField(
-        blank = True,
-        null = True,
-    )
-
     cost_price = models.IntegerField(
         default = 0,
         db_index = True,
     )
 
-    marked_price = models.IntegerField(
-        default = 0,
-        db_index = True,
-    )
 
     selling_price = models.IntegerField(
         db_index = True,
@@ -198,16 +176,6 @@ class ProductsModel(models.Model):
         default = 0,
         db_index = True,
         choices = items_constant.UNITS
-    )
-
-    is_sales = models.BooleanField(
-        db_index = True,
-        default = True,
-    )
-
-    is_purchase = models.BooleanField(
-        db_index = True,
-        default = True,
     )
 
     is_active = models.BooleanField(
