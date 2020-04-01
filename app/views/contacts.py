@@ -16,7 +16,7 @@ from django.db import *
 from django.db.models import Q
 
 
-import json, os, csv
+import json, os, csv, re
 
 #=====================================================================================
 #   CONTACTS VIEW
@@ -1295,6 +1295,76 @@ def csv_2_contacts(user, file_path):
             preferred_delivery = row["preferred_delivery"] if "preferred_delivery" in fields else None
             invoice_terms = row["invoice_terms"] if "invoice_terms" in fields else None
             bills_terms = row["billing_terms"] if "billing_terms" in fields else None
+
+            #***************************************************************
+            # Validations
+            #***************************************************************
+
+            email_pattern = '/^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/'
+
+            url_pattern = '/^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/'
+
+            ifsc_pattern = '/^[A-Za-z]{4}[a-zA-Z0-9]{7}$/'
+
+            gst_pattern = '/^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}$/'
+
+            pan_pattern = '/[A-Z]{5}[0-9]{4}[A-Z]{1}$/'
+
+            phone_pattern = '/^\d{10}$/'
+
+            number_pattern = '/^\d$/'
+
+            # check email
+            if not re.search(email_pattern, email) and email is not None:
+                error_row.append("Error On Row {}: In-Valid Email. Row Skipped".format(row_count))    
+
+                return error_row, row_count
+
+            # check url
+            if not re.search(url_pattern, website) and website is not None:
+                error_row.append("Error On Row {}: In-Valid Website. Row Skipped".format(row_count))    
+
+                return error_row, row_count
+
+            if not re.search(url_pattern, facebook) and facebook is not None:
+                error_row.append("Error On Row {}: In-Valid Facebook Link. Row Skipped".format(row_count))    
+
+                return error_row, row_count
+
+            if not re.search(url_pattern, twitter) and twitter is not None:
+                error_row.append("Error On Row {}: In-Valid Twitter Link. Row Skipped".format(row_count))    
+
+                return error_row, row_count
+
+            # check PAN
+            if not re.search(pan_pattern, pan) and pan is not None:
+                error_row.append("Error On Row {}: In-Valid PAN. Row Skipped".format(row_count))    
+
+                return error_row, row_count
+
+            # check IFSC
+            if not re.search(ifsc_pattern, ifsc_code) and ifsc_code is not None:
+                error_row.append("Error On Row {}: In-Valid IFSC. Row Skipped".format(row_count))    
+
+                return error_row, row_count
+
+            # check GST
+            if not re.search(gst_pattern, gstin) and gstin is not None:
+                error_row.append("Error On Row {}: In-Valid GST. Row Skipped".format(row_count))    
+
+                return error_row, row_count
+
+            # check Phone
+            if not re.search(phone_pattern, phone) and phone is not None:
+                error_row.append("Error On Row {}: In-Valid Phone. Row Skipped".format(row_count))    
+
+                return error_row, row_count
+
+            # check Account Number
+            if not re.search(number_pattern, account_number) and account_number is not None:
+                error_row.append("Error On Row {}: In-Valid Account Number. Row Skipped".format(row_count))    
+
+                return error_row, row_count
 
             #***************************************************************
             # Phase 1
