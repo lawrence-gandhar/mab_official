@@ -881,6 +881,8 @@ def edit_contact(request, ins = None):
             except:
                 return redirect('/unauthorized/', permanent=False)
 
+            data["contact_details"] = contact
+
             data["contact_form"] = ContactsForm(instance = contact)
             data["social_form"] = ContactsExtraForm(instance = contact)
 
@@ -897,6 +899,7 @@ def edit_contact(request, ins = None):
             except:
                 pass
 
+            data["tax_form_details"] = tax_form
             data["tax_form"] = TaxForm(instance = tax_form)
             data["other_details_form"] = OtherDetailsForm(instance = tax_form)
 

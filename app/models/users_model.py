@@ -108,8 +108,7 @@ class User_Account_Details(models.Model):
         on_delete = models.CASCADE
     )
 
-    account_number = models.CharField(
-        max_length = 30,
+    account_number = models.IntegerField(
         blank = True,
         db_index = True,
         null = True,
@@ -320,13 +319,13 @@ class User_Address_Details(models.Model):
     is_billing_address = models.BooleanField(
         db_index = True,
         choices = user_constants.IS_TRUE,
-        default = False,
+        default = True,
     ) 
 
     is_shipping_address = models.BooleanField(
         db_index = True,
         choices = user_constants.IS_TRUE,
-        default = True,
+        default = False,
     )
 
     created_on = models.DateTimeField(

@@ -39,6 +39,7 @@ function set_billing_diff(elem,ids){
     value = "False";
     if($(elem).prop("checked")) value = "True";
     $("select#id_user_address_details_set-"+ids+"-is_billing_address_diff").val(value);
+    $("select#id_user_address_details_set-"+(parseInt(ids)+1)+"-is_shipping_address").val(value);
 
     if(ids == 0){
         elem_htm = $("tr#tr-id_user_address_details_set-tr-0 > td:nth-child(2)");
@@ -320,6 +321,8 @@ $("#add_more_addresses").on("click",function(){
 
     $("#id_user_address_details_set-TOTAL_FORMS").val(parseInt(inc) + 2);
 
+    $("#tr-id_user_address_details_set-tr-"+(parseInt(inc)-1)+" td:nth-child(2)").find($(".address_is_billing_diff")).attr("onclick","set_billing_diff($(this),"+parseInt(ids + 1)+")")
+
 });
 
 
@@ -351,6 +354,7 @@ function delete_account_block(elem, ids){
 
 $(".disabled-tr").find("input").attr("disabled","true");
 $(".disabled-tr").find("select").attr("disabled","true");
+$(".disabled-tr").find("textarea").attr("disabled","true");
 
 $(".set_required").find("input").attr("required", "true");
 $(".set_required").find("select").attr("required", "true");

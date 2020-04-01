@@ -34,7 +34,7 @@ table{
                                     Customer Type
                                 </td>
                                 <td style="border:0px;">
-                                    {{ contact_form.customer_type }}
+                                    {{ contact_details.get_customer_type_display|default_if_none:"" }}
                                 </td>                                    
                             </tr>
                             <tr class="disabled-tr">
@@ -42,7 +42,7 @@ table{
                                     Is Sub Customer
                                 </td>
                                 <td style="border:0px;">
-                                    {{ contact_form.is_sub_customer }}
+                                    {{ contact_details.get_is_sub_customer_display|default_if_none:"" }}
                                 </td>                                    
                             </tr>
                             <tr class="disabled-tr">
@@ -50,7 +50,7 @@ table{
                                     Salutation
                                 </td>
                                 <td style="border:0px;">
-                                    {{ contact_form.salutation }}
+                                    {{ contact_details.get_salutation_display|default_if_none:"" }}
                                 </td>                                    
                             </tr>
                             <tr class="disabled-tr">
@@ -58,7 +58,7 @@ table{
                                     Contact
                                 </td>
                                 <td style="border:0px;">
-                                    {{ contact_form.contact_name }}
+                                    {{ contact_details.contact_name|default_if_none:"" }}
                                 </td>                                    
                             </tr>
                             <tr class="disabled-tr">
@@ -66,7 +66,7 @@ table{
                                     Contact Display Name
                                 </td>
                                 <td style="border:0px;">
-                                    {{ contact_form.display_name }}
+                                    {{ contact_details.display_name|default_if_none:"" }}
                                 </td>                                    
                             </tr>  
                             <tr class="disabled-tr">
@@ -74,7 +74,7 @@ table{
                                     Organisation Type
                                 </td>
                                 <td style="border:0px;">
-                                    {{ contact_form.organization_type }}
+                                    {{ contact_details.get_organization_type_display|default_if_none:"" }}
                                 </td>                                    
                             </tr>
                             <tr class="disabled-tr">
@@ -82,7 +82,7 @@ table{
                                     Organisation Name
                                 </td>
                                 <td style="border:0px;">
-                                    {{ contact_form.organization_name }}
+                                    {{ contact_details.organization_name|default_if_none:"" }}
                                 </td>                                    
                             </tr>
                             <tr class="disabled-tr">
@@ -90,7 +90,7 @@ table{
                                     Is MSME Registered
                                 </td>
                                 <td style="border:0px;">
-                                    {{ contact_form.is_msme_reg }}
+                                    {{ contact_details.get_is_msme_reg_display|default_if_none:"" }}
                                 </td>                                    
                             </tr>  
                             <tr class="disabled-tr">
@@ -98,7 +98,7 @@ table{
                                     Email Address
                                 </td>
                                 <td style="border:0px;">
-                                    {{ contact_form.email }}
+                                    {{ contact_details.email|default_if_none:"" }}
                                 </td>                                    
                             </tr>
                             <tr class="disabled-tr">
@@ -106,7 +106,7 @@ table{
                                     Phone/Mobile
                                 </td>
                                 <td style="border:0px;">
-                                    {{ contact_form.phone }}
+                                    {{ contact_details.phone|default_if_none:"" }}
                                 </td>                                    
                             </tr>                            
                             <tr>
@@ -146,52 +146,27 @@ table{
                                                             PAN
                                                         </td>
                                                         <td style="border:0px;">
-                                                            {{ tax_form.pan }}
-                                                        </td>                                    
-                                                    </tr>
-                                                    
-                                                    <tr class="disabled-tr">
-                                                        <td style=" width:150px; border:0px; vertical-align: bottom">
-                                                            GST Registration Type
-                                                        </td>
-                                                        <td style="border:0px;">
-                                                            {{ tax_form.gst_reg_type }}
+                                                            {{ tax_form_details.pan|default_if_none:"" }}
                                                         </td>                                    
                                                     </tr>
                                                     <tr class="disabled-tr">
                                                         <td style=" width:150px; border:0px; vertical-align: bottom">
-                                                            GST
+                                                            GSTIN Reg. No.
                                                         </td>
                                                         <td style="border:0px;">
-                                                            {{ tax_form.gstin }}
+                                                            {{ tax_form_details.get_gst_reg_type_display|default_if_none:"" }}
                                                         </td>                                    
-                                                    </tr>
-                                                    <!--
-                                                    <tr class="disabled-tr">
-                                                        <td style=" width:150px; border:0px; vertical-align: bottom">
-                                                            Business Reg. No.
-                                                        </td>
-                                                        <td style="border:0px;">
-                                                            {{ tax_form.business_reg_no }}
-                                                        </td>                                    
-                                                    </tr>
-                                                    <tr class="disabled-tr">
-                                                        <td style=" width:150px; border:0px; vertical-align: bottom">
-                                                            Tax Reg. No.
-                                                        </td>
-                                                        <td style="border:0px;">
-                                                            {{ tax_form.tax_reg_no }}
-                                                        </td>                                    
-                                                    </tr>
-                                                    <tr class="disabled-tr">
-                                                        <td style=" width:150px; border:0px; vertical-align: bottom">
-                                                            CGST Reg. No.
-                                                        </td>
-                                                        <td style="border:0px;">
-                                                            {{ tax_form.cst_reg_no }}
-                                                        </td>                                    
-                                                    </tr>   
-                                                    -->                                                     
+                                                    </tr> 
+                                                    {% if tax_form_details.gst_reg_type > 0 %}
+                                                        <tr class="disabled-tr">
+                                                            <td style=" width:150px; border:0px; vertical-align: bottom">
+                                                                GSTIN
+                                                            </td>
+                                                            <td style="border:0px;">
+                                                                {{ tax_form_details.gstin|default_if_none:"" }}
+                                                            </td>                                    
+                                                        </tr>     
+                                                    {% endif %}                                                                                                 
                                                 </tbody>
                                             </table>
                                         </div>
@@ -208,7 +183,7 @@ table{
                                                             Preferred Currency
                                                         </td>
                                                         <td style="border:0px;">
-                                                            {{ other_details_form.preferred_currency }}
+                                                            {{ tax_form_details.get_preferred_currency_display|default_if_none:"" }}
                                                         </td>                                    
                                                     </tr>
                                                     <tr class="disabled-tr">
@@ -216,7 +191,7 @@ table{
                                                             Opening Balance
                                                         </td>
                                                         <td style="border:0px;">
-                                                            {{ other_details_form.opening_balance }}
+                                                            {{ tax_form_details.opening_balance|default_if_none:"" }}
                                                         </td>                                    
                                                     </tr>
                                                     <tr class="disabled-tr">
@@ -224,7 +199,7 @@ table{
                                                             Payment Method
                                                         </td>
                                                         <td style="border:0px;">
-                                                            {{ other_details_form.preferred_payment_method }}
+                                                            {{ tax_form_details.get_preferred_payment_method_display|default_if_none:"" }}
                                                         </td>                                    
                                                     </tr>
                                                     <tr class="disabled-tr">
@@ -232,7 +207,7 @@ table{
                                                             Preferred Delivery
                                                         </td>
                                                         <td style="border:0px;">
-                                                            {{ other_details_form.preferred_delivery }}
+                                                            {{ tax_form_details.get_preferred_delivery_display|default_if_none:"" }}
                                                         </td>                                    
                                                     </tr>
                                                     <tr class="disabled-tr">
@@ -240,7 +215,7 @@ table{
                                                             Invoice Terms
                                                         </td>
                                                         <td style="border:0px;">
-                                                            {{ other_details_form.invoice_terms }}
+                                                            {{ tax_form_details.get_invoice_terms_display|default_if_none:"" }}
                                                         </td>                                    
                                                     </tr>
                                                     <tr class="disabled-tr">
@@ -248,7 +223,7 @@ table{
                                                             Billing Terms
                                                         </td>
                                                         <td style="border:0px;">
-                                                            {{ other_details_form.bills_terms }}
+                                                            {{ tax_form_details.bills_terms|default_if_none:"" }}
                                                         </td>                                    
                                                     </tr>
                                                 </tbody>
@@ -371,8 +346,8 @@ table{
                                                             Website
                                                         </td>
                                                         <td style="border:0px;">
-                                                            {{ social_form.website }}
-                                                            
+                                                            {{ contact_details.website|default_if_none:"" }}
+                                                            <p id="website_error" style="color: red;margin-bottom: 0px;"></p> 
                                                         </td>
                                                     </tr>
                                                     <tr class="disabled-tr">
@@ -380,8 +355,8 @@ table{
                                                             Facebook
                                                         </td>
                                                         <td style="border:0px;">
-                                                            {{ social_form.facebook }}
-                                                            
+                                                            {{ contact_details.facebook|default_if_none:"" }}
+                                                            <p id="facebook_error" style="color: red;margin-bottom: 0px;"></p> 
                                                         </td>
                                                     </tr>
                                                     <tr class="disabled-tr">
@@ -389,8 +364,8 @@ table{
                                                             Twitter
                                                         </td>
                                                         <td style="border:0px;">
-                                                            {{ social_form.twitter }}
-                                                            
+                                                            {{ contact_details.twitter|default_if_none:"" }}
+                                                            <p id="twitter_error" style="color: red;margin-bottom: 0px;"></p> 
                                                         </td>
                                                     </tr>
                                                     <tr class="disabled-tr">
@@ -398,15 +373,7 @@ table{
                                                             Notes
                                                         </td>
                                                         <td style="border:0px;">
-                                                            {{ social_form.notes }}
-                                                        </td>
-                                                    </tr>
-                                                    <tr class="disabled-tr">
-                                                        <td style=" width:150px; border:0px; vertical-align: bottom">
-                                                            Attachments
-                                                        </td>
-                                                        <td style="border:0px;">
-                                                            {{ social_form.attachements }}
+                                                            {{ contact_details.notes|default_if_none:"" }}
                                                         </td>
                                                     </tr>
                                                 </tbody>
@@ -620,7 +587,7 @@ table{
                     </table>
                 </div>
                 <div class="modal-footer">
-                    <button class="btn btn-sm btn-success" onclick="return check()" id="save_button">Update</button>
+                    <button class="btn btn-sm btn-success save_button" onclick="return check()">Update</button>
                     <button class="btn btn-sm btn-danger close" type="button" data-dismiss="modal" aria-label="Close">Cancel</button>
                     
                 </div>
@@ -728,7 +695,7 @@ table{
                     </table>
                 </div>
                 <div class="modal-footer">
-                    <button class="btn btn-sm btn-success" onclick="return check()" id="save_button">Update</button>
+                    <button class="btn btn-sm btn-success save_button" onclick="return check()">Update</button>
                     <button class="btn btn-sm btn-danger close" type="button" data-dismiss="modal" aria-label="Close">Cancel</button>
                     
                 </div>
@@ -836,7 +803,7 @@ table{
                     </table>
                 </div>
                 <div class="modal-footer">
-                    <button class="btn btn-sm btn-success" onclick="return check()" id="save_button">Update</button>
+                    <button class="btn btn-sm btn-success save_button" onclick="return check()">Update</button>
                     <button class="btn btn-sm btn-danger close" type="reset" data-dismiss="modal" aria-label="Close">Cancel</button>
                     
                 </div>
@@ -909,7 +876,7 @@ table{
                     </table>
                 </div>
                 <div class="modal-footer">
-                    <button class="btn btn-sm btn-success" onclick="return check()" id="save_button">Update</button>
+                    <button class="btn btn-sm btn-success save_button" onclick="return check()">Update</button>
                     <button class="btn btn-sm btn-danger close" type="reset" data-dismiss="modal" aria-label="Close">Cancel</button>
                     
                 </div>
@@ -980,7 +947,7 @@ table{
                     </table>
                 </div>
                 <div class="modal-footer">
-                    <button class="btn btn-sm btn-success" onclick="return check()" id="save_button">Update</button>
+                    <button class="btn btn-sm btn-success save_button" onclick="return check()">Update</button>
                     <button class="btn btn-sm btn-danger close" type="reset" data-dismiss="modal" aria-label="Close">Cancel</button>
                     
                 </div>
@@ -1060,7 +1027,7 @@ table{
                     </table>
                 </div>
                 <div class="modal-footer">
-                    <button class="btn btn-sm btn-success" onclick="return check()" id="save_button">Update</button>
+                    <button class="btn btn-sm btn-success save_button" onclick="return check()">Update</button>
                     <button class="btn btn-sm btn-danger close" type="reset" data-dismiss="modal" aria-label="Close">Cancel</button>
                     
                 </div>
@@ -1139,7 +1106,7 @@ table{
                         </tbody>
                     </table>
                     <div class="modal-footer">
-                        <button class="btn btn-sm btn-success" onclick="return check()"onclick="submit()" id="save_button">Update</button>
+                        <button class="btn btn-sm btn-success save_button" onclick="return check()">Update</button>
                         <button class="btn btn-sm btn-danger close" type="reset" data-dismiss="modal" aria-label="Close">Cancel</button>
                         
                     </div>
