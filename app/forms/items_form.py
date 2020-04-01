@@ -25,7 +25,7 @@ class ProductForm(ModelForm):
         )
 
         widgets = {
-            'product_type' : Select(attrs = {'class':'form-control input-sm','style':'width:40%',}, choices = items_constant.PRODUCT_TYPE),
+            'product_type' : Select(attrs = {'class':'form-control input-sm','style':'width:40%','onchange':'show_bundle($(this))'}, choices = items_constant.PRODUCT_TYPE),
             'sku' : TextInput(attrs = {'class':'form-control input-sm','style':'width:71%',}),
             'product_name' : TextInput(attrs = {'class':'form-control input-sm','style':'width:40%',}),
             'product_dimension' : TextInput(attrs = {'class':'form-control input-sm','style':'width:40%',}),

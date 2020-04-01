@@ -20,7 +20,7 @@ PAYMENT_TYPE = (
     (2, 'Card'),
     (3, 'Cheque'),
     (4, 'Demand Draft'),
-    (5, 'Net banking'),
+    (5, 'Net Banking'),
 )
 
 #****************************************************************************
@@ -43,7 +43,7 @@ PREFERRED_PAYMENT_TYPE = (
     (1, 'Cash'),
     (2, 'Card'),
     (3, 'Cheque'),
-    (4, 'Net banking'),
+    (4, 'Net Banking'),
 )
 
 #****************************************************************************
@@ -51,7 +51,7 @@ PREFERRED_PAYMENT_TYPE = (
 #****************************************************************************
 PREFERRED_DELIVERY = (
     (0, 'Any'),
-    (1, 'Print later'),
+    (1, 'Print Later'),
     (2, 'Send Later'),
 )
 

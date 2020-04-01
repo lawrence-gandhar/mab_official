@@ -2,7 +2,7 @@
     <div class="col-lg-12">
         <div class="card">
             <div class="card-header card-header-primary">
-                <h4>View Products and Services</h4>
+                <h4>View Products</h4>
                 <div class="nav-item" style="float:left;padding:0px 10px;margin-left:181px;margin-top: -25px;">
                     <!-- <form class="form-inline" action="{% url 'view_products' %}" method="" style=" margin-top: -15px;margin-bottom: -12px;">
                         <div class="form-group has-white">
@@ -30,7 +30,7 @@
                     <table class="table-bordered" width="100%" cellspacing="0">
                         <thead  style="background-color: #EEEEEE; color:#000000; font-size:11px">
                             <!-- <th class="text-center">SL. No.</th> -->
-                            <th class="text-center">PID</th>
+                            <!-- <th class="text-center">PID</th> -->
                             <th class="text-center">SKU</th>
                             <th class="text-center">Product Name</th>
                             <!-- <th class="text-center">Product Type</th>
@@ -47,7 +47,7 @@
                             {% for product in products %}
                                 <tr id="t{{product.id}}">
                                     <!-- <td>{{ forloop.counter }}</td> -->
-                                    <td>P-0000{{ product.id }}</td>
+                                    <!-- <td>P-0000{{ product.id }}</td> -->
                                     <td>{{ product.sku }}</td>
                                     <td>{{ product.product_name }}</td>
                                     <!-- <td>{{ product.get_product_type_display }}</td> -->
@@ -77,15 +77,21 @@
                                                 <!-- <i class="material-icons">create</i> -->
                                             </a>
                                             {% if product.is_active %}
-                                            <button class="dropdown-item" title="Deactivate Product" onclick="status({{product.id}})" href="{% url 'product-status-change' 'deactivate' product.id %}" class="btn btn-sm btn-default" style="padding:5px 5px;">
+                                            <a class="dropdown-item" title="Deactivate Product" data-toggle="modal" data-target="#status{{product.id}}" style="padding:5px 5px;">
+                                                <p id="s{{product.id}}" style="margin-bottom:0px;margin-right: 67px;">Make Inactive</p>   
+                                            </a>
+                                            <!-- <button class="dropdown-item" title="Deactivate Product" onclick="status({{product.id}})" href="{% url 'product-status-change' 'deactivate' product.id %}" class="btn btn-sm btn-default" style="padding:5px 5px;">
                                                 <p id="s{{product.id}}" style="margin-bottom:0px;margin-right: 67px;">Make Deactive</p>
-                                                <!-- <i class="material-icons">clear</i> -->
-                                            </button>
+                                                    <i class="material-icons">clear</i> 
+                                            </button> -->
                                             {% else %}
-                                            <button class="dropdown-item" title="Activate Product" onclick="status({{product.id}})" href="{% url 'product-status-change' 'activate' product.id %}" class="btn btn-sm btn-success" style="padding:5px 5px;">
+                                            <a class="dropdown-item" title="activate Product" data-toggle="modal" data-target="#status{{product.id}}" style="padding:5px 5px;">
+                                                <p id="s{{product.id}}" style="margin-bottom:0px;margin-right: 67px;">Make Active</p>   
+                                            </a>
+                                            <!-- <button class="dropdown-item" title="Activate Product" onclick="status({{product.id}})" href="{% url 'product-status-change' 'activate' product.id %}" class="btn btn-sm btn-success" style="padding:5px 5px;">
                                                 <p id="s{{product.id}}" style="margin-bottom:0px;margin-right: 67px;">Make Active</p>
-                                                <!-- <i class="material-icons">check</i> -->
-                                            </button>
+                                                <i class="material-icons">check</i>
+                                            </button> -->
                                             {% endif %}
                                             <a class="dropdown-item" title="Delete Product" data-toggle="modal" data-target="#del{{product.id}}" style="padding:5px 5px;">
                                                 Delete
@@ -106,31 +112,51 @@
                                                     </div>
                                                     
                                                     <div class="modal-footer" style="justify-content: flex-start; border-top: none;padding:6px;margin-left: 29%">
-                                                        <center><button onclick="remove({{product.id}})" class="btn btn-danger mr-2" style="align-content: left;">Delete</button></center>
-                                                        <button id="{{product.id}}" onclick="can({{product.id}})" class="btn btn-primary">Cancel</button>
+                                                        <center><button onclick="remove({{product.id}})" class="btn btn-success mr-2" style="align-content: left;">Yes</button></center>
+                                                        <button id="{{product.id}}" onclick="can({{product.id}})" class="btn btn-warning">No</button>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                        <!-- ActivePopup -->
-                                        <!-- <div class="modal " tabindex="-1" role="dialog" id="del{{product.id}}" style="border-top: none;left: 20%;top:200px;width: 500">
+                                        <!-- DeactivePopup -->
+                                        {% if product.is_active %}
+                                        <div class="modal " tabindex="-1" role="dialog" id="status{{product.id}}" style="border-top: none;left: 20%;top:200px;width: 500">
                                             <div class="modal-dialog" role="document" style="border-top: none;">
                                                 <div class="modal-content" style="border-top: none;background:white;position:bottom">
                                                     <div class="modal-header" style="border-bottom: none;padding:5px;">
                                                         
                                                     </div>
                                                     <div class="modal-body" style="border-top: none;position: bottom;">
-                                                        <h4><b><center style="color: black;">Are you sure you want to delete {{ product.product_name }} </center></b></h4>
+                                                        <h4 ><b><center style="color: black;"id="text">Are you sure you want to make {{ product.product_name }} inactive </center></b></h4>
                                                     </div>
                                                     
                                                     <div class="modal-footer" style="justify-content: flex-start; border-top: none;padding:6px;margin-left: 29%">
-                                                        <center><button onclick="remove({{product.id}})" class="btn btn-danger mr-2" style="align-content: left;">Delete</button></center>
-                                                        <button id="{{product.id}}" onclick="can({{product.id}})" class="btn btn-primary">Cancel</button>
+                                                        <center><button onclick="status({{product.id}},'{{ product.product_name }}')" class="btn btn-success mr-2" style="align-content: left;">Yes</button>
+                                                        <button id="{{product.id}}" onclick="nodeactive({{product.id}})" class="btn btn-warning">No</button></center>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div> -->
-                                        <!-- deact -->
+                                        </div>
+                                        {% else %}
+                                        <!-- ActivePopUp -->
+                                        <div class="modal " tabindex="-1" role="dialog" id="status{{product.id}}" style="border-top: none;left: 20%;top:200px;width: 500">
+                                            <div class="modal-dialog" role="document" style="border-top: none;">
+                                                <div class="modal-content" style="border-top: none;background:white;position:bottom">
+                                                    <div class="modal-header" style="border-bottom: none;padding:5px;">
+                                                        
+                                                    </div>
+                                                    <div class="modal-body" style="border-top: none;position: bottom;">
+                                                        <h4 ><b><center style="color: black;" id="text">Are you sure you want to make {{ product.product_name }} active</center></b></h4>
+                                                    </div>
+                                                    
+                                                    <div class="modal-footer" style="justify-content: flex-start; border-top: none;padding:6px;margin-left: 29%">
+                                                        <center><button onclick="status({{product.id}},'{{ product.product_name }}')" class="btn btn-success mr-2" style="align-content: left;">Yes</button>
+                                                        <button id="{{product.id}}" onclick="noactive({{product.id}})" class="btn btn-warning">No</button></center>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {% endif %}
                                     </td>
                                 </tr>
                             {% endfor %}
@@ -141,90 +167,3 @@
         </div>
     </div>
 </div>
-
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
-
-<script type="text/javascript">
-    $('#search').keyup(function() {
-
-        $.ajax({
-            type: "GET",
-            url: "products/search/",
-            data: {
-                'search': $('#search').val(),
-                'csrfmiddlewaretoken': $("input[name=csrfmiddlewaretoken]").val()
-            },
-            success: searchSuccess,
-            dataType: 'html'
-        });
-    });
-
-    function searchSuccess(data, textStatus, jqXHR) {
-        $('#search-results').html(data)
-    }
-/////////////////////////////////////////////////////////////////////////////////////////////
-    // activte / deactive
-
-
-    function status(a) {
-        console.log(a)
-        var status = 's'+a.toString()
-        var b = document.getElementById(status).innerHTML;
-        console.log(b.length)
-        if(b.length == 13){
-            $.ajax({
-            type: 'GET',
-            url: "/products/status_change/deactivate/"+a+"",
-            success: function() {
-                console.log('xxxxxxxxxxxxxxxxxxxx')
-                document.getElementById(a).innerHTML = 'clear'
-                document.getElementById(status).innerHTML = 'Make Active'
-            },
-            error: function(XMLHttpRequest, textStatus, errorThrown) {
-                alert("some error");
-            }
-
-        });
-        }
-        if(b.length == 11){
-            $.ajax({
-            type: 'GET',
-            url: "/products/status_change/activate/"+a+"",
-            success: function() {
-                console.log('aaaaaaaaaaaaaaaaaaaaaaa')
-                document.getElementById(a).innerHTML = 'check'
-                document.getElementById(status).innerHTML = 'Make Deactive'
-            },
-            error: function(XMLHttpRequest, textStatus, errorThrown) {
-                alert("some error");
-            }
-
-        });
-        }    
-}
-
-// //////////////////////////////////////////////////
-// delete and cancel
-function remove(c) {
-    console.log(c)
-    var remove = 't'+c
-    console.log(remove)
-    $.ajax({
-            type: 'GET',
-            url: "/products/delete/"+c+"",
-            success: function() {
-                console.log('xxxxxxxx')
-                $("#"+remove).hide();
-                $('#'+'del'+c.toString()).modal('hide')
-            },
-            error: function(XMLHttpRequest, textStatus, errorThrown) {
-                alert("some error");
-            }
-
-        });
-}
-
-function can(d) {
-    $('#'+'del'+d.toString()).modal('hide')
-}
-</script>

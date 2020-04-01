@@ -85,6 +85,8 @@ urlpatterns += [
     path('products/edit/<int:ins>/', never_cache(login_required(products.EditProducts.as_view())), name = 'edit_product'),
     path('products/delete/<int:ins>/', never_cache(login_required(products.delete_product)), name='product-delete'),
     path('products/status_change/<slug:slug>/<int:ins>/', never_cache(login_required(products.status_change)), name='product-status-change'),
+    # BUNDLE ADDED BY ROSHAN
+    path('prducts/bundle/<slug:slug>/',never_cache(login_required(products.bundle)),name='bundle'),
 ]
 
 # Inventory

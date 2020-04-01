@@ -36,7 +36,7 @@ class ContactsView(View):
 
     # Custom CSS/JS Files For Inclusion into template
     data["css_files"] = []
-    data["js_files"] = []
+    data["js_files"] = ['custom_files/js/contacts.js']
 
     data["included_template"] = 'app/app_files/contacts/view_contacts.html'
     
@@ -60,7 +60,8 @@ class ContactsView(View):
             
             CustomerType = request.GET.get('CustomerType', 'off')
             OrganizationType = request.GET.get('OrganizationType','off')
-            GstNumber = request.GET.get('GstNumber', 'off')
+            Status = request.GET.get('status', 'off')
+
 
             Vendor = request.GET.get('Vendor', 'off')
             Empoloyee = request.GET.get('Empoloyee', 'off')
@@ -76,7 +77,7 @@ class ContactsView(View):
             Is_No = request.GET.get('No', 'off')
        
             # customer types
-            if(CustomerType =="on" and OrganizationType == "off" and  GstNumber == "off"):
+            if(CustomerType =="on" and OrganizationType == "off" and  Status == "off"):
                 
                 
                 if(Vendor =="on" and Empoloyee=="off" and Customer =="off"):
@@ -94,7 +95,7 @@ class ContactsView(View):
                 elif(Vendor =="on" and Empoloyee=="on" and Customer =="on"):
                     contacts = Contacts.objects.filter(user = request.user)
             
-            if(OrganizationType =="on" and CustomerType =="off" and  GstNumber == "off"):
+            if(OrganizationType =="on" and CustomerType =="off" and Status == "off"):
 
 
                 if(Individual == "on" and Proprietorship == "off" and Partnership =="off" and Trust =="off" and GvtOrganization == "off"):
@@ -160,16 +161,16 @@ class ContactsView(View):
                 elif(Individual == "on"and Proprietorship == "on"  and Partnership == "off" and Trust =="on" and GvtOrganization == "on"):
                     contacts = Contacts.objects.filter(Q(user = request.user) &  Q(organization_type = 2) | Q(organization_type = 2) | Q(organization_type = 5) | Q(organization_type = 6))
 
-            if(GstNumber == "on" and OrganizationType =="off" and CustomerType =="off"):
+            if(Status == "on" and OrganizationType =="off" and CustomerType =="off"):
                 
                 if(Is_Yes == 'on' and Is_No == 'off'):
-                    pass
+                    contacts = Contacts.objects.filter(Q(user = request.user) & Q(is_active = True))
                 elif(Is_Yes == 'off' and Is_No == 'on'):
-                    pass
+                    contacts = Contacts.objects.filter(Q(user = request.user) & Q(is_active = False))
                 elif(Is_Yes == 'on' and Is_No == 'on'):
-                    pass
+                    contacts = Contacts.objects.filter(Q(user = request.user) & Q(is_active = True) | Q(is_active = False)) 
 
-            if(CustomerType =="on" and OrganizationType == "on" and  GstNumber == "off"):
+            if(CustomerType =="on" and OrganizationType == "on" and  Status == "off"):
                 # Vendor on
                 if(Vendor =="on" and Empoloyee=="off" and Customer =="off"):
                     a = Contacts.objects.filter(user = request.user).filter(customer_type = 2)
@@ -568,69 +569,69 @@ class ContactsView(View):
                     elif(Individual == "on"and Proprietorship == "on"  and Partnership == "off" and Trust =="on" and GvtOrganization == "on"):
                         contacts = a.filter(Q(user = request.user) &  Q(organization_type = 2) | Q(organization_type = 2) | Q(organization_type = 5) | Q(organization_type = 6))
 
-            if(CustomerType =="on" and OrganizationType == "off" and  GstNumber == "on"):
+            if(CustomerType =="on" and OrganizationType == "off" and  Status == "on"):
                 #  Vendor =="on"
                 if(Vendor =="on" and Empoloyee=="off" and Customer =="off"):
                     a = Contacts.objects.filter(user = request.user).filter(customer_type = 2)
                     if(Is_Yes == 'on' and Is_No == 'off'):
-                        pass
+                        contacts = a.filter(Q(user = request.user) & Q(is_active = True))
                     elif(Is_Yes == 'off' and Is_No == 'on'):
-                        pass
+                        contacts = a.filter(Q(user = request.user) & Q(is_active = False))
                     elif(Is_Yes == 'on' and Is_No == 'on'):
-                        pass
+                        contacts = a.filter(Q(user = request.user) & Q(is_active = True) | Q(is_active = False))
 
                 elif(Vendor =="off" and Empoloyee =="on" and Customer =="off"):
                     #  Empoloyee =="on"
                     a = Contacts.objects.filter(user = request.user).filter(customer_type = 3)
                     if(Is_Yes == 'on' and Is_No == 'off'):
-                        pass
+                        contacts = a.filter(Q(user = request.user) & Q(is_active = True))
                     elif(Is_Yes == 'off' and Is_No == 'on'):
-                        pass
+                        contacts = a.filter(Q(user = request.user) & Q(is_active = False))
                     elif(Is_Yes == 'on' and Is_No == 'on'):
-                        pass
+                        contacts = a.filter(Q(user = request.user) & Q(is_active = True) | Q(is_active = False))
 
                 elif(Vendor =="off" and Empoloyee =="off" and Customer =="on"):
                     # Customer =="on"
                     a = Contacts.objects.filter(user = request.user).filter(customer_type = 1)
                     if(Is_Yes == 'on' and Is_No == 'off'):
-                        pass
+                        contacts = a.filter(Q(user = request.user) & Q(is_active = True))
                     elif(Is_Yes == 'off' and Is_No == 'on'):
-                        pass
+                        contacts = a.filter(Q(user = request.user) & Q(is_active = False))
                     elif(Is_Yes == 'on' and Is_No == 'on'):
-                        pass
+                        contacts = a.filter(Q(user = request.user) & Q(is_active = True) | Q(is_active = False))
 
                 if(Vendor =="on" and Empoloyee=="on" and Customer =="off"):
                     # Vendor =="on" and Empoloyee=="on"
                     a = Contacts.objects.filter(Q(user = request.user) & Q(customer_type = 2) | Q(customer_type = 3))
                     if(Is_Yes == 'on' and Is_No == 'off'):
-                        pass
+                        contacts = a.filter(Q(user = request.user) & Q(is_active = True))
                     elif(Is_Yes == 'off' and Is_No == 'on'):
-                        pass
+                        contacts = a.filter(Q(user = request.user) & Q(is_active = False))
                     elif(Is_Yes == 'on' and Is_No == 'on'):
-                        pass
+                        contacts = a.filter(Q(user = request.user) & Q(is_active = True) | Q(is_active = False))
 
                 elif(Vendor =="on" and Empoloyee =="off" and Customer =="on"):
                     # Vendor =="on" and Customer =="on"
                     a = Contacts.objects.filter(Q(user = request.user) & Q(customer_type = 2) | Q(customer_type = 1))
                     if(Is_Yes == 'on' and Is_No == 'off'):
-                        pass
+                        contacts = a.filter(Q(user = request.user) & Q(is_active = True))
                     elif(Is_Yes == 'off' and Is_No == 'on'):
-                        pass
+                        contacts = a.filter(Q(user = request.user) & Q(is_active = False))
                     elif(Is_Yes == 'on' and Is_No == 'on'):
-                        pass
+                        contacts = a.filter(Q(user = request.user) & Q(is_active = True) | Q(is_active = False))
 
                 elif(Vendor =="on" and Empoloyee =="on" and Customer =="on"):
                     # Vendor =="on" and Empoloyee =="on" and Customer =="on"
                     a = Contacts.objects.filter(user = request.user)
                     if(Is_Yes == 'on' and Is_No == 'off'):
-                        pass
+                        contacts = a.filter(Q(user = request.user) & Q(is_active = True))
                     elif(Is_Yes == 'off' and Is_No == 'on'):
-                        pass
+                        contacts = a.filter(Q(user = request.user) & Q(is_active = False))
                     elif(Is_Yes == 'on' and Is_No == 'on'):
-                        pass
+                        contacts = a.filter(Q(user = request.user) & Q(is_active = True) | Q(is_active = False))
 
 
-            if(CustomerType =="on" and OrganizationType == "on" and  GstNumber == "on"):
+            if(CustomerType =="on" and OrganizationType == "on" and  Status == "on"):
                 # CustomerType =="on"
 
                 if(Vendor =="on" and Empoloyee=="off" and Customer =="off"):
@@ -713,15 +714,14 @@ class ContactsView(View):
                 elif(Individual == "on"and Proprietorship == "on"  and Partnership == "off" and Trust =="on" and GvtOrganization == "on"):
                     b = a.filter(Q(user = request.user) &  Q(organization_type = 2) | Q(organization_type = 2) | Q(organization_type = 5) | Q(organization_type = 6))
 
-                # GstNumber == "on"
+                # Status == "on"
 
                 if(Is_Yes == 'on' and Is_No == 'off'):
-                    pass
+                    contacts = b.filter(Q(user = request.user) & Q(is_active = True))
                 elif(Is_Yes == 'off' and Is_No == 'on'):
-                    pass
+                    contacts = b.filter(Q(user = request.user) & Q(is_active = False))
                 elif(Is_Yes == 'on' and Is_No == 'on'):
-                    pass
-
+                    contacts = b.filter(Q(user = request.user) & Q(is_active = True) | Q(is_active = False)) 
         self.data["contacts"] = contacts
         
         return render(request, self.template_name, self.data)
@@ -905,6 +905,8 @@ def edit_contact(request, ins = None):
             contact_address_form = User_Address_Details.objects.filter(contact = contact, is_user = False)
             c_count = len(contact_address_form)
 
+            data["contact_addresses"] = contact_address_form
+
             data["c_count"] = [i for i in range(c_count)]
             
             data["contact_address_form"] = []
@@ -919,6 +921,7 @@ def edit_contact(request, ins = None):
             # Accounts
             contact_accounts_form = User_Account_Details.objects.filter(contact = contact, is_user = False)
             a_c_count = len(contact_accounts_form)
+            data["contact_accounts"] = contact_accounts_form
 
             data["a_c_count"] = [i for i in range(a_c_count)]
 

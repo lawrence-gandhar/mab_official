@@ -270,4 +270,167 @@ $("#id_is_purchase").on("click", function(){
 //     });
 //   });
   
-  
+
+/********************************************************************/
+// view product active inactive and delete 
+/********************************************************************/
+
+
+
+function status(a,b) {
+
+    var status = 's'+a.toString()
+    var c = document.getElementById(status).innerHTML;
+    console.log(c.length)
+    if(c.length == 13){
+        $.ajax({
+        type: 'GET',
+        url: "/products/status_change/deactivate/"+a+"",
+        success: function() {
+            document.getElementById(a).innerHTML = 'clear'
+            document.getElementById(status).innerHTML = 'Make Active'
+            $('#'+'status'+a.toString()).modal('hide')
+            document.getElementById('text').innerHTML = 'Are you sure you want to make '+b+' active '
+            
+        },
+        error: function(XMLHttpRequest, textStatus, errorThrown) {
+            alert("some error");
+        }
+
+    });
+    }
+    if(c.length == 11){
+        $.ajax({
+        type: 'GET',
+        url: "/products/status_change/activate/"+a+"",
+        success: function() {
+            document.getElementById(a).innerHTML = 'check'
+            document.getElementById(status).innerHTML = 'Make Inactive'
+            $('#'+'status'+a.toString()).modal('hide')
+            document.getElementById('text').innerHTML = 'Are you sure you want to make '+b+' inactive '
+            
+        },
+        error: function(XMLHttpRequest, textStatus, errorThrown) {
+            alert("some error");
+        }
+
+    });
+    }    
+}
+function nodeactive(d) {
+$('#'+'status'+d.toString()).modal('hide')
+}
+function noactive(d) {
+$('#'+'status'+d.toString()).modal('hide')
+}
+
+// //////////////////////////////////////////////////
+// delete and cancel
+function remove(c) {
+console.log(c)
+var remove = 't'+c
+console.log(remove)
+$.ajax({
+        type: 'GET',
+        url: "/products/delete/"+c+"",
+        success: function() {
+            console.log('xxxxxxxx')
+            $("#"+remove).hide();
+            $('#'+'del'+c.toString()).modal('hide')
+        },
+        error: function(XMLHttpRequest, textStatus, errorThrown) {
+            alert("some error");
+        }
+
+    });
+}
+
+function can(d) {
+$('#'+'del'+d.toString()).modal('hide')
+}
+
+
+
+/********************************************************************/
+// bundle table 
+/********************************************************************/
+// Add Row
+var number = 1
+function addRow() {
+    number += 1
+    $('#table').append('<tr id="row'+number+'"><th scope="row'+number+'">'+number+'</th><td> <select class="form-control" id="product_type'+number+'" name="product_type'+number+'" onclick="bundle('+number+')" style="width: 107% !important;"><option value="------">------</option><option value="Goods">GOODS</option><option value="Services">SERVICES</option></td><td><select class="form-control" id="Product_name'+number+'" name="Product_name'+number+'" style="margin-left: 31px !important;width: 142% !important;"><option value="product_name">------</option></td><td><input type="number" class="form-control" id="Quantity'+number+'" name="Quantity'+number+'" style="margin-left: 90px !important;width:37% !important;"></td><td><button class="btn btn-danger btn-remove" type="button" id="'+number+'" name="'+number+'" onclick="removeRow(number)" style="padding-left:7px;padding-right:7px;margin-top:-8px;padding-top:6px;padding-bottom:6px;width: 96%;"><b>X</b></button></td></tr>')
+    
+};
+
+function removeRow(a) {
+    console.log(a)
+    $('#row'+a+'').remove();
+    number -=1
+}
+
+/********************************************************************/
+// bundle table 
+/********************************************************************/
+
+    function bundle(number) {
+        var value = $('#product_type'+number+' :selected').text();
+        if(value == 'GOODS' || value == 'SERVICES'){
+            $.ajax({
+                type:"GET",
+                url: "/prducts/bundle/"+value+"",
+                dataType: "json",
+                success: function(data){
+                    var option = data.products
+                    // CLEAN SELECT OPTION //
+                    var select = document.getElementById('Product_name'+number+'');
+                    var length = select.options.length;
+                    for (i = length-1; i >= 1; i--) {
+                        select.options[i] = null;
+                    }
+                    // END //
+
+                    // ADD SELECT OPTION //
+                    for(var i = 0;i < option.length;i++){
+                        console.log(i)
+                        $('<option/>').val(option[i]).html(option[i]).appendTo('#Product_name'+number+'');
+                    }
+                    // END //
+                },
+                error: function (rs, e) {
+                    alert('Sorry, try again.');
+                }
+            });
+        }
+      }
+    
+/********************************************************************/
+// product type to show and hide 
+/********************************************************************/
+
+function show_bundle(elem){
+    var a = $('#id_product_type :selected').text();
+    if(a == "BUNDLE"){
+        $("#b_table").show()
+        $("#bundle_table").show()
+        $("#img_box").hide()
+        $("#hsn").hide()
+        $("#hsn_list").hide()
+        $("#img_file").hide()
+        $("#units").hide()
+        $("#product").css("margin-top", "1.3%")
+        
+    }
+    else{
+        $("#b_table").hide()
+        $("#bundle_table").hide()
+        $("#img_box").show()
+        $("#hsn").show()
+        $("#hsn_list").show()
+        $("#img_file").show()
+        $("#units").show()
+        $("#product").css("margin-top", "-18%")
+    }
+}
+
+
+

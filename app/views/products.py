@@ -23,7 +23,7 @@ def view_products(request, *args, **kwargs):
 
     # Custom CSS/JS Files For Inclusion into template
     data["css_files"] = []
-    data["js_files"] = []
+    data["js_files"] = ['custom_files/js/product.js',]
     data["active_link"] = 'Products'
     data["breadcrumb_title"] = 'PRODUCTS'
 
@@ -38,7 +38,6 @@ def view_products(request, *args, **kwargs):
         products = ProductsModel.objects.prefetch_related('productphotos_set').filter(user = request.user)
     else:
         search = a[37:(len(a))-2]
-        print(search)
         products = ProductsModel.objects.filter(Q(user = request.user) & Q(sku__icontains = search) | Q(product_name__icontains = search))
 
 
@@ -230,3 +229,24 @@ def ajax_add_product(request):
                 img_save.save()
         return HttpResponse(1)
     return HttpResponse(0)
+
+
+
+#===================================================================================================
+# BUNDLE 
+#===================================================================================================
+#
+
+def bundle(request, slug):
+
+    if(slug == 'GOODS'):
+        product_type = 0
+    elif(slug == 'SERVICES'):
+        product_type = 1
+    name = []
+    products = ProductsModel.objects.filter(Q(user = request.user) & Q(product_type = product_type))
+    for i in range(0,len(products)):
+        name.append(products[i].product_name)
+
+    data = {'products' : name}
+    return JsonResponse(data)

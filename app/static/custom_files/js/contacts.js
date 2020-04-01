@@ -459,30 +459,15 @@ function hide_gst(elem){
     }
 }
 
-$('#search').keyup(function() {
-        
-    $.ajax({
-        type: "GET",
-        url: "/contacts/search/",
-        data: {
-            'search' : $('#search').val(),
-            'csrfmiddlewaretoken' : $("input[name=csrfmiddlewaretoken]").val()
-        },
-        success: searchSuccess,
-        dataType: 'html'
-    });
-});
-function searchSuccess(data, textStatus, jqXHR)
-{
-$('#search-results').html(data)
-}
 
-// activte / deactive
-function status(a) {
-    console.log(a)
+
+/********************************************************************/
+// active, inactive and delete
+/********************************************************************/
+
+function status(a,c) {
     var status = 's'+a.toString()
     var b = document.getElementById(status).innerHTML;
-    console.log(b.length)
     if(b.length == 13){
         $.ajax({
         type: 'GET',
@@ -490,6 +475,8 @@ function status(a) {
         success: function() {
             document.getElementById(a).innerHTML = 'clear'
             document.getElementById(status).innerHTML = 'Make Active'
+            $('#'+'status'+a.toString()).modal('hide')
+            document.getElementById('text').innerHTML = 'Are you sure you want to make '+c+' active '
         },
         error: function(XMLHttpRequest, textStatus, errorThrown) {
             alert("some error");
@@ -503,7 +490,9 @@ function status(a) {
         url: "/contacts/status_change/activate/"+a+"",
         success: function() {
             document.getElementById(a).innerHTML = 'check'
-            document.getElementById(status).innerHTML = 'Make Deactive'
+            document.getElementById(status).innerHTML = 'Make Inactive'
+            $('#'+'status'+a.toString()).modal('hide')
+            document.getElementById('text').innerHTML = 'Are you sure you want to make '+c+' inactive '
         },
         error: function(XMLHttpRequest, textStatus, errorThrown) {
             alert("some error");
@@ -511,6 +500,12 @@ function status(a) {
 
     });
     }    
+}
+function nodeactive(d) {
+$('#'+'status'+d.toString()).modal('hide')
+}
+function noactive(d) {
+$('#'+'status'+d.toString()).modal('hide')
 }
 // //////////////////////////////////////////////////
 // delete and cancel
@@ -521,6 +516,7 @@ $.ajax({
         type: 'GET',
         url: "/contacts/delete/"+c+"",
         success: function() {
+            console.log('xxxxxxxx')
             $("#"+remove).hide();
             $('#'+'del'+c.toString()).modal('hide')
         },
@@ -534,6 +530,3 @@ $.ajax({
 function can(d) {
 $('#'+'del'+d.toString()).modal('hide')
 }
-
-
-
