@@ -325,7 +325,7 @@ class User_Address_Details(models.Model):
     is_shipping_address = models.BooleanField(
         db_index = True,
         choices = user_constants.IS_TRUE,
-        default = False,
+        default = True,
     )
 
     created_on = models.DateTimeField(
