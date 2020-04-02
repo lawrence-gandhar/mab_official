@@ -24,6 +24,28 @@
                     </button>
                 </div>
                 {% endfor %}
+
+
+                {% if saved_msg == '1' %}
+                    <div class="alert alert-success">
+                        File Uploaded Successfully
+                    </div>
+                {% elif saved_msg == '2' %}
+                    <div class="alert alert-danger">
+                        File Uploading Failed due to unknown error
+                    </div>
+                {% elif saved_msg == '3' %}
+                    <div class="alert alert-danger">
+                        File Uploading Failed due to in valid data in the file
+                    </div>
+                {% endif %}
+
+                {% if error %}
+                    <div class="alert alert-danger">
+                        {{ error|safe }}
+                    </div>
+                {% endif %}
+
                 <form action="{% url 'contacts-upload' 'upload' %}"method="post" enctype="multipart/form-data" >
                     <div class="card-body">
                         {% csrf_token %}

@@ -1245,7 +1245,11 @@ def edit_other_details_form(request):
             if tax_form.is_valid():
                 tax_form.save()  
         except:
-            contact_ins = contacts_model.Contacts.objects.get(pk = int(request.POST["ids"]))
+            try:
+                contact_ins = contacts_model.Contacts.objects.get(pk = int(request.POST["ids"]))
+            except:
+                return redirect('/unauthorized/', permanent=False)
+
             tax_form = OtherDetailsForm(request.POST)
 
             if tax_form.is_valid():
@@ -1253,8 +1257,6 @@ def edit_other_details_form(request):
                 tax_form.contact = contact_ins
                 tax_form.save()         
     return redirect('/contacts/edit/{}/'.format(request.POST["ids"]), permanent = False)
-
-
 #=======================================================================================
 #   EDIT ADDRESS DETAILS
 #=======================================================================================
@@ -1319,10 +1321,11 @@ def edit_social_details_form(request):
             return redirect('/unauthorized/', permanent=False)
         
         social_form = ContactsExtraForm(request.POST, request.FILES, instance = contact)
+
         if social_form.is_valid():
             social_form.save()
 
-    return redirect('/contacts/edit/{}/'.format(request.POST["ids"]), permanent = False)    
+    return redirect('/contacts/edit/{}/'.format(request.POST["ids"]), permanent = False)   
 
 #================================================================================
 # CHECK APPLICATION ID
@@ -1437,8 +1440,6 @@ class ContactsFileUploadView(View):
                 #if(a == 'upload'):
                 #    messages.success(request, 'Upload Successfully.')
 
-                
-
                 self.data["error"] = '<br>'.join(err)
             else:
                 pass
@@ -1526,51 +1527,59 @@ def csv_2_contacts(user, file_path):
 
             url_pattern = '^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$'
 
-            ifsc_pattern = '/^[A-Za-z]{4}[a-zA-Z0-9]{7}$/'
+            ifsc_pattern = '^[A-Za-z]{4}[a-zA-Z0-9]{7}$'
 
-            gst_pattern = '/^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}$/'
+            gst_pattern = '^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}$'
 
-            pan_pattern = '/[A-Z]{5}[0-9]{4}[A-Z]{1}$/'
+            pan_pattern = re.compile(r'[A-Z]{5}[0-9]{4}[A-Z]{1}')
 
-            phone_pattern = '/^\d{10}$/'
+            phone_pattern = re.compile(r'\d{10}')
 
-            number_pattern = '/^\d$/'
+            number_pattern = re.compile(r'\d*')
+
+            currency_pattern = re.compile(r'\d*[.]?\d{2}')
 
             # check email
             if not re.search(email_pattern, email) and email is not None:
-                error_row.append("Error On Row {}: In-Valid Email. Process Aborted".format(row_count))    
+                error_row.append("Error On Row {}: In-Valid Email.".format(row_count))    
 
             # check url
             if not re.search(url_pattern, website) and website is not None:
-                error_row.append("Error On Row {}: In-Valid Website. Process Aborted".format(row_count))    
+                error_row.append("Error On Row {}: In-Valid Website.".format(row_count))    
 
             if not re.search(url_pattern, facebook) and facebook is not None:
-                error_row.append("Error On Row {}: In-Valid Facebook Link. Process Aborted".format(row_count))    
+                error_row.append("Error On Row {}: In-Valid Facebook Link.".format(row_count))    
 
             if not re.search(url_pattern, twitter) and twitter is not None:
-                error_row.append("Error On Row {}: In-Valid Twitter Link. Process Aborted".format(row_count))    
+                error_row.append("Error On Row {}: In-Valid Twitter Link.".format(row_count))    
 
             # check PAN
-            if not re.search(pan_pattern, pan) and pan is not None:
-                error_row.append("Error On Row {}: In-Valid PAN. Process Aborted".format(row_count))    
-
-                return error_row, row_count
+            if not pan_pattern.fullmatch(pan) and pan is not None:
+                error_row.append("Error On Row {}: In-Valid PAN.".format(row_count))   
 
             # check IFSC
             if not re.search(ifsc_pattern, ifsc_code) and ifsc_code is not None:
-                error_row.append("Error On Row {}: In-Valid IFSC. Process Aborted".format(row_count))    
+                error_row.append("Error On Row {}: In-Valid IFSC.".format(row_count))    
 
             # check GST
             if not re.search(gst_pattern, gstin) and gstin is not None:
-                error_row.append("Error On Row {}: In-Valid GST. Process Aborted".format(row_count))    
+                error_row.append("Error On Row {}: In-Valid GST.".format(row_count))    
 
             # check Phone
-            if not re.search(phone_pattern, phone) and phone is not None:
-                error_row.append("Error On Row {}: In-Valid Phone. Process Aborted".format(row_count))    
+            if not phone_pattern.fullmatch(phone) and phone is not None:
+                error_row.append("Error On Row {}: In-Valid Phone.".format(row_count))    
 
             # check Account Number
-            if not re.search(number_pattern, account_number) and account_number is not None:
-                error_row.append("Error On Row {}: In-Valid Account Number. Process Aborted".format(row_count))    
+            if not number_pattern.fullmatch(account_number) and account_number is not None:
+                error_row.append("Error On Row {}: In-Valid Account Number.".format(row_count))   
+
+            # check Account Number
+            if not number_pattern.fullmatch(pincode) and pincode is not None:
+                error_row.append("Error On Row {}: In-Valid Pincode.".format(row_count))   
+
+            # check Opening Balance
+            if not currency_pattern.match(opening_balance) and opening_balance is not None:
+                error_row.append("Error On Row {}: In-Valid Opening Balance.".format(row_count))   
 
             row_count += 1
 
