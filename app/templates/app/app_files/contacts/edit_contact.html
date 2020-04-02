@@ -1043,6 +1043,7 @@ table{
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content" style="background-color:currentcolor">
             <form method="post" style="margin:0px" action="{% url 'edit_other_details_form' %}">
+                {% csrf_token %}
                 <div class="modal-header bg-warning">
                     <h5 class="modal-title" style="color:#000000; font-weight:bold;">Edit Other Details</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">

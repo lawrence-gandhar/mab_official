@@ -819,7 +819,7 @@ def add_contacts(request, slug = None, ins = None):
 
                 for form in address_formset:
                     if form.is_valid():
-                        if form.data["user_address_details_set-"+str(rownum)+"-flat_no"]:
+                        if form.data["user_address_details_set-"+str(rownum)+"-contact_person"]:
                             obj = form.save(commit = False)
                             obj.is_user = False
                             obj.contact = ins
