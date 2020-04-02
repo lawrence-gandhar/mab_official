@@ -102,286 +102,274 @@ table{
                                 </td>                                    
                             </tr>
                             <tr class="disabled-tr">
-                                <td style=" width:150px; border:0px; vertical-align: bottom">
+                                <td style=" width:150px; border:0px; vertical-align: bottom;padding-bottom: 3%;">
                                     Phone/Mobile
                                 </td>
                                 <td style="border:0px;">
                                     {{ contact_details.phone|default_if_none:"" }}
                                 </td>                                    
-                            </tr>                            
+                            </tr> 
+                            <!----------------- Tax & Payment ---------------->
                             <tr>
-                                <td colspan="3" style="border:none; padding:0px; padding-top:30px;">
-                                    <ul class="nav nav-tabs" id="myTab" role="tablist" style="padding:0px; background-color:#556b2f">
-                                        <li class="nav-item">
-                                            <a class="nav-link active" id="tax-tab" data-toggle="tab" href="#tax-form" role="tab" aria-controls="tax"
-                                            aria-selected="true">Tax & Payments</a>
-                                        </li>                                            
-                                        <li class="nav-item">
-                                            <a class="nav-link" id="address-tab" data-toggle="tab" href="#address-form" role="tab" aria-controls="address"
-                                            aria-selected="false">Address Details</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" id="accounts-tab" data-toggle="tab" href="#accounts-form" role="tab" aria-controls="accounts"
-                                            aria-selected="false">Account Details</a>
-                                        </li>                                              
-                                        <li class="nav-item">
-                                            <a class="nav-link" id="organisation-tab" data-toggle="tab" href="#organisation-form" role="tab" aria-controls="organisation"
-                                            aria-selected="false">Other Details</a>
-                                        </li>  
-                                        <li class="nav-item">
-                                            <a class="nav-link" id="social-tab" data-toggle="tab" href="#social-form" role="tab" aria-controls="social" aria-selected="false">Social Connect & Notes</a>
-                                        </li>                                       
-                                    </ul>
-                                    <div class="tab-content" id="myTabContent">
-                                        <div class="tab-pane fade show active" id="tax-form" role="tabpanel" aria-labelledby="tax-tab" style="padding:10px 0px;">
-                                            <table class="table-responsive">
-                                                <tbody style=" width: 100%; display: inline-table;">
-                                                    <tr>
-                                                        <td colspan="2">
-                                                            <button class="btn btn-sm btn-warning pull-right" style="margin-bottom:15px; float:right" type="button" data-toggle="modal" data-target="#editTaxModal">Edit Tax Details</button>
-                                                        </td>
-                                                    </tr>
-                                                    <tr class="disabled-tr">
-                                                        <td style=" width:150px; border:0px; vertical-align: bottom">
-                                                            PAN
-                                                        </td>
-                                                        <td style="border:0px;">
-                                                            {{ tax_form_details.pan|default_if_none:"" }}
-                                                        </td>                                    
-                                                    </tr>
-                                                    <tr class="disabled-tr">
-                                                        <td style=" width:150px; border:0px; vertical-align: bottom">
-                                                            GSTIN Reg. No.
-                                                        </td>
-                                                        <td style="border:0px;">
-                                                            {{ tax_form_details.get_gst_reg_type_display|default_if_none:"" }}
-                                                        </td>                                    
-                                                    </tr> 
-                                                    {% if tax_form_details.gst_reg_type > 0 %}
-                                                        <tr class="disabled-tr">
-                                                            <td style=" width:150px; border:0px; vertical-align: bottom">
-                                                                GSTIN
-                                                            </td>
-                                                            <td style="border:0px;">
-                                                                {{ tax_form_details.gstin|default_if_none:"" }}
-                                                            </td>                                    
-                                                        </tr>     
-                                                    {% endif %}                                                                                                 
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                        <div class="tab-pane fade" id="organisation-form" role="tabpanel" aria-labelledby="organisation-tab" style="padding:10px 0px;">
-                                            <table class="table-responsive">
-                                                <tbody style=" width: 100%; display: inline-table;">   
-                                                    <tr>
-                                                        <td colspan="2">
-                                                            <button class="btn btn-sm btn-warning pull-right" style="margin-bottom:15px; float:right" type="button" data-toggle="modal" data-target="#editOrganisationModal">Edit Other Details</button>
-                                                        </td>
-                                                    </tr>                                                     
-                                                    <tr class="disabled-tr">
-                                                        <td style=" width:150px; border:0px; vertical-align: bottom">
-                                                            Preferred Currency
-                                                        </td>
-                                                        <td style="border:0px;">
-                                                            {{ tax_form_details.get_preferred_currency_display|default_if_none:"" }}
-                                                        </td>                                    
-                                                    </tr>
-                                                    <tr class="disabled-tr">
-                                                        <td style=" width:150px; border:0px; vertical-align: bottom">
-                                                            Opening Balance
-                                                        </td>
-                                                        <td style="border:0px;">
-                                                            {{ tax_form_details.opening_balance|default_if_none:"" }}
-                                                        </td>                                    
-                                                    </tr>
-                                                    <tr class="disabled-tr">
-                                                        <td style=" width:150px; border:0px; vertical-align: bottom">
-                                                            Payment Method
-                                                        </td>
-                                                        <td style="border:0px;">
-                                                            {{ tax_form_details.get_preferred_payment_method_display|default_if_none:"" }}
-                                                        </td>                                    
-                                                    </tr>
-                                                    <tr class="disabled-tr">
-                                                        <td style=" width:150px; border:0px; vertical-align: bottom">
-                                                            Preferred Delivery
-                                                        </td>
-                                                        <td style="border:0px;">
-                                                            {{ tax_form_details.get_preferred_delivery_display|default_if_none:"" }}
-                                                        </td>                                    
-                                                    </tr>
-                                                    <tr class="disabled-tr">
-                                                        <td style=" width:150px; border:0px; vertical-align: bottom">
-                                                            Invoice Terms
-                                                        </td>
-                                                        <td style="border:0px;">
-                                                            {{ tax_form_details.get_invoice_terms_display|default_if_none:"" }}
-                                                        </td>                                    
-                                                    </tr>
-                                                    <tr class="disabled-tr">
-                                                        <td style=" width:150px; border:0px; vertical-align: bottom">
-                                                            Billing Terms
-                                                        </td>
-                                                        <td style="border:0px;">
-                                                            {{ tax_form_details.bills_terms|default_if_none:"" }}
-                                                        </td>                                    
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                        <div class="tab-pane fade" id="address-form" role="tabpanel" aria-labelledby="address-tab" style="padding:10px 0px;">
-                                            
-                                            <button data-toggle="modal" data-target="#newAddressModal" class="btn btn-sm btn-primary pull-right" style="margin-bottom:15px; float:right; margin-left:10px;" type="button">
-                                                <i class="material-icons">add_box</i> Add New
-                                            </button>  
-                                            <table class="table-responsive table-bordered">
-                                                <tbody style="width:100%; display:inline-table;">
-                                                    <tr style="width:100%; background-color: #EEEEEE; color:#000000; font-size:11px; font-weight:bold;">
-                                                        <td class="text-center">SL. No.</td>                                                        
-                                                        <td class="text-center">Contact Person</td>
-                                                        <td class="text-center">Flat/Office/Door No.</td>
-                                                        <td class="text-center">Street</td>
-                                                        <td class="text-center">City</td>
-                                                        <td class="text-center">Zipcode/Pincode</td>               
-                                                        <td class="text-center">State</td>               
-                                                        <td class="text-center">Country</td>  
-                                                        <td class="text-center">Is Shipping</td>
-                                                        <td class="text-center">Is Billing</td>             
-                                                        <td class="text-center">Action</td>                
-                                                    </tr>                                                
-                                                    {% for i in contact_addresses %}
-                                                        <tr id="table-{{forloop.counter}}" style="font-size:12px">
-                                                            <td style="vertical-align: bottom">                                                                    
-                                                                {{ forloop.counter  }}
-                                                            </td>   
-                                                            <td style="vertical-align: bottom">
-                                                                {{ i.contact_person|default_if_none:"" }}
-                                                            </td>                  
-                                                            <td style="vertical-align: bottom">
-                                                                {{ i.flat_no|default_if_none:"" }}
-                                                            </td>  
-                                                            <td style="vertical-align: bottom">
-                                                                {{ i.street|default_if_none:"" }}
-                                                            </td>               
-                                                            <td style="vertical-align: bottom">
-                                                                {{ i.city|default_if_none:"" }}
-                                                            </td>   
-                                                            <td style="vertical-align: bottom">
-                                                                {{ i.pincode|default_if_none:"" }}
-                                                            </td>      
-                                                            <td style="vertical-align: bottom">
-                                                                {{ i.state|default_if_none:"" }}
-                                                            </td>  
-                                                            <td style="vertical-align: bottom">
-                                                                {{ i.country|default_if_none:"" }}
-                                                            </td> 
-                                                            <td style="vertical-align: bottom; text-align:center;">                                                                    
-                                                                {{ i.get_is_shipping_address_display  }}
-                                                            </td>
-                                                            <td style="vertical-align: bottom; text-align:center;">
-                                                                {{ i.get_is_billing_address_display }}
-                                                            </td>
-                                                            <td style="vertical-align: bottom">                                                                
-                                                                <i title="Edit" class="material-icons" style="cursor:pointer; font-size:18px; color:#74ff63; position:relative; vertical-align:middle;" onclick="openAddressModal({{forloop.counter}}, '{{i.is_billing_address}}', '{{i.is_shipping_address}}')">create</i>
-                                                                <i title="Delete" class="material-icons" style="cursor:pointer; font-size:18px; color:#ff1f1f; margin-left:5px; position:relative; vertical-align:middle;" onclick="delete_address({{i.id}})">delete_forever</i>
-                                                            </td>                                   
-                                                        </tr>
-                                                    {% endfor %}
-                                                </tbody>
-                                            </table>   
+                                <tr style="background-color: #556b2f;color: white;">
+                                    <td style="padding-top: 15px;"> 
+                                        Tax & Payment
+                                    </td>
+                                    
+                                    <td colspan="3" style="padding-bottom: 0px;padding-top: 8px;">
+                                        <button class="btn btn-sm btn-warning pull-right" style="margin-bottom:15px; float:right" type="button" data-toggle="modal" data-target="#editTaxModal">Edit Tax Details</button>
+                                    </td>
+                                </tr>
+                                
+                                <table class="table-responsive table-bordered" style="padding-top: 20px;">
+                                    <tbody style="width:100%; display:inline-table;">
+                                        
 
-                                        </div>
-                                        <div class="tab-pane fade" id="accounts-form" role="tabpanel" aria-labelledby="accounts-tab" style="padding:10px 20px;">
-                                            
-                                            <button data-toggle="modal" data-target="#newAccountsModal" class="btn btn-sm btn-primary pull-right" style="margin-bottom:15px; float:right; margin-left:10px;" type="button">
-                                                <i class="material-icons">add_box</i> Add New
-                                            </button>
-
-                                            <table class="table-responsive table-bordered">
-                                                <tbody style="width:100%; display:inline-table;">
-                                                    <tr style="width:100%; background-color: #EEEEEE; color:#000000; font-size:11px; font-weight:bold;">
-                                                        <td class="text-center">SL. No.</td>                                                        
-                                                        <td class="text-center">Account Holder</td>
-                                                        <td class="text-center">IFSC Code</td>
-                                                        <td class="text-center">Bank Name</td>
-                                                        <td class="text-center">Branch Name</td>              
-                                                        <td class="text-center" width="60px">Action</td>                
-                                                    </tr>   
-                                                    {% for i in contact_accounts %}
-                                                        <tr>
-                                                            <td style="border:0px;" class="account_holder_name">
-                                                                {{ i.account_holder_name|default_if_none:"" }}
-                                                            </td> 
-                                                            <td style="border:0px;">
-                                                                {{ i.account_number|default_if_none:"" }}
-                                                            </td>
-                                                            <td style="border:0px;">
-                                                                {{ i.ifsc_code|default_if_none:"" }}
-                                                            </td>
-                                                            <td style="border:0px;">
-                                                                {{ i.bank_name|default_if_none:"" }}
-                                                            </td>
-                                                            <td style="border:0px;">
-                                                                {{ i.bank_branch_name|default_if_none:"" }}
-                                                            </td>
-                                                            <td style="vertical-align: bottom" class="text-center">                                                                
-                                                                <i title="Edit" class="material-icons" style="cursor:pointer; font-size:18px; color:#74ff63; position:relative; vertical-align:middle;" onclick="openAccountsModal({{forloop.counter}})">create</i>
-                                                                <i title="Delete" class="material-icons" style="cursor:pointer; font-size:18px; color:#ff1f1f; margin-left:5px; position:relative; vertical-align:middle;" onclick="delete_accounts({{i.id}})">delete_forever</i>
-                                                            </td>  
-                                                        </tr>
-                                                    {% endfor %}
-                                                </tbody>
-                                            </table>  
-                                        </div>
-                                        <div class="tab-pane fade" id="social-form" role="tabpanel" aria-labelledby="social-tab" style="padding:10px 0px;">
-                                            <table class="table-responsive">
-                                                <tbody style=" width: 99%; display: inline-table;">
-                                                    <tr>
-                                                        <td colspan="2">
-                                                            <button class="btn btn-sm btn-warning pull-right" style="margin-bottom:15px; float:right" type="button" data-toggle="modal" data-target="#editSocialModal">Edit Social Details</button>
-                                                        </td>
-                                                    </tr>
-                                                    <tr class="disabled-tr">
-                                                        <td style=" width:150px; border:0px; vertical-align: bottom">
-                                                            Website
-                                                        </td>
-                                                        <td style="border:0px;">
-                                                            {{ contact_details.website|default_if_none:"" }}
-                                                            <p id="website_error" style="color: red;margin-bottom: 0px;"></p> 
-                                                        </td>
-                                                    </tr>
-                                                    <tr class="disabled-tr">
-                                                        <td style=" width:150px; border:0px; vertical-align: bottom">
-                                                            Facebook
-                                                        </td>
-                                                        <td style="border:0px;">
-                                                            {{ contact_details.facebook|default_if_none:"" }}
-                                                            <p id="facebook_error" style="color: red;margin-bottom: 0px;"></p> 
-                                                        </td>
-                                                    </tr>
-                                                    <tr class="disabled-tr">
-                                                        <td style=" width:150px; border:0px; vertical-align: bottom">
-                                                            Twitter
-                                                        </td>
-                                                        <td style="border:0px;">
-                                                            {{ contact_details.twitter|default_if_none:"" }}
-                                                            <p id="twitter_error" style="color: red;margin-bottom: 0px;"></p> 
-                                                        </td>
-                                                    </tr>
-                                                    <tr class="disabled-tr">
-                                                        <td style=" width:150px; border:0px; vertical-align: bottom">
-                                                            Notes
-                                                        </td>
-                                                        <td style="border:0px;">
-                                                            {{ contact_details.notes|default_if_none:"" }}
-                                                        </td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                        </div>
+                                        <tr style="width:100%; background-color: #EEEEEE; color:#000000; font-size:11px; font-weight:bold;">
+                                                                                                   
+                                            <td class="text-center">PAN</td>
+                                            <td class="text-center">GST Registration Type</td>
+                                            <td class="text-center">GST No.</td>
+                                                           
+                                        </tr>                                                
+                                        
+                                            <tr style="font-size:12px">
+                                                                 
+                                                <td style="vertical-align: bottom">
+                                                    {{ tax_form_details.pan|default_if_none:"" }}
+                                                </td>  
+                                                <td style="vertical-align: bottom">
+                                                    {{ tax_form_details.get_gst_reg_type_display|default_if_none:"" }}
+                                                </td>               
+                                                <td style="vertical-align: bottom">
+                                                    {{ tax_form_details.gstin|default_if_none:"" }}
+                                                </td>         
+                                                                                   
+                                            </tr>
+                                    </tbody>
+                                </table>
+                            </tr>       
+                            <!------------------------ Address Details -------------------------->
+                            <tr>
+                                <div class="row" style="margin-top: 3%;margin-bottom: 2%;background-color: #556b2f;color: white;margin-left: 0px;margin-right: 0px;">
+                                    <div class="col" style="margin-top: 15px;margin-left: -8px;"> 
+                                        Address Details
                                     </div>
-                                </td> 
+                                    
+                                    <div style="margin-top: 8px;margin-right: 6px;"> 
+                                        <button data-toggle="modal" data-target="#newAddressModal" class="btn btn-sm btn-primary pull-right" style="margin-bottom:15px; float:right; margin-left:10px;" type="button">
+                                            <i class="material-icons">add_box</i> Add New
+                                        </button> 
+                                    </div>
+                                </div>
+
+                                <tr>
+                                    <table class="table-responsive table-bordered">
+                                        <tbody style="width:100%; display:inline-table;">
+                                            <tr style="width:100%; background-color: #EEEEEE; color:#000000; font-size:11px; font-weight:bold;">
+                                                <td class="text-center">SL. No.</td>                                                        
+                                                <td class="text-center">Contact Person</td>
+                                                <td class="text-center">Flat/Building No.</td>
+                                                <td class="text-center">Street</td>
+                                                <td class="text-center">City</td>
+                                                <td class="text-center">Pincode</td>               
+                                                <td class="text-center">State</td>               
+                                                <td class="text-center">Country</td>  
+                                                <td class="text-center">Is Shipping</td>
+                                                <td class="text-center">Is Billing</td>             
+                                                <td class="text-center">Action</td>                
+                                            </tr>                                                
+                                            {% for i in contact_addresses %}
+                                                <tr id="table-{{forloop.counter}}" style="font-size:12px">
+                                                    <td style="vertical-align: bottom">                                                                    
+                                                        {{ forloop.counter  }}
+                                                    </td>   
+                                                    <td style="vertical-align: bottom">
+                                                        {{ i.contact_person|default_if_none:"" }}
+                                                    </td>                  
+                                                    <td style="vertical-align: bottom">
+                                                        {{ i.flat_no|default_if_none:"" }}
+                                                    </td>  
+                                                    <td style="vertical-align: bottom">
+                                                        {{ i.street|default_if_none:"" }}
+                                                    </td>               
+                                                    <td style="vertical-align: bottom">
+                                                        {{ i.city|default_if_none:"" }}
+                                                    </td>   
+                                                    <td style="vertical-align: bottom">
+                                                        {{ i.pincode|default_if_none:"" }}
+                                                    </td>      
+                                                    <td style="vertical-align: bottom">
+                                                        {{ i.state|default_if_none:"" }}
+                                                    </td>  
+                                                    <td style="vertical-align: bottom">
+                                                        {{ i.country|default_if_none:"" }}
+                                                    </td> 
+                                                    <td style="vertical-align: bottom; text-align:center;">                                                                    
+                                                        {{ i.get_is_shipping_address_display  }}
+                                                    </td>
+                                                    <td style="vertical-align: bottom; text-align:center;">
+                                                        {{ i.get_is_billing_address_display }}
+                                                    </td>
+                                                    <td style="vertical-align: bottom">                                                                
+                                                        <i title="Edit" class="material-icons" style="cursor:pointer; font-size:18px; color:#74ff63; position:relative; vertical-align:middle;" onclick="openAddressModal({{forloop.counter}}, '{{i.is_billing_address}}', '{{i.is_shipping_address}}')">create</i>
+                                                        <i title="Delete" class="material-icons" style="cursor:pointer; font-size:18px; color:#ff1f1f; margin-left:5px; position:relative; vertical-align:middle;" onclick="delete_address({{i.id}})">delete_forever</i>
+                                                    </td>                                   
+                                                </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>   
+                                </tr> 
                             </tr>
+                            <!---------------------- Account Details  -------------------------->
+                            <tr>
+                                <div class="row" style="margin-top: 3%;margin-bottom: 2%;background-color: #556b2f;color: white;margin-left: 0px;margin-right: 0px;">
+                                    <div class="col" style="margin-top: 15px;margin-left: -8px;"> 
+                                        Account Details
+                                    </div>
+                                    
+                                    <div style="margin-top: 8px;margin-right: 6px;"> 
+                                        <button data-toggle="modal" data-target="#newAccountsModal" class="btn btn-sm btn-primary pull-right" style="margin-bottom:15px; float:right; margin-left:10px;" type="button">
+                                            <i class="material-icons">add_box</i> Add New
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <table class="table-responsive table-bordered">
+                                    <tbody style="width:100%; display:inline-table;">
+                                        <tr style="width:100%; background-color: #EEEEEE; color:#000000; font-size:11px; font-weight:bold;">
+                                            <td class="text-center">SL. No.</td>                                                        
+                                            <td class="text-center">Account Holder</td>
+                                            <td class="text-center">Account Number</td>
+                                            <td class="text-center">IFSC Code</td>
+                                            <td class="text-center">Bank Name</td>
+                                            <td class="text-center">Branch Name</td>              
+                                            <td class="text-center" width="60px">Action</td>                
+                                        </tr>   
+                                        {% for i in contact_accounts %}
+                                            <tr>
+                                                <td style="border:0px;" class="account_holder_name">
+                                                    {{ forloop.counter  }}
+                                                </td>
+                                                <td style="border:0px;" class="account_holder_name">
+                                                    {{ i.account_holder_name|default_if_none:"" }}
+                                                </td> 
+                                                <td style="border:0px;">
+                                                    {{ i.account_number|default_if_none:"" }}
+                                                </td>
+                                                <td style="border:0px;">
+                                                    {{ i.ifsc_code|default_if_none:"" }}
+                                                </td>
+                                                <td style="border:0px;">
+                                                    {{ i.bank_name|default_if_none:"" }}
+                                                </td>
+                                                <td style="border:0px;">
+                                                    {{ i.bank_branch_name|default_if_none:"" }}
+                                                </td>
+                                                <td style="vertical-align: bottom" class="text-center">                                                                
+                                                    <i title="Edit" class="material-icons" style="cursor:pointer; font-size:18px; color:#74ff63; position:relative; vertical-align:middle;" onclick="openAccountsModal({{forloop.counter}})">create</i>
+                                                    <i title="Delete" class="material-icons" style="cursor:pointer; font-size:18px; color:#ff1f1f; margin-left:5px; position:relative; vertical-align:middle;" onclick="delete_accounts({{i.id}})">delete_forever</i>
+                                                </td>  
+                                            </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table> 
+                            </tr>
+                            <!--------------------------- Other Details -------------------------->
+                            <tr>
+                                <div class="row" style="margin-top: 3%;margin-bottom: 2%;background-color: #556b2f;color: white;margin-left: 0px;margin-right: 0px;">
+                                    <div class="col" style="margin-top: 15px;margin-left: -8px;"> 
+                                        Other Details
+                                    </div>
+                                    
+                                    <div style="margin-top: 8px;margin-right: 6px;"> 
+                                        <button class="btn btn-sm btn-warning pull-right" style="margin-bottom:15px; float:right" type="button" data-toggle="modal" data-target="#editOrganisationModal">Edit Other Details</button>
+                                    </div>
+                                </div>
+
+                                <table class="table-responsive table-bordered">
+                                    <tbody style="width:100%; display:inline-table;">
+                                        <tr style="width:100%; background-color: #EEEEEE; color:#000000; font-size:11px; font-weight:bold;">
+                                                                                                    
+                                            <td class="text-center">Preferred Currency</td>
+                                            <td class="text-center">Opening Balance</td>
+                                            <td class="text-center">Payment Method</td>
+                                            <td class="text-center">Preferred Delivery</td>
+                                            <td class="text-center">Invoice Terms</td>              
+                                            <td class="text-center">Billing Terms</td>   
+
+                                        </tr>   
+                                        
+                                            <tr>
+                                                <td style="border:0px;" class="account_holder_name">
+                                                    {{ tax_form_details.get_preferred_currency_display|default_if_none:"" }}
+                                                </td>
+                                                <td style="border:0px;" class="account_holder_name">
+                                                    {{ tax_form_details.opening_balance|default_if_none:"" }}
+                                                </td> 
+                                                <td style="border:0px;">
+                                                    {{ tax_form_details.get_preferred_payment_method_display|default_if_none:"" }}
+                                                </td>
+                                                <td style="border:0px;">
+                                                    {{ tax_form_details.get_preferred_delivery_display|default_if_none:"" }}
+                                                </td>
+                                                <td style="border:0px;">
+                                                    {{ tax_form_details.get_invoice_terms_display|default_if_none:"" }}
+                                                </td>
+                                                <td style="border:0px;">
+                                                    {{ tax_form_details.bills_terms|default_if_none:"" }}
+                                                </td>
+                                                  
+                                            </tr>
+                                        
+                                    </tbody>
+                                </table>
+                            </tr>
+                            <!------------------------- Social Connect & Notes ----------------------->
+                            <tr>
+                                <div class="row" style="margin-top: 3%;margin-bottom: 2%;background-color: #556b2f;color: white;margin-left: 0px;margin-right: 0px;">
+                                    <div class="col" style="margin-top: 15px;margin-left: -8px;"> 
+                                        Social Connect & Notes
+                                    </div>
+                                    
+                                    <div style="margin-top: 8px;margin-right: 6px;"> 
+                                        <button class="btn btn-sm btn-warning pull-right" style="margin-bottom:15px; float:right" type="button" data-toggle="modal" data-target="#editSocialModal">Edit Social Details</button>
+                                    </div>
+                                </div>
+
+                                <table class="table-responsive table-bordered">
+                                    <tbody style="width:100%; display:inline-table;">
+                                        <tr style="width:100%; background-color: #EEEEEE; color:#000000; font-size:11px; font-weight:bold;">
+                                                                                                    
+                                            <td class="text-center">Website</td>
+                                            <td class="text-center">Facebook</td>
+                                            <td class="text-center">Twitter</td>
+                                            <td class="text-center">Notes</td>
+                                            <td class="text-center">Attachments</td>              
+                                              
+                                        </tr>   
+                                        
+                                            <tr>
+                                                <td style="border:0px;" class="account_holder_name">
+                                                    {{ contact_details.website|default_if_none:"" }}
+                                                </td>
+                                                <td style="border:0px;" class="account_holder_name">
+                                                    {{ contact_details.facebook|default_if_none:"" }}
+                                                </td> 
+                                                <td style="border:0px;">
+                                                    {{ contact_details.twitter|default_if_none:"" }}
+                                                </td>
+                                                <td style="border:0px;">
+                                                    {{ contact_details.notes|default_if_none:"" }}
+                                                </td>
+                                                <td style="border:0px;">
+                                                    
+                                                </td>    
+                                            </tr>  
+                                    </tbody>
+                                </table>
+                            </tr>
+                            
                         </tbody>
                     </table>
                 </div>
@@ -547,7 +535,7 @@ table{
                             </tr>
                             <tr id="gst_row" >
                                 <td style=" width:170px; border:0px; vertical-align: bottom; color:#a7a4a4">
-                                    GST
+                                    GST No.
                                 </td>
                                 <td style="border:0px;">
                                     {{ tax_form.gstin }}
@@ -645,7 +633,7 @@ table{
                             </tr>
                             <tr>
                                 <td style="padding:0px 0px 0px 10px; width:150px; border:0px; vertical-align: bottom; color:#a7a4a4">
-                                    Flat/Office/Door No.
+                                    Flat/Building No.
                                 </td>
                                 <td style="border:0px;">
                                     {{ i.flat_no }}
@@ -747,13 +735,13 @@ table{
                                 <td style="padding:0px 0px 0px 10px; width:150px; border:0px; vertical-align: bottom; color:#a7a4a4">
                                     Contact Person
                                 </td>
-                                <td style="border:0px;" class="set_required">
+                                <td style="border:0px;">
                                     {{ new_address_form.contact_person}}
                                 </td>                                    
                             </tr>
                             <tr>
                                 <td style="padding:0px 0px 0px 10px; width:150px; border:0px; vertical-align: bottom; color:#a7a4a4">
-                                    Flat/Office/Door No.
+                                    Flat/Building No.
                                 </td>
                                 <td style="border:0px;">
                                     {{ new_address_form.flat_no }}
@@ -1045,7 +1033,7 @@ table{
             <form method="post" style="margin:0px" action="{% url 'edit_other_details_form' %}">
                 {% csrf_token %}
                 <div class="modal-header bg-warning">
-                    <h5 class="modal-title" style="color:#000000; font-weight:bold;">Edit Other Details</h5>
+                    <h5 class="modal-title" style="color:#000000; font-weight:bold;">Edit Social Details</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -1054,11 +1042,6 @@ table{
                     <input type="hidden" value="{{contact_ins}}" name="ids">
                     <table class="table-responsive">
                         <tbody style=" width: 99%; display: inline-table;">
-                            <tr>
-                                <td colspan="3">
-                                    <button class="btn btn-sm btn-warning pull-right" style="margin-bottom:15px; float:right" type="button" data-toggle="modal" data-target="#editSocialModal">Edit Social Details</button>
-                                </td>
-                            </tr>
                             <tr>
                                 <td style="width:15%;border:0px; vertical-align: bottom">
                                     Website

@@ -398,14 +398,12 @@ function openAccountsModal(ids){
     $("#editAccountsModal-"+ids).modal('show');
 }
 
+
 /********************************************************************/
 //
 /********************************************************************/
-function delete_address(ids){
-    ids = $("#table-"+ids).find("label.address_label_1").find("input").attr("id");
-    id = ids.replace("id_form_","").replace("-is_shipping_address","");
-    
-    $.get("/contacts/delete_address/"+id+"/", function(data){
+function delete_address(ids){    
+    $.get("/contacts/delete_address/"+ids+"/", function(data){
         if(data == '1') location.reload();
         else alert("Unauthorized Access");
     });
@@ -415,17 +413,15 @@ function delete_address(ids){
 // 
 /********************************************************************/
 function delete_accounts(ids){
-    ids = $("#table-"+ids).find(".account_holder_name").find("input").attr("id");
-    id = ids.replace("id_form_","").replace("-account_holder_name","");
-    
-    
-    $.get("/contacts/delete_accounts/"+id+"/", function(data){
+    $.get("/contacts/delete_accounts/"+ids+"/", function(data){
         if(data == '1') location.reload();
         else alert("Unauthorized Access");
     });
 }
 
-
+/********************************************************************/
+// 
+/********************************************************************/
 function check() {
     if (getLocalStorageValue('form_errors_email') &&
     getLocalStorageValue('form_errors_phone') &&

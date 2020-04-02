@@ -23,9 +23,9 @@ IS_TRUE = ((True, 'YES'), (False, 'NO'))
 ORGANIZATION_TYPE = (
     (1, 'Individual'),
     (2, 'Proprietorship'),
-    (3, 'Partnership'),
-    (4, 'Trust'),
-    (5, 'Gvt Organisation'),
+    (4, 'Partnership'),
+    (5, 'Trust'),
+    (6, 'Gvt Organisation'),
 )
 
 #****************************************************************************

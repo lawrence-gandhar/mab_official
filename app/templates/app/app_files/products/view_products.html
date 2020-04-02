@@ -2,16 +2,94 @@
     <div class="col-lg-12">
         <div class="card">
             <div class="card-header card-header-primary">
-                <h4>View Products</h4>
-                <div class="nav-item" style="float:left;padding:0px 10px;margin-left:181px;margin-top: -25px;">
-                    <!-- <form class="form-inline" action="{% url 'view_products' %}" method="" style=" margin-top: -15px;margin-bottom: -12px;">
-                        <div class="form-group has-white">
-                            <input type="text" class="form-control md" name="search" id="search" placeholder="Product SKU / Name">
-                        </div>
-                        <button type="submit" class="btn btn-white btn-raised btn-fab btn-fab-mini btn-round ml-3">
-                            <i class="material-icons">search</i>
-                        </button>
-                    </form> -->
+                <div class="row">
+                    <div class="col">
+                        <h4>View Products</h4>
+                    </div>
+                    <div class="col">
+                        <form action="{% url 'view_products' %}" method="get">
+                            <div class="dropdown">
+                            
+                                <button class="btn btn-success dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"data-display="static" aria-haspopup="true" aria-expanded="false" style="float: right;">
+                                    Filter
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            
+                                
+                                    <!-- filter ProductType -->
+                                    <label class="form-check-label" style="margin-bottom: 3px;">
+                                        <input class="form-check-input" type="checkbox" data-toggle="collapse" href="#Product" name="ProductType" style="width: 111%;margin-left: -47%;">
+                                        <span class="form-check-sign">
+                                            <span class="check md" style="margin-left: 22px;color: black;">Product Type</span>
+                                        </span>
+                                    </label>
+                                    <hr style="margin-top: 0px;margin-bottom: -1px">
+            
+                                    <div class="collapse" id="Product" >
+                                        <div>
+                                            <label class="form-check-label" style="margin-bottom: 3px;">
+                                                <input class="form-check-input" type="checkbox" name="Goods" style="width: 111%;margin-left: -38%;">
+                                                <span class="form-check-sign">
+                                                    <span class="check" style="margin-left: 41px;color: black;">Goods</span>
+                                                </span>
+                                            </label>
+                                           
+                                            <label class="form-check-label" style="margin-bottom: 3px;">
+                                                <input class="form-check-input" type="checkbox" name="Services" style="width: 111%;margin-left: -38%;">
+                                                <span class="form-check-sign">
+                                                    <span class="check" style="margin-left: 41px;color: black;">Services</span>
+                                                </span>
+                                            </label>
+                                        
+                                            <label class="form-check-label" style="margin-bottom: 3px;">
+                                                <input class="form-check-input" type="checkbox" name="Bundle" style="width: 111%;margin-left: -38%;">
+                                                <span class="form-check-sign">
+                                                    <span class="check" style="margin-left: 41px;color: black;">Bundle</span>
+                                                </span>
+                                            </label>
+            
+                                        </div>
+                                    </div>
+                                   
+                                    <!-- filter Active/Inactive  -->
+                                    <hr style="margin-top: 0px;margin-bottom: -1px">
+
+                                    <label class="form-check-label" style="margin-bottom: 3px;">
+                                        <input class="form-check-input" type="checkbox" data-toggle="collapse" href="#status" role="button" aria-expanded="false" aria-controls="status" name="status" style="width: 111%;margin-left: -47%;">
+                                        <span class="form-check-sign">
+                                            <span class="check md" style="margin-left: 22px;color: black;">Status</span>
+                                        </span>
+                                    </label>
+                                    
+                                    <hr style="margin-top: 0px;margin-bottom: -1px">
+            
+                                    <div class="collapse" id="status">
+                                        <div>
+                                            <label class="form-check-label" style="margin-bottom: 3px;">
+                                                <input class="form-check-input" type="checkbox" name="Yes" style="width: 111%;margin-left: -38%;">
+                                                <span class="form-check-sign">
+                                                    <span class="check" style="margin-left: 41px;color: black;">Active</span>
+                                                </span>
+                                            </label>
+            
+                                            <label class="form-check-label" style="margin-bottom: 3px;">
+                                                <input class="form-check-input" type="checkbox" name="No" style="width: 111%;margin-left: -38%;">
+                                                <span class="form-check-sign">
+                                                    <span class="check" style="margin-left: 41px;color: black;">Inactive</span>
+                                                </span>
+                                            </label>
+            
+                                        </div>
+                                    </div> 
+                                    <hr style="margin-top: 0px;margin-bottom: -1px"> 
+                                
+                                    <button type="submit" class="btn btn-success btn-xs" style="float: right;">OK</button> 
+                                </div>
+                            
+                            </div>
+                            </form>
+                    </div>
+                    <!-- end filter -->
                 </div>
             </div>
             <div class="card-body">
@@ -31,16 +109,16 @@
                         <thead  style="background-color: #EEEEEE; color:#000000; font-size:11px">
                             <!-- <th class="text-center">SL. No.</th> -->
                             <!-- <th class="text-center">PID</th> -->
-                            <th class="text-center">SKU</th>
-                            <th class="text-center">Product Name</th>
+                            <th class="text-center" style="width:15%;">SKU Code</th>
+                            <th class="text-center" style="width: 25%;">Product Name</th>
                             <!-- <th class="text-center">Product Type</th>
                             <th class="text-center">Category</th>
                             <th class="text-center">Description</th>
                             <th class="text-center">Cost Price</th>
                             <th class="text-center">Marked Price</th> -->
-                            <th class="text-center">Selling price</th>               
+                            <th class="text-center" style="width: 16%;">Selling Price</th>               
                             <!-- <th class="text-center">Images</th>                -->
-                            <th class="text-center">Active</th>
+                            <th class="text-center" style="width: 10%;">Active</th>
                             <th class="text-center" style="width: 10%;">Action</th>                
                         </thead>
                         <tbody>

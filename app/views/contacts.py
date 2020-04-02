@@ -90,9 +90,11 @@ class ContactsView(View):
                     contacts = Contacts.objects.filter(Q(user = request.user) & Q(customer_type = 2) | Q(customer_type = 3))
                 elif(Vendor =="on" and Customer =="on" and Empoloyee=="off"):
                     contacts = Contacts.objects.filter(Q(user = request.user) & Q(customer_type = 2) | Q(customer_type = 1))
+                elif(Vendor =="off" and Customer =="on" and Empoloyee=="on"):
+                    contacts = Contacts.objects.filter(Q(user = request.user) & Q(customer_type = 3) | Q(customer_type = 1))
                 elif(Empoloyee=="on" and Customer =="on" and Vendor =="on"):
                     contacts = Contacts.objects.filter(Q(user = request.user) & Q(customer_type = 3) | Q(customer_type = 1))
-                elif(Vendor =="on" and Empoloyee=="on" and Customer =="on"):
+                elif(Vendor =="off" and Empoloyee=="off" and Customer =="off"):
                     contacts = Contacts.objects.filter(user = request.user)
             
             if(OrganizationType =="on" and CustomerType =="off" and Status == "off"):
@@ -159,7 +161,9 @@ class ContactsView(View):
                 elif(Individual == "off"and Proprietorship == "off"  and Partnership == "on" and Trust =="on" and GvtOrganization == "on"):
                     contacts = Contacts.objects.filter(Q(user = request.user) &  Q(organization_type = 4) | Q(organization_type = 5) | Q(organization_type = 6))
                 elif(Individual == "on"and Proprietorship == "on"  and Partnership == "off" and Trust =="on" and GvtOrganization == "on"):
-                    contacts = Contacts.objects.filter(Q(user = request.user) &  Q(organization_type = 2) | Q(organization_type = 2) | Q(organization_type = 5) | Q(organization_type = 6))
+                    contacts = Contacts.objects.filter(Q(user = request.user) &  Q(organization_type = 1) | Q(organization_type = 2) | Q(organization_type = 5) | Q(organization_type = 6))
+                elif(Individual == "off"and Proprietorship == "off"  and Partnership == "off" and Trust =="off" and GvtOrganization == "off"):
+                    contacts = Contacts.objects.filter(Q(user = request.user) & Q(organization_type = 1) | Q(organization_type = 2) | Q(organization_type = 4) | Q(organization_type = 5) | Q(organization_type = 6))
 
             if(Status == "on" and OrganizationType =="off" and CustomerType =="off"):
                 
@@ -168,6 +172,8 @@ class ContactsView(View):
                 elif(Is_Yes == 'off' and Is_No == 'on'):
                     contacts = Contacts.objects.filter(Q(user = request.user) & Q(is_active = False))
                 elif(Is_Yes == 'on' and Is_No == 'on'):
+                    contacts = Contacts.objects.filter(Q(user = request.user) & Q(is_active = True) | Q(is_active = False)) 
+                elif(Is_Yes == 'off' and Is_No == 'off'):
                     contacts = Contacts.objects.filter(Q(user = request.user) & Q(is_active = True) | Q(is_active = False)) 
 
             if(CustomerType =="on" and OrganizationType == "on" and  Status == "off"):
@@ -235,7 +241,10 @@ class ContactsView(View):
                     elif(Individual == "off"and Proprietorship == "off"  and Partnership == "on" and Trust =="on" and GvtOrganization == "on"):
                         contacts = a.filter(Q(user = request.user) &  Q(organization_type = 4) | Q(organization_type = 5) | Q(organization_type = 6))
                     elif(Individual == "on"and Proprietorship == "on"  and Partnership == "off" and Trust =="on" and GvtOrganization == "on"):
-                        contacts = a.filter(Q(user = request.user) &  Q(organization_type = 2) | Q(organization_type = 2) | Q(organization_type = 5) | Q(organization_type = 6)) 
+                        contacts = a.filter(Q(user = request.user) &  Q(organization_type = 1) | Q(organization_type = 2) | Q(organization_type = 5) | Q(organization_type = 6)) 
+                    elif(Individual == "off"and Proprietorship == "off"  and Partnership == "off" and Trust =="off" and GvtOrganization == "off"):
+                        contacts = Contacts.objects.filter(Q(user = request.user) & Q(organization_type = 1) | Q(organization_type = 2) | Q(organization_type = 4) | Q(organization_type = 5) | Q(organization_type = 6))
+
 
                 elif(Vendor =="off" and Empoloyee=="on" and Customer =="off"):
                     # Employee on
@@ -301,7 +310,10 @@ class ContactsView(View):
                     elif(Individual == "off"and Proprietorship == "off"  and Partnership == "on" and Trust =="on" and GvtOrganization == "on"):
                         contacts = a.filter(Q(user = request.user) &  Q(organization_type = 4) | Q(organization_type = 5) | Q(organization_type = 6))
                     elif(Individual == "on"and Proprietorship == "on"  and Partnership == "off" and Trust =="on" and GvtOrganization == "on"):
-                        contacts = a.filter(Q(user = request.user) &  Q(organization_type = 2) | Q(organization_type = 2) | Q(organization_type = 5) | Q(organization_type = 6))
+                        contacts = a.filter(Q(user = request.user) &  Q(organization_type = 1) | Q(organization_type = 2) | Q(organization_type = 5) | Q(organization_type = 6))
+                    elif(Individual == "off"and Proprietorship == "off"  and Partnership == "off" and Trust =="off" and GvtOrganization == "off"):
+                        contacts = Contacts.objects.filter(Q(user = request.user) & Q(organization_type = 1) | Q(organization_type = 2) | Q(organization_type = 4) | Q(organization_type = 5) | Q(organization_type = 6))
+
                 
                 elif(Vendor =="off" and Empoloyee=="off" and Customer =="on"):
                     # Customer on
@@ -367,7 +379,10 @@ class ContactsView(View):
                     elif(Individual == "off"and Proprietorship == "off"  and Partnership == "on" and Trust =="on" and GvtOrganization == "on"):
                         contacts = a.filter(Q(user = request.user) &  Q(organization_type = 4) | Q(organization_type = 5) | Q(organization_type = 6))
                     elif(Individual == "on"and Proprietorship == "on"  and Partnership == "off" and Trust =="on" and GvtOrganization == "on"):
-                        contacts = a.filter(Q(user = request.user) &  Q(organization_type = 2) | Q(organization_type = 2) | Q(organization_type = 5) | Q(organization_type = 6))
+                        contacts = a.filter(Q(user = request.user) &  Q(organization_type = 1) | Q(organization_type = 2) | Q(organization_type = 5) | Q(organization_type = 6))
+                    elif(Individual == "off"and Proprietorship == "off"  and Partnership == "off" and Trust =="off" and GvtOrganization == "off"):
+                        contacts = Contacts.objects.filter(Q(user = request.user) & Q(organization_type = 1) | Q(organization_type = 2) | Q(organization_type = 4) | Q(organization_type = 5) | Q(organization_type = 6))
+
                 
                 elif(Vendor =="on" and Empoloyee=="on" and Customer =="off"):
                     #  Vendor =="on" and Empoloyee=="on" 
@@ -434,7 +449,10 @@ class ContactsView(View):
                     elif(Individual == "off"and Proprietorship == "off"  and Partnership == "on" and Trust =="on" and GvtOrganization == "on"):
                         contacts = a.filter(Q(user = request.user) &  Q(organization_type = 4) | Q(organization_type = 5) | Q(organization_type = 6))
                     elif(Individual == "on"and Proprietorship == "on"  and Partnership == "off" and Trust =="on" and GvtOrganization == "on"):
-                        contacts = a.filter(Q(user = request.user) &  Q(organization_type = 2) | Q(organization_type = 2) | Q(organization_type = 5) | Q(organization_type = 6))
+                        contacts = a.filter(Q(user = request.user) &  Q(organization_type = 1) | Q(organization_type = 2) | Q(organization_type = 5) | Q(organization_type = 6))
+                    elif(Individual == "off"and Proprietorship == "off"  and Partnership == "off" and Trust =="off" and GvtOrganization == "off"):
+                        contacts = Contacts.objects.filter(Q(user = request.user) & Q(organization_type = 1) | Q(organization_type = 2) | Q(organization_type = 4) | Q(organization_type = 5) | Q(organization_type = 6))
+
                 
                 elif(Vendor =="on" and Empoloyee=="off" and Customer =="on"):
                     #  Vendor =="on" Customer =="on"
@@ -500,8 +518,78 @@ class ContactsView(View):
                     elif(Individual == "off"and Proprietorship == "off"  and Partnership == "on" and Trust =="on" and GvtOrganization == "on"):
                         contacts = a.filter(Q(user = request.user) &  Q(organization_type = 4) | Q(organization_type = 5) | Q(organization_type = 6))
                     elif(Individual == "on"and Proprietorship == "on"  and Partnership == "off" and Trust =="on" and GvtOrganization == "on"):
-                        contacts = a.filter(Q(user = request.user) &  Q(organization_type = 2) | Q(organization_type = 2) | Q(organization_type = 5) | Q(organization_type = 6))
+                        contacts = a.filter(Q(user = request.user) &  Q(organization_type = 1) | Q(organization_type = 2) | Q(organization_type = 5) | Q(organization_type = 6))
+                    elif(Individual == "off"and Proprietorship == "off"  and Partnership == "off" and Trust =="off" and GvtOrganization == "off"):
+                        contacts = Contacts.objects.filter(Q(user = request.user) & Q(organization_type = 1) | Q(organization_type = 2) | Q(organization_type = 4) | Q(organization_type = 5) | Q(organization_type = 6))
                 
+                elif(Vendor =="off" and Empoloyee =="on" and Customer =="on"):
+                    # Employee == on and customer == on
+                    a = Contacts.objects.filter(Q(user = request.user) & Q(customer_type = 3) | Q(customer_type = 1))
+                    if(Individual == "on" and Proprietorship == "off" and Partnership =="off" and Trust =="off" and GvtOrganization == "off"):
+                        contacts = a.filter(Q(organization_type = 1))
+                    elif(Individual == "off" and Proprietorship == "on" and Partnership =="off" and Trust =="off" and GvtOrganization == "off"):
+                        contacts = a.filter(Q(organization_type = 2))
+                    elif(Individual == "off" and Proprietorship == "off" and Partnership =="on" and Trust =="off" and GvtOrganization == "off"):
+                        contacts = a.filter(Q(organization_type = 4))
+                    elif(Individual == "off" and Proprietorship == "off" and Partnership =="off" and Trust =="on" and GvtOrganization == "off"):
+                        contacts = a.filter(Q(organization_type = 5)) 
+                    elif(Individual == "off" and Proprietorship == "off" and Partnership =="off" and Trust =="off" and GvtOrganization == "on"):
+                        contacts = a.filter(Q(organization_type = 6))
+                    elif(Individual == "on" and Proprietorship == "on" and Partnership =="off" and Trust =="off" and GvtOrganization == "off"):
+                        contacts = a.filter(Q(user = request.user) & Q(organization_type = 1) | Q(organization_type = 2))
+                    elif(Individual == "on" and Partnership == "on" and Proprietorship == "off" and Trust =="off" and GvtOrganization == "off"):
+                        contacts = a.filter(Q(user = request.user) & Q(organization_type = 1) | Q(organization_type = 4))
+                    elif(Individual == "on" and Partnership == "off" and Proprietorship == "off" and Trust =="on" and GvtOrganization == "off"):
+                        contacts = a.filter(Q(user = request.user) & Q(organization_type = 1) | Q(organization_type = 5))
+                    elif(Individual == "on" and Partnership == "off" and Proprietorship == "off" and Trust =="off" and GvtOrganization == "on"):
+                        contacts = a.filter(Q(user = request.user) & Q(organization_type = 1) | Q(organization_type = 6))
+                    elif(Individual == "on"and Proprietorship == "on"  and Partnership == "on" and Trust =="off" and GvtOrganization == "off"):
+                        contacts = a.filter(Q(user = request.user) & Q(organization_type = 1) | Q(organization_type = 2) | Q(organization_type = 4))
+                    elif(Individual == "on"and Proprietorship == "on"  and Partnership == "off" and Trust =="on" and GvtOrganization == "off"):
+                        contacts = a.filter(Q(user = request.user) & Q(organization_type = 1) | Q(organization_type = 2) | Q(organization_type = 5))
+                    elif(Individual == "on"and Proprietorship == "on"  and Partnership == "off" and Trust =="off" and GvtOrganization == "on"):
+                        contacts = a.filter(Q(user = request.user) & Q(organization_type = 1) | Q(organization_type = 2) | Q(organization_type = 6))
+                    elif(Individual == "on"and Proprietorship == "on"  and Partnership == "on" and Trust =="on" and GvtOrganization == "off"):
+                        contacts = a.filter(Q(user = request.user) & Q(organization_type = 1) | Q(organization_type = 2) | Q(organization_type = 4) | Q(organization_type = 5))
+                    elif(Individual == "on"and Proprietorship == "on"  and Partnership == "on" and Trust =="off" and GvtOrganization == "on"):
+                        contacts = a.filter(Q(user = request.user) & Q(organization_type = 1) | Q(organization_type = 2) | Q(organization_type = 4) | Q(organization_type = 6))
+                    elif(Individual == "on"and Proprietorship == "on"  and Partnership == "on" and Trust =="on" and GvtOrganization == "on"):
+                        contacts = a.filter(Q(user = request.user) & Q(organization_type = 1) | Q(organization_type = 2) | Q(organization_type = 4) | Q(organization_type = 5) | Q(organization_type = 6))
+                    elif(Individual == "off"and Proprietorship == "on"  and Partnership == "on" and Trust =="off" and GvtOrganization == "off"):
+                        contacts = a.filter(Q(user = request.user) & Q(organization_type = 2) | Q(organization_type = 4))
+                    elif(Individual == "off"and Proprietorship == "on"  and Partnership == "off" and Trust =="on" and GvtOrganization == "off"):
+                        contacts = a.filter(Q(user = request.user) & Q(organization_type = 2) | Q(organization_type = 5))
+                    elif(Individual == "off"and Proprietorship == "on"  and Partnership == "off" and Trust =="off" and GvtOrganization == "on"):
+                        contacts = a.filter(Q(user = request.user) & Q(organization_type = 2) | Q(organization_type = 6))
+                    elif(Individual == "off"and Proprietorship == "on"  and Partnership == "on" and Trust =="off" and GvtOrganization == "off"):
+                        contacts = a.filter(Q(user = request.user) & Q(organization_type = 2) | Q(organization_type = 4))
+                    elif(Individual == "off"and Proprietorship == "on"  and Partnership == "on" and Trust =="on" and GvtOrganization == "off"):
+                        contacts = a.filter(Q(user = request.user) & Q(organization_type = 2) | Q(organization_type = 4) | Q(organization_type = 5))
+                    elif(Individual == "off"and Proprietorship == "on"  and Partnership == "on" and Trust =="off" and GvtOrganization == "on"):
+                        contacts = a.filter(Q(user = request.user) & Q(organization_type = 2) | Q(organization_type = 4) | Q(organization_type = 6))
+                    elif(Individual == "off"and Proprietorship == "on"  and Partnership == "on" and Trust =="on" and GvtOrganization == "on"):
+                        contacts = a.filter(Q(user = request.user) & Q(organization_type = 2) | Q(organization_type = 4) | Q(organization_type = 5) | Q(organization_type = 6))
+                    elif(Individual == "off"and Proprietorship == "off"  and Partnership == "on" and Trust =="on" and GvtOrganization == "off"):
+                        contacts = a.filter(Q(user = request.user) & Q(organization_type = 4) | Q(organization_type = 5))
+                    elif(Individual == "off"and Proprietorship == "off"  and Partnership == "on" and Trust =="off" and GvtOrganization == "on"):
+                        contacts = a.filter(Q(user = request.user) & Q(organization_type = 4) | Q(organization_type = 6))
+                    elif(Individual == "on"and Proprietorship == "off"  and Partnership == "on" and Trust =="on" and GvtOrganization == "off"):
+                        contacts = a.filter(Q(user = request.user) & Q(organization_type = 1) | Q(organization_type = 4) | Q(organization_type = 5))
+                    elif(Individual == "on"and Proprietorship == "off"  and Partnership == "on" and Trust =="off" and GvtOrganization == "on"):
+                        contacts = a.filter(Q(user = request.user) & Q(organization_type = 1) | Q(organization_type = 4) | Q(organization_type = 6))
+                    elif(Individual == "off"and Proprietorship == "off"  and Partnership == "off" and Trust =="on" and GvtOrganization == "on"):
+                        contacts = a.filter(Q(user = request.user) & Q(organization_type = 5) | Q(organization_type = 6))
+                    elif(Individual == "on"and Proprietorship == "off"  and Partnership == "off" and Trust =="on" and GvtOrganization == "on"):
+                        contacts = a.filter(Q(user = request.user) &  Q(organization_type = 1) | Q(organization_type = 5) | Q(organization_type = 6))
+                    elif(Individual == "off"and Proprietorship == "on"  and Partnership == "off" and Trust =="on" and GvtOrganization == "on"):
+                        contacts = a.filter(Q(user = request.user) &  Q(organization_type = 2) | Q(organization_type = 5) | Q(organization_type = 6))
+                    elif(Individual == "off"and Proprietorship == "off"  and Partnership == "on" and Trust =="on" and GvtOrganization == "on"):
+                        contacts = a.filter(Q(user = request.user) &  Q(organization_type = 4) | Q(organization_type = 5) | Q(organization_type = 6))
+                    elif(Individual == "on"and Proprietorship == "on"  and Partnership == "off" and Trust =="on" and GvtOrganization == "on"):
+                        contacts = a.filter(Q(user = request.user) &  Q(organization_type = 1) | Q(organization_type = 2) | Q(organization_type = 5) | Q(organization_type = 6))
+                    elif(Individual == "off"and Proprietorship == "off"  and Partnership == "off" and Trust =="off" and GvtOrganization == "off"):
+                        contacts = Contacts.objects.filter(Q(user = request.user) & Q(organization_type = 1) | Q(organization_type = 2) | Q(organization_type = 4) | Q(organization_type = 5) | Q(organization_type = 6))
+
                 elif(Vendor =="on" and Empoloyee=="on" and Customer =="on"):
                     # Vendor =="on" and Empoloyee=="on" and Customer =="on"
                     a = Contacts.objects.filter(user = request.user)
@@ -567,7 +655,80 @@ class ContactsView(View):
                     elif(Individual == "off"and Proprietorship == "off"  and Partnership == "on" and Trust =="on" and GvtOrganization == "on"):
                         contacts = a.filter(Q(user = request.user) &  Q(organization_type = 4) | Q(organization_type = 5) | Q(organization_type = 6))
                     elif(Individual == "on"and Proprietorship == "on"  and Partnership == "off" and Trust =="on" and GvtOrganization == "on"):
-                        contacts = a.filter(Q(user = request.user) &  Q(organization_type = 2) | Q(organization_type = 2) | Q(organization_type = 5) | Q(organization_type = 6))
+                        contacts = a.filter(Q(user = request.user) &  Q(organization_type = 1) | Q(organization_type = 2) | Q(organization_type = 5) | Q(organization_type = 6))
+                    elif(Individual == "off"and Proprietorship == "off"  and Partnership == "off" and Trust =="off" and GvtOrganization == "off"):
+                        contacts = Contacts.objects.filter(Q(user = request.user) & Q(organization_type = 1) | Q(organization_type = 2) | Q(organization_type = 4) | Q(organization_type = 5) | Q(organization_type = 6))
+
+
+                elif(Vendor =="off" and Empoloyee=="off" and Customer =="off"):
+                    #  Vendor =="off" and Empoloyee=="off" and Customer =="off"
+                    a = Contacts.objects.filter(user = request.user)
+                    if(Individual == "on" and Proprietorship == "off" and Partnership =="off" and Trust =="off" and GvtOrganization == "off"):
+                        contacts = a.filter(Q(organization_type = 1))
+                    elif(Individual == "off" and Proprietorship == "on" and Partnership =="off" and Trust =="off" and GvtOrganization == "off"):
+                        contacts = a.filter(Q(organization_type = 2))
+                    elif(Individual == "off" and Proprietorship == "off" and Partnership =="on" and Trust =="off" and GvtOrganization == "off"):
+                        contacts = a.filter(Q(organization_type = 4))
+                    elif(Individual == "off" and Proprietorship == "off" and Partnership =="off" and Trust =="on" and GvtOrganization == "off"):
+                        contacts = a.filter(Q(organization_type = 5)) 
+                    elif(Individual == "off" and Proprietorship == "off" and Partnership =="off" and Trust =="off" and GvtOrganization == "on"):
+                        contacts = a.filter(Q(organization_type = 6))
+
+                    elif(Individual == "on" and Proprietorship == "on" and Partnership =="off" and Trust =="off" and GvtOrganization == "off"):
+                        contacts = a.filter(Q(user = request.user) & Q(organization_type = 1) | Q(organization_type = 2))
+                    elif(Individual == "on" and Partnership == "on" and Proprietorship == "off" and Trust =="off" and GvtOrganization == "off"):
+                        contacts = a.filter(Q(user = request.user) & Q(organization_type = 1) | Q(organization_type = 4))
+                    elif(Individual == "on" and Partnership == "off" and Proprietorship == "off" and Trust =="on" and GvtOrganization == "off"):
+                        contacts = a.filter(Q(user = request.user) & Q(organization_type = 1) | Q(organization_type = 5))
+                    elif(Individual == "on" and Partnership == "off" and Proprietorship == "off" and Trust =="off" and GvtOrganization == "on"):
+                        contacts = a.filter(Q(user = request.user) & Q(organization_type = 1) | Q(organization_type = 6))
+                    elif(Individual == "on"and Proprietorship == "on"  and Partnership == "on" and Trust =="off" and GvtOrganization == "off"):
+                        contacts = a.filter(Q(user = request.user) & Q(organization_type = 1) | Q(organization_type = 2) | Q(organization_type = 4))
+                    elif(Individual == "on"and Proprietorship == "on"  and Partnership == "off" and Trust =="on" and GvtOrganization == "off"):
+                        contacts = a.filter(Q(user = request.user) & Q(organization_type = 1) | Q(organization_type = 2) | Q(organization_type = 5))
+                    elif(Individual == "on"and Proprietorship == "on"  and Partnership == "off" and Trust =="off" and GvtOrganization == "on"):
+                        contacts = a.filter(Q(user = request.user) & Q(organization_type = 1) | Q(organization_type = 2) | Q(organization_type = 6))
+                    elif(Individual == "on"and Proprietorship == "on"  and Partnership == "on" and Trust =="on" and GvtOrganization == "off"):
+                        contacts = a.filter(Q(user = request.user) & Q(organization_type = 1) | Q(organization_type = 2) | Q(organization_type = 4) | Q(organization_type = 5))
+                    elif(Individual == "on"and Proprietorship == "on"  and Partnership == "on" and Trust =="off" and GvtOrganization == "on"):
+                        contacts = a.filter(Q(user = request.user) & Q(organization_type = 1) | Q(organization_type = 2) | Q(organization_type = 4) | Q(organization_type = 6))
+                    elif(Individual == "on"and Proprietorship == "on"  and Partnership == "on" and Trust =="on" and GvtOrganization == "on"):
+                        contacts = a.filter(Q(user = request.user) & Q(organization_type = 1) | Q(organization_type = 2) | Q(organization_type = 4) | Q(organization_type = 5) | Q(organization_type = 6))
+                    elif(Individual == "off"and Proprietorship == "on"  and Partnership == "on" and Trust =="off" and GvtOrganization == "off"):
+                        contacts = a.filter(Q(user = request.user) & Q(organization_type = 2) | Q(organization_type = 4))
+                    elif(Individual == "off"and Proprietorship == "on"  and Partnership == "off" and Trust =="on" and GvtOrganization == "off"):
+                        contacts = a.filter(Q(user = request.user) & Q(organization_type = 2) | Q(organization_type = 5))
+                    elif(Individual == "off"and Proprietorship == "on"  and Partnership == "off" and Trust =="off" and GvtOrganization == "on"):
+                        contacts = a.filter(Q(user = request.user) & Q(organization_type = 2) | Q(organization_type = 6))
+                    elif(Individual == "off"and Proprietorship == "on"  and Partnership == "on" and Trust =="off" and GvtOrganization == "off"):
+                        contacts = a.filter(Q(user = request.user) & Q(organization_type = 2) | Q(organization_type = 4))
+                    elif(Individual == "off"and Proprietorship == "on"  and Partnership == "on" and Trust =="on" and GvtOrganization == "off"):
+                        contacts = a.filter(Q(user = request.user) & Q(organization_type = 2) | Q(organization_type = 4) | Q(organization_type = 5))
+                    elif(Individual == "off"and Proprietorship == "on"  and Partnership == "on" and Trust =="off" and GvtOrganization == "on"):
+                        contacts = a.filter(Q(user = request.user) & Q(organization_type = 2) | Q(organization_type = 4) | Q(organization_type = 6))
+                    elif(Individual == "off"and Proprietorship == "on"  and Partnership == "on" and Trust =="on" and GvtOrganization == "on"):
+                        contacts = a.filter(Q(user = request.user) & Q(organization_type = 2) | Q(organization_type = 4) | Q(organization_type = 5) | Q(organization_type = 6))
+                    elif(Individual == "off"and Proprietorship == "off"  and Partnership == "on" and Trust =="on" and GvtOrganization == "off"):
+                        contacts = a.filter(Q(user = request.user) & Q(organization_type = 4) | Q(organization_type = 5))
+                    elif(Individual == "off"and Proprietorship == "off"  and Partnership == "on" and Trust =="off" and GvtOrganization == "on"):
+                        contacts = a.filter(Q(user = request.user) & Q(organization_type = 4) | Q(organization_type = 6))
+                    elif(Individual == "on"and Proprietorship == "off"  and Partnership == "on" and Trust =="on" and GvtOrganization == "off"):
+                        contacts = a.filter(Q(user = request.user) & Q(organization_type = 1) | Q(organization_type = 4) | Q(organization_type = 5))
+                    elif(Individual == "on"and Proprietorship == "off"  and Partnership == "on" and Trust =="off" and GvtOrganization == "on"):
+                        contacts = a.filter(Q(user = request.user) & Q(organization_type = 1) | Q(organization_type = 4) | Q(organization_type = 6))
+                    elif(Individual == "off"and Proprietorship == "off"  and Partnership == "off" and Trust =="on" and GvtOrganization == "on"):
+                        contacts = a.filter(Q(user = request.user) & Q(organization_type = 5) | Q(organization_type = 6))
+                    elif(Individual == "on"and Proprietorship == "off"  and Partnership == "off" and Trust =="on" and GvtOrganization == "on"):
+                        contacts = a.filter(Q(user = request.user) &  Q(organization_type = 1) | Q(organization_type = 5) | Q(organization_type = 6))
+                    elif(Individual == "off"and Proprietorship == "on"  and Partnership == "off" and Trust =="on" and GvtOrganization == "on"):
+                        contacts = a.filter(Q(user = request.user) &  Q(organization_type = 2) | Q(organization_type = 5) | Q(organization_type = 6))
+                    elif(Individual == "off"and Proprietorship == "off"  and Partnership == "on" and Trust =="on" and GvtOrganization == "on"):
+                        contacts = a.filter(Q(user = request.user) &  Q(organization_type = 4) | Q(organization_type = 5) | Q(organization_type = 6))
+                    elif(Individual == "on"and Proprietorship == "on"  and Partnership == "off" and Trust =="on" and GvtOrganization == "on"):
+                        contacts = a.filter(Q(user = request.user) &  Q(organization_type = 1) | Q(organization_type = 2) | Q(organization_type = 5) | Q(organization_type = 6))
+                    elif(Individual == "off"and Proprietorship == "off"  and Partnership == "off" and Trust =="off" and GvtOrganization == "off"):
+                        contacts = a.filter(Q(user = request.user) &  Q(organization_type = 1) | Q(organization_type = 2) | Q(organization_type = 5) | Q(organization_type = 6))
+
 
             if(CustomerType =="on" and OrganizationType == "off" and  Status == "on"):
                 #  Vendor =="on"
@@ -579,6 +740,8 @@ class ContactsView(View):
                         contacts = a.filter(Q(user = request.user) & Q(is_active = False))
                     elif(Is_Yes == 'on' and Is_No == 'on'):
                         contacts = a.filter(Q(user = request.user) & Q(is_active = True) | Q(is_active = False))
+                    elif(Is_Yes == 'off' and Is_No == 'off'):
+                        contacts = a.filter(Q(user = request.user) & Q(is_active = True) | Q(is_active = False))
 
                 elif(Vendor =="off" and Empoloyee =="on" and Customer =="off"):
                     #  Empoloyee =="on"
@@ -588,6 +751,8 @@ class ContactsView(View):
                     elif(Is_Yes == 'off' and Is_No == 'on'):
                         contacts = a.filter(Q(user = request.user) & Q(is_active = False))
                     elif(Is_Yes == 'on' and Is_No == 'on'):
+                        contacts = a.filter(Q(user = request.user) & Q(is_active = True) | Q(is_active = False))
+                    elif(Is_Yes == 'off' and Is_No == 'off'):
                         contacts = a.filter(Q(user = request.user) & Q(is_active = True) | Q(is_active = False))
 
                 elif(Vendor =="off" and Empoloyee =="off" and Customer =="on"):
@@ -599,6 +764,8 @@ class ContactsView(View):
                         contacts = a.filter(Q(user = request.user) & Q(is_active = False))
                     elif(Is_Yes == 'on' and Is_No == 'on'):
                         contacts = a.filter(Q(user = request.user) & Q(is_active = True) | Q(is_active = False))
+                    elif(Is_Yes == 'off' and Is_No == 'off'):
+                        contacts = a.filter(Q(user = request.user) & Q(is_active = True) | Q(is_active = False))
 
                 if(Vendor =="on" and Empoloyee=="on" and Customer =="off"):
                     # Vendor =="on" and Empoloyee=="on"
@@ -608,6 +775,8 @@ class ContactsView(View):
                     elif(Is_Yes == 'off' and Is_No == 'on'):
                         contacts = a.filter(Q(user = request.user) & Q(is_active = False))
                     elif(Is_Yes == 'on' and Is_No == 'on'):
+                        contacts = a.filter(Q(user = request.user) & Q(is_active = True) | Q(is_active = False))
+                    elif(Is_Yes == 'off' and Is_No == 'off'):
                         contacts = a.filter(Q(user = request.user) & Q(is_active = True) | Q(is_active = False))
 
                 elif(Vendor =="on" and Empoloyee =="off" and Customer =="on"):
@@ -619,6 +788,20 @@ class ContactsView(View):
                         contacts = a.filter(Q(user = request.user) & Q(is_active = False))
                     elif(Is_Yes == 'on' and Is_No == 'on'):
                         contacts = a.filter(Q(user = request.user) & Q(is_active = True) | Q(is_active = False))
+                    elif(Is_Yes == 'off' and Is_No == 'off'):
+                        contacts = a.filter(Q(user = request.user) & Q(is_active = True) | Q(is_active = False))
+                
+                elif(Vendor =="off" and Empoloyee =="on" and Customer =="on"):
+                    # Employee =="on" and Customer =="on"
+                    a = Contacts.objects.filter(Q(user = request.user) & Q(customer_type = 3) | Q(customer_type = 1))
+                    if(Is_Yes == 'on' and Is_No == 'off'):
+                        contacts = a.filter(Q(user = request.user) & Q(is_active = True))
+                    elif(Is_Yes == 'off' and Is_No == 'on'):
+                        contacts = a.filter(Q(user = request.user) & Q(is_active = False))
+                    elif(Is_Yes == 'on' and Is_No == 'on'):
+                        contacts = a.filter(Q(user = request.user) & Q(is_active = True) | Q(is_active = False))
+                    elif(Is_Yes == 'off' and Is_No == 'off'):
+                        contacts = a.filter(Q(user = request.user) & Q(is_active = True) | Q(is_active = False))
 
                 elif(Vendor =="on" and Empoloyee =="on" and Customer =="on"):
                     # Vendor =="on" and Empoloyee =="on" and Customer =="on"
@@ -628,6 +811,22 @@ class ContactsView(View):
                     elif(Is_Yes == 'off' and Is_No == 'on'):
                         contacts = a.filter(Q(user = request.user) & Q(is_active = False))
                     elif(Is_Yes == 'on' and Is_No == 'on'):
+                        contacts = a.filter(Q(user = request.user) & Q(is_active = True) | Q(is_active = False))
+                    elif(Is_Yes == 'off' and Is_No == 'off'):
+                        contacts = a.filter(Q(user = request.user) & Q(is_active = True) | Q(is_active = False))
+                
+                elif(Vendor =="off" and Empoloyee =="off" and Customer =="off"):
+                    # Vendor =="off" and Empoloyee =="off" and Customer =="off"
+                    a = Contacts.objects.filter(user = request.user)
+                    if(Is_Yes == 'on' and Is_No == 'off'):
+                        contacts = a.filter(Q(user = request.user) & Q(is_active = True))
+                    elif(Is_Yes == 'off' and Is_No == 'on'):
+                        contacts = a.filter(Q(user = request.user) & Q(is_active = False))
+                    elif(Is_Yes == 'on' and Is_No == 'on'):
+                        contacts = a.filter(Q(user = request.user) & Q(is_active = True) | Q(is_active = False))
+                    elif(Is_Yes == 'off' and Is_No == 'off'):
+                        contacts = a.filter(Q(user = request.user) & Q(is_active = True) | Q(is_active = False))
+                    elif(Is_Yes == 'off' and Is_No == 'off'):
                         contacts = a.filter(Q(user = request.user) & Q(is_active = True) | Q(is_active = False))
 
 
@@ -647,6 +846,8 @@ class ContactsView(View):
                 elif(Empoloyee=="on" and Customer =="on" and Vendor =="on"):
                     a = Contacts.objects.filter(Q(user = request.user) & Q(customer_type = 3) | Q(customer_type = 1))
                 elif(Vendor =="on" and Empoloyee=="on" and Customer =="on"):
+                    a = Contacts.objects.filter(user = request.user)
+                elif(Vendor =="off" and Empoloyee=="off" and Customer =="off"):
                     a = Contacts.objects.filter(user = request.user)
 
                 # OrganizationType == "on"
@@ -712,8 +913,10 @@ class ContactsView(View):
                 elif(Individual == "off"and Proprietorship == "off"  and Partnership == "on" and Trust =="on" and GvtOrganization == "on"):
                     b = a.filter(Q(user = request.user) &  Q(organization_type = 4) | Q(organization_type = 5) | Q(organization_type = 6))
                 elif(Individual == "on"and Proprietorship == "on"  and Partnership == "off" and Trust =="on" and GvtOrganization == "on"):
-                    b = a.filter(Q(user = request.user) &  Q(organization_type = 2) | Q(organization_type = 2) | Q(organization_type = 5) | Q(organization_type = 6))
-
+                    b = a.filter(Q(user = request.user) &  Q(organization_type = 1) | Q(organization_type = 2) | Q(organization_type = 5) | Q(organization_type = 6))
+                elif(Individual == "off"and Proprietorship == "off"  and Partnership == "off" and Trust =="off" and GvtOrganization == "off"):
+                    b = a.filter(Q(user = request.user) &  Q(organization_type = 1) | Q(organization_type = 2) | Q(organization_type = 4) |Q(organization_type = 5) | Q(organization_type = 6))
+                
                 # Status == "on"
 
                 if(Is_Yes == 'on' and Is_No == 'off'):
@@ -722,6 +925,11 @@ class ContactsView(View):
                     contacts = b.filter(Q(user = request.user) & Q(is_active = False))
                 elif(Is_Yes == 'on' and Is_No == 'on'):
                     contacts = b.filter(Q(user = request.user) & Q(is_active = True) | Q(is_active = False)) 
+                elif(Is_Yes == 'off' and Is_No == 'off'):
+                    contacts = b.filter(Q(user = request.user) & Q(is_active = True) | Q(is_active = False))
+                
+                # filter types
+                
         self.data["contacts"] = contacts
         
         return render(request, self.template_name, self.data)
@@ -819,7 +1027,7 @@ def add_contacts(request, slug = None, ins = None):
 
                 for form in address_formset:
                     if form.is_valid():
-                        if form.data["user_address_details_set-"+str(rownum)+"-contact_person"]:
+                        if form.data["user_address_details_set-"+str(rownum)+"-flat_no"]:
                             obj = form.save(commit = False)
                             obj.is_user = False
                             obj.contact = ins
@@ -1229,6 +1437,8 @@ class ContactsFileUploadView(View):
                 #if(a == 'upload'):
                 #    messages.success(request, 'Upload Successfully.')
 
+                
+
                 self.data["error"] = '<br>'.join(err)
             else:
                 pass
@@ -1316,55 +1526,51 @@ def csv_2_contacts(user, file_path):
 
             url_pattern = '^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$'
 
-            ifsc_pattern = '^[A-Za-z]{4}[a-zA-Z0-9]{7}$'
+            ifsc_pattern = '/^[A-Za-z]{4}[a-zA-Z0-9]{7}$/'
 
-            gst_pattern = '^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}$'
+            gst_pattern = '/^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}$/'
 
-            pan_pattern = re.compile(r'[A-Z]{5}[0-9]{4}[A-Z]{1}')
+            pan_pattern = '/[A-Z]{5}[0-9]{4}[A-Z]{1}$/'
 
-            phone_pattern = re.compile(r'\d{10}')
+            phone_pattern = '/^\d{10}$/'
 
-            number_pattern = re.compile(r'\d*')
-
-            currency_pattern = re.compile(r'\d*[.]?\d{2}')
+            number_pattern = '/^\d$/'
 
             # check email
             if not re.search(email_pattern, email) and email is not None:
-                error_row.append("Error On Row {}: In-Valid Email.".format(row_count))    
+                error_row.append("Error On Row {}: In-Valid Email. Process Aborted".format(row_count))    
 
             # check url
             if not re.search(url_pattern, website) and website is not None:
-                error_row.append("Error On Row {}: In-Valid Website.".format(row_count))    
+                error_row.append("Error On Row {}: In-Valid Website. Process Aborted".format(row_count))    
 
             if not re.search(url_pattern, facebook) and facebook is not None:
-                error_row.append("Error On Row {}: In-Valid Facebook Link.".format(row_count))    
+                error_row.append("Error On Row {}: In-Valid Facebook Link. Process Aborted".format(row_count))    
 
             if not re.search(url_pattern, twitter) and twitter is not None:
-                error_row.append("Error On Row {}: In-Valid Twitter Link.".format(row_count))    
+                error_row.append("Error On Row {}: In-Valid Twitter Link. Process Aborted".format(row_count))    
 
             # check PAN
-            if not pan_pattern.fullmatch(pan) and pan is not None:
-                error_row.append("Error On Row {}: In-Valid PAN.".format(row_count))   
+            if not re.search(pan_pattern, pan) and pan is not None:
+                error_row.append("Error On Row {}: In-Valid PAN. Process Aborted".format(row_count))    
+
+                return error_row, row_count
 
             # check IFSC
             if not re.search(ifsc_pattern, ifsc_code) and ifsc_code is not None:
-                error_row.append("Error On Row {}: In-Valid IFSC.".format(row_count))    
+                error_row.append("Error On Row {}: In-Valid IFSC. Process Aborted".format(row_count))    
 
             # check GST
             if not re.search(gst_pattern, gstin) and gstin is not None:
-                error_row.append("Error On Row {}: In-Valid GST.".format(row_count))    
+                error_row.append("Error On Row {}: In-Valid GST. Process Aborted".format(row_count))    
 
             # check Phone
-            if not phone_pattern.fullmatch(phone) and phone is not None:
-                error_row.append("Error On Row {}: In-Valid Phone.".format(row_count))    
+            if not re.search(phone_pattern, phone) and phone is not None:
+                error_row.append("Error On Row {}: In-Valid Phone. Process Aborted".format(row_count))    
 
             # check Account Number
-            if not number_pattern.fullmatch(account_number) and account_number is not None:
-                error_row.append("Error On Row {}: In-Valid Account Number.".format(row_count))    
-
-            # check Opening Balance
-            if not currency_pattern.match(opening_balance) and opening_balance is not None:
-                error_row.append("Error On Row {}: In-Valid Opening Balance.".format(row_count))   
+            if not re.search(number_pattern, account_number) and account_number is not None:
+                error_row.append("Error On Row {}: In-Valid Account Number. Process Aborted".format(row_count))    
 
             row_count += 1
 

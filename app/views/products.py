@@ -33,6 +33,8 @@ def view_products(request, *args, **kwargs):
     # PRODUCT LISTING
     #*****************************************************************************
     a = str(request)
+
+    x = a[-4:-1]
     
     if(len(a) == 31):
         products = ProductsModel.objects.prefetch_related('productphotos_set').filter(user = request.user)
@@ -40,6 +42,147 @@ def view_products(request, *args, **kwargs):
         search = a[37:(len(a))-2]
         products = ProductsModel.objects.filter(Q(user = request.user) & Q(sku__icontains = search) | Q(product_name__icontains = search))
 
+    if(x == "on'" ):
+
+        ProductType = request.GET.get('ProductType','off')
+        Status = request.GET.get('status', 'off')
+        
+        Goods = request.GET.get('Goods', 'off')
+        Services = request.GET.get('Services', 'off')
+        Bundle = request.GET.get("Bundle", 'off')
+
+        Is_Yes = request.GET.get('Yes', 'off')
+        Is_No = request.GET.get('No', 'off')
+
+        #Product type = on
+        if(ProductType =="on" and Status == "off"):
+            if(Goods =="on" and Services =="off" and Bundle =="off"):
+                products = ProductsModel.objects.filter(user = request.user).filter(product_type = 0)
+            elif(Goods =="off" and Services =="on" and Bundle == "off"):
+                products = ProductsModel.objects.filter(user = request.user).filter(product_type = 1)
+            elif(Goods =="off" and Services =="off" and Bundle =="on"):
+                products = ProductsModel.objects.filter(user = request.user).filter(product_type = 2)
+            elif(Goods =="on" and Services =="on" and Bundle =="off"):
+                products = ProductsModel.objects.filter(Q(user = request.user) & Q(product_type = 0) | Q(product_type = 1))
+            elif(Goods =="on" and Bundle =="on" and Services =="off"):
+                products = ProductsModel.objects.filter(Q(user = request.user) & Q(product_type = 0) | Q(customer_type = 2))
+            elif(Goods =="off" and Bundle =="on" and Services =="on"):
+                products = ProductsModel.objects.filter(Q(user = request.user) & Q(product_type = 1) | Q(customer_type = 2))
+            elif(Goods =="on" and Services =="on" and Bundle =="on"):
+                products = ProductsModel.objects.filter(user = request.user)
+            elif(Goods =="off" and Services =="off" and Bundle =="off"):
+                products = ProductsModel.objects.filter(user = request.user)
+
+        #Status Type = on
+        if(ProductType =="off" and Status == "on"):
+            if(Is_Yes == 'on' and Is_No == 'off'):
+                products = ProductsModel.objects.filter(Q(user = request.user) & Q(is_active = True))
+            elif(Is_Yes == 'off' and Is_No == 'on'):
+                products = ProductsModel.objects.filter(Q(user = request.user) & Q(is_active = False))
+            elif(Is_Yes == 'on' and Is_No == 'on'):
+                products = ProductsModel.objects.filter(Q(user = request.user) & Q(is_active = True) | Q(is_active = False)) 
+            elif(Is_Yes == 'off' and Is_No == 'off'):
+                products = ProductsModel.objects.filter(Q(user = request.user) & Q(is_active = True) | Q(is_active = False)) 
+        
+        #Status Type = on & product type = on
+        if(ProductType =="on" and Status == "on"):
+            # goods=on
+            if(Goods == "on" and Services == "off" and Bundle == "off"):
+                a = ProductsModel.objects.filter(user = request.user).filter(product_type = 0)
+                if(Is_Yes == 'on' and Is_No == 'off'):
+                    products = a.filter(Q(user = request.user) & Q(is_active = True))
+                elif(Is_Yes == 'off' and Is_No == 'on'):
+                    products = a.filter(Q(user = request.user) & Q(is_active = False))
+                elif(Is_Yes == 'on' and Is_No == 'on'):
+                    products = a.filter(Q(user = request.user) & Q(is_active = True) | Q(is_active = False))
+                elif(Is_Yes == 'off' and Is_No == 'off'):
+                    products = ProductsModel.objects.filter(Q(user = request.user) & Q(is_active = True) | Q(is_active = False))
+
+            elif(Goods == "off" and Services == "on" and Bundle == "off"):
+                #  Services =="on"
+                a = ProductsModel.objects.filter(user = request.user).filter(product_type = 1)
+                if(Is_Yes == 'on' and Is_No == 'off'):
+                    products = a.filter(Q(user = request.user) & Q(is_active = True))
+                elif(Is_Yes == 'off' and Is_No == 'on'):
+                    products = a.filter(Q(user = request.user) & Q(is_active = False))
+                elif(Is_Yes == 'on' and Is_No == 'on'):
+                    products = a.filter(Q(user = request.user) & Q(is_active = True) | Q(is_active = False))
+                elif(Is_Yes == 'off' and Is_No == 'off'):
+                    products = ProductsModel.objects.filter(Q(user = request.user) & Q(is_active = True) | Q(is_active = False))
+
+            elif(Goods == "off" and Services == "off" and Bundle == "on"):
+                # Bundle =="on"
+                a = ProductsModel.objects.filter(user = request.user).filter(product_type = 2)
+                if(Is_Yes == 'on' and Is_No == 'off'):
+                    products = a.filter(Q(user = request.user) & Q(is_active = True))
+                elif(Is_Yes == 'off' and Is_No == 'on'):
+                    products = a.filter(Q(user = request.user) & Q(is_active = False))
+                elif(Is_Yes == 'on' and Is_No == 'on'):
+                    products = a.filter(Q(user = request.user) & Q(is_active = True) | Q(is_active = False))
+                elif(Is_Yes == 'off' and Is_No == 'off'):
+                    products = ProductsModel.objects.filter(Q(user = request.user) & Q(is_active = True) | Q(is_active = False))
+
+            if(Goods == "on" and Services == "on" and Bundle == "off"):
+                # Goods =="on" and Services =="on"
+                a = ProductsModel.objects.filter(Q(user = request.user) & Q(product_type = 0) | Q(product_type = 1))
+                if(Is_Yes == 'on' and Is_No == 'off'):
+                    products = a.filter(Q(user = request.user) & Q(is_active = True))
+                elif(Is_Yes == 'off' and Is_No == 'on'):
+                    products = a.filter(Q(user = request.user) & Q(is_active = False))
+                elif(Is_Yes == 'on' and Is_No == 'on'):
+                    products = a.filter(Q(user = request.user) & Q(is_active = True) | Q(is_active = False))
+                elif(Is_Yes == 'off' and Is_No == 'off'):
+                    products = ProductsModel.objects.filter(Q(user = request.user) & Q(is_active = True) | Q(is_active = False))
+
+            elif(Goods  =="on" and Services =="off" and Bundle =="on"):
+                # Goods == "on" and Bundle =="on"
+                a = ProductsModel.objects.filter(Q(user = request.user) & Q(product_type = 0) | Q(product_type = 2))
+                if(Is_Yes == 'on' and Is_No == 'off'):
+                    products = a.filter(Q(user = request.user) & Q(is_active = True))
+                elif(Is_Yes == 'off' and Is_No == 'on'):
+                    products = a.filter(Q(user = request.user) & Q(is_active = False))
+                elif(Is_Yes == 'on' and Is_No == 'on'):
+                    products = a.filter(Q(user = request.user) & Q(is_active = True) | Q(is_active = False))
+                elif(Is_Yes == 'off' and Is_No == 'off'):
+                    products = ProductsModel.objects.filter(Q(user = request.user) & Q(is_active = True) | Q(is_active = False))
+                    
+            elif(Goods  == "off" and Services == "on" and Bundle == "on"):
+                # Services == "on" and Bundle =="on"
+                a = ProductsModel.objects.filter(Q(user = request.user) & Q(product_type = 1) | Q(product_type = 2))
+                if(Is_Yes == 'on' and Is_No == 'off'):
+                    products = a.filter(Q(user = request.user) & Q(is_active = True))
+                elif(Is_Yes == 'off' and Is_No == 'on'):
+                    products = a.filter(Q(user = request.user) & Q(is_active = False))
+                elif(Is_Yes == 'on' and Is_No == 'on'):
+                    products = a.filter(Q(user = request.user) & Q(is_active = True) | Q(is_active = False))
+                elif(Is_Yes == 'off' and Is_No == 'off'):
+                    products = ProductsModel.objects.filter(Q(user = request.user) & Q(is_active = True) | Q(is_active = False))
+
+            elif(Goods == "on" and Services == "on" and Bundle == "on"):
+                # Goods =="on" and Services =="on" and Bundle =="on"
+                a = ProductsModel.objects.filter(user = request.user)
+                if(Is_Yes == 'on' and Is_No == 'off'):
+                    products = a.filter(Q(user = request.user) & Q(is_active = True))
+                elif(Is_Yes == 'off' and Is_No == 'on'):
+                    products = a.filter(Q(user = request.user) & Q(is_active = False))
+                elif(Is_Yes == 'on' and Is_No == 'on'):
+                    products = a.filter(Q(user = request.user) & Q(is_active = True) | Q(is_active = False))
+                elif(Is_Yes == 'off' and Is_No == 'off'):
+                    products = ProductsModel.objects.filter(Q(user = request.user) & Q(is_active = True) | Q(is_active = False))
+                
+            elif(Goods =="off" and Services =="off" and Bundle =="off"):
+                # Goods =="off" and Services == "off" and Bundle == "off"
+                a = ProductsModel.objects.filter(user = request.user)
+                if(Is_Yes == 'on' and Is_No == 'off'):
+                    products = a.filter(Q(user = request.user) & Q(is_active = True))
+                elif(Is_Yes == 'off' and Is_No == 'on'):
+                    products = a.filter(Q(user = request.user) & Q(is_active = False))
+                elif(Is_Yes == 'on' and Is_No == 'on'):
+                    products = a.filter(Q(user = request.user) & Q(is_active = True) | Q(is_active = False))
+                elif(Is_Yes == 'off' and Is_No == 'off'):
+                    products = a.filter(Q(user = request.user) & Q(is_active = True) | Q(is_active = False))
+                elif(Is_Yes == 'off' and Is_No == 'off'):
+                    products = ProductsModel.objects.filter(Q(user = request.user) & Q(is_active = True) | Q(is_active = False))
 
     data["products"] = products
 

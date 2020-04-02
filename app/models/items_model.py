@@ -146,14 +146,18 @@ class ProductsModel(models.Model):
         default = 0,
     )
 
-    tax = models.IntegerField(
+    tax = models.DecimalField(
+        max_digits = 100,
+        decimal_places = 2,
         default = 0.0,
         db_index = True,
         null=True,
         blank=True,
     )
 
-    gst = models.IntegerField(
+    gst = models.DecimalField(
+        max_digits = 100,
+        decimal_places = 2,
         default = 0.0,
         db_index = True,
         null=True,

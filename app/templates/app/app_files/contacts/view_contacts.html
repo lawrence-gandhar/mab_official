@@ -70,7 +70,7 @@
                                 <label class="form-check-label" style="margin-bottom: 3px;">
                                     <input class="form-check-input" type="checkbox" data-toggle="collapse" href="#OrganizationType" role="button" aria-expanded="false" aria-controls="OrganizationType" name="OrganizationType" style="width: 111%;margin-left: -47%;">
                                     <span class="form-check-sign">
-                                        <span class="check md" style="margin-left: 22px;color: black;">Organization Type</span>
+                                        <span class="check md" style="margin-left: 22px;color: black;">Organisation Type</span>
                                     </span>
                                 </label>
 
@@ -109,7 +109,7 @@
                                         <label class="form-check-label" style="margin-bottom: 3px;">
                                             <input class="form-check-input" type="checkbox" name="GvtOrganization"style="width: 111%;margin-left: -38%;">
                                             <span class="form-check-sign">
-                                                <span class="check" style="margin-left: 41px;color: black;">GvtOrganization</span>
+                                                <span class="check" style="margin-left: 41px;color: black;">GvtOrganisation</span>
                                             </span>
                                         </label>
 
@@ -160,7 +160,7 @@
                 <form method="get">
                     <div class="input-group pull-right" style="width:400px; margin-bottom:10px;">
                 
-                    <input name="search" type="text" class="form-control" placeholder="Conatact / Organisation Name" style="height: 41px !important">
+                    <input name="search" type="text" class="form-control" placeholder="Contact / Organisation Name" style="height: 41px !important">
                     <div class="input-group-append">
                         <button class="btn btn-sm btn-success" type="submit()" style="border-radius:0px;">
                             <i class="material-icons">search</i> <span style="font-size:14px;">Search</span>
@@ -177,13 +177,12 @@
                             <!-- <th class="text-center" style="color:#000000; font-size:11px">User APP-ID</th> -->
                             <!-- <th class="text-center" style="color:#000000; font-size:11px">Customer Type</th> -->
                             <!-- <th class="text-center" style="color:#000000; font-size:11px">Is Sub Customer</th> -->
-                            <th class="text-center" style="color:#000000; font-size:11px;width: 10%">Active</th>
                             <!-- <th class="text-center" style="color:#000000; font-size:11px">Organisation Type</th> -->
                             <th class="text-center" style="color:#000000; font-size:11px;width: 15%">Organisation Name</th>
                             <th class="text-center" style="color:#000000; font-size:11px;width: 15%">Email</th>
                             <th class="text-center" style="color:#000000; font-size:11px;width: 10%">Phone</th>
                             <!-- <th class="text-center" style="color:#000000; font-size:11px;width: 10%">location</th> -->
-                                            
+                            <th class="text-center" style="color:#000000; font-size:11px;width: 10%">Active</th>   
                             <th class="text-center" style="color:#000000; font-size:11px;width: 10%;">Action</th>                
                         </thead>
                         <tbody>
@@ -195,6 +194,12 @@
                                     <!-- <td>{{contact.app_id}}</td>
                                     <td>{{contact.get_customer_type_display|upper}}</td>
                                     <td>{{contact.get_is_sub_customer_display|upper}}</td> -->
+                                    
+                                    <!-- <td>{{contact.get_organization_type_display|upper}}</td> -->
+                                    <td>{{contact.organization_name|upper}}</td>
+                                    <td>{{contact.email}}</td>
+                                    <td>{{contact.phone}}</td>
+                                    <!-- <td>{{contact.website}}</td>                         -->
                                     <td class="text-center">
                                         {% if contact.is_active %}
                                             <i id="{{contact.id}}" class="material-icons">check</i>
@@ -202,11 +207,6 @@
                                             <i id="{{contact.id}}" class="material-icons">clear</i>
                                         {% endif %}
                                     </td>
-                                    <!-- <td>{{contact.get_organization_type_display|upper}}</td> -->
-                                    <td>{{contact.organization_name|upper}}</td>
-                                    <td>{{contact.email}}</td>
-                                    <td>{{contact.phone}}</td>
-                                    <!-- <td>{{contact.website}}</td>                         -->
                                     <td class="text-center">
                                         <!-- Dropdown Add by Roshan -->
 
@@ -258,8 +258,8 @@
                                                         </div>
                                                         
                                                         <div class="modal-footer" style="justify-content: flex-start; border-top: none;padding:6px;margin-left: 29%">
-                                                            <center><button onclick="remove({{contact.id}})" class="btn btn-danger mr-2" style="align-content: left;">Delete</button></center>
-                                                            <button id="{{contact.id}}" onclick="can({{contact.id}})" class="btn btn-primary">Cancel</button>
+                                                            <center><button onclick="remove({{contact.id}})" class="btn btn-success mr-2" style="align-content: left;">Yes</button></center>
+                                                            <button id="{{contact.id}}" onclick="can({{contact.id}})" class="btn btn-warning">No</button>
                                                         </div>
                                                     </div>
                                                 </div>

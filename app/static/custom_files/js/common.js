@@ -104,7 +104,7 @@ function validate_IFSC(elem){
     var format = /^[A-Za-z]{4}[a-zA-Z0-9]{7}$/;
 
     if(value.length != 0){
-        if (!value.match(format)) return Array(false,"*Please enter valid ifcs code");
+        if (!value.match(format)) return Array(false,"*Please enter valid ifsc code");
         else return Array(true,"");
     } 
     else {
