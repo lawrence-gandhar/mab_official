@@ -25,7 +25,7 @@ class ProductForm(ModelForm):
         )
 
         widgets = {
-            'product_type' : Select(attrs = {'class':'form-control input-sm','style':'width:40%','onchange':'show_bundle($(this))'}, choices = items_constant.PRODUCT_TYPE),
+            'product_type' : Select(attrs = {'class':'form-control input-sm','style':'width:71%','onchange':'show_bundle($(this))'}, choices = items_constant.PRODUCT_TYPE),
             'sku' : TextInput(attrs = {'class':'form-control input-sm','style':'width:71%',}),
             'product_name' : TextInput(attrs = {'class':'form-control input-sm','style':'width:40%',}),
             
@@ -38,7 +38,7 @@ class ProductForm(ModelForm):
             'gst' : NumberInput(attrs = {'class':'form-control input-sm','style':'width:40%',}),
             'hsn_code' : TextInput(attrs = {'class':'form-control input-sm','style':'width:40%',}),
             'abatement' : NumberInput(attrs = {'class':'form-control input-sm','style':'width:40%',}),
-            'unit' : Select(attrs = {'class':'form-control input-sm', 'style':'width:40%',}, choices = items_constant.UNITS),
+            'unit' : Select(attrs = {'class':'form-control input-sm', 'style':'width:71%',}, choices = items_constant.UNITS),
            
             'purchase_account' : Select(attrs = {'class':'form-control input-sm', 'style':'width:40%',},),
             'sales_account' : Select(attrs = {'class':'form-control input-sm', 'style':'width:40%',},),
@@ -57,7 +57,7 @@ class ProductPhotosForm(ModelForm):
         fields= ('product_image',)
 
         widgets = {
-            'product_image' : FileInput(attrs = {'class':'form-control input-sm', 'id':'files','name':'files[]','type':'file','multiple' : 'true', 'accept':'image/jpeg, image/png, image/gif,', 'style':'width:71%;padding:1px',})
+            'product_image' : FileInput(attrs = {'class':'form-control input-sm', 'id':'files','name':'files[]','type':'file','multiple' : 'true', 'accept':'image/jpeg, image/png, image/gif,', 'style':'width:50%;padding:1px',})
         }
 
 #==================================================================================

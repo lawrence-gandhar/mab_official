@@ -122,9 +122,7 @@ input[type=number]::-webkit-inner-spin-button,
                                     <td style="width: 44%;border:0px;">
                                         {{ contact_form.email }}
                                     </td>   
-                                    <td style="border:0px;">
-                                        <p id="email_error" style="color: red;margin-bottom: 0px;"></p>
-                                    </td>                                 
+                                    <td style="border:0px;" class="error_field"></td>                                  
                                 </tr>
                                 <!-- <tr>
                                     <td>
@@ -141,9 +139,7 @@ input[type=number]::-webkit-inner-spin-button,
                                     <td style="width: 44%;border:0px;">
                                         {{ contact_form.phone }}                                      
                                     </td>   
-                                    <td style="border:0px;">
-                                        <p id="phone_error" style="color: red;margin-bottom: 0px;"></p>
-                                    </td>                                 
+                                    <td style="border:0px;" class="error_field"></td>                                  
                                 </tr>     
                                 <!-- <tr>
                                     <td>
@@ -187,9 +183,7 @@ input[type=number]::-webkit-inner-spin-button,
                                                                 {{ tax_form.pan }}  
                                                                 
                                                             </td>  
-                                                            <td style="border:0px;">
-                                                                <p id="pan_error" style="color: red;margin-bottom: 0px;"></p>
-                                                            </td>                                  
+                                                            <td style="border:0px;" class="error_field"></td>                                    
                                                         </tr>
                                                         <!-- <tr>
                                                             <td>
@@ -208,14 +202,12 @@ input[type=number]::-webkit-inner-spin-button,
                                                     </tr>
                                                     <tr id="gst_row" style="display: none;">
                                                         <td style=" width:150px; border:0px; vertical-align: bottom">
-                                                            GST No.
+                                                            GSTIN No.
                                                         </td>
                                                         <td style="width:44%;border:0px;">
                                                             {{ tax_form.gstin }} 
                                                         </td> 
-                                                        <td style="border:0px;">
-                                                            <p id="gst_error" style="color: red;margin-bottom: 0px;"></p>
-                                                        </td>                                   
+                                                        <td style="border:0px;" class="error_field"></td>                                    
                                                     </tr>
                                                         <!--
                                                         <tr>
@@ -415,9 +407,7 @@ input[type=number]::-webkit-inner-spin-button,
                                                             <td style="width:44%;border:0px;">
                                                                 {{ formset.ifsc_code }}
                                                             </td>      
-                                                            <td style="border:0px;">
-                                                                <p id="ifcs_error" style="color: red;margin-bottom: 0px;"></p> 
-                                                            </td>                              
+                                                            <td style="border:0px;" class="error_field"></td>                              
                                                         </tr>
                                                         <tr class="accounts_formset">
                                                             <td style=" width:150px; border:0px; vertical-align: bottom">
@@ -449,9 +439,7 @@ input[type=number]::-webkit-inner-spin-button,
                                                             <td style="width:44%;border:0px;">
                                                                 {{ social_form.website }}
                                                             </td>
-                                                            <td style="border:0px;">
-                                                                <p id="website_error" style="color: red;margin-bottom: 0px;"></p>                                                               
-                                                            </td>
+                                                            <td style="border:0px;" class="error_field"></td>  
                                                         </tr>
                                                         <tr>
                                                             <td style=" width:150px; border:0px; vertical-align: bottom">
@@ -460,6 +448,7 @@ input[type=number]::-webkit-inner-spin-button,
                                                             <td style="width:44%;border:0px;">
                                                                 {{ social_form.facebook }} 
                                                             </td>
+                                                            <td style="border:0px;" class="error_field"></td>  
                                                         </tr>
                                                         <tr>
                                                             <td style=" width:150px; border:0px; vertical-align: bottom">
@@ -468,6 +457,7 @@ input[type=number]::-webkit-inner-spin-button,
                                                             <td style="width:44%;border:0px;">
                                                                 {{ social_form.twitter }} 
                                                             </td>
+                                                            <td style="border:0px;" class="error_field"></td>  
                                                         </tr>
                                                         <tr>
                                                             <td style=" width:150px; border:0px; vertical-align: bottom">

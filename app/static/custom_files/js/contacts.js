@@ -65,12 +65,12 @@ function valid_Email(elem){
     ret = validate_Email($(elem));
     if(!ret[0]){
         setLocalStorageValue('form_errors_email', true);
-        $("#email_error").html(ret[1]);        
+        $(elem).closest("tr").find("td.error_field").empty().append("p").text(ret[1]);       
         $(elem).focus();
         $(".save_button, #editContactModal > .save_button").prop("disabled",true);
     }else{
         setLocalStorageValue('form_errors_email', false);
-        $("#email_error").html("");
+        $(elem).closest("tr").find("td.error_field").empty().append("p").text("");
         $(".save_button, #editContactModal > .save_button").prop("disabled",false);
     } 
 }
@@ -84,12 +84,12 @@ function valid_Phone(elem){
     ret = validate_Phone($(elem));
     if(!ret[0]){
         setLocalStorageValue('form_errors_phone', true);
-        $("#phone_error").html(ret[1]);
+        $(elem).closest("tr").find("td.error_field").empty().append("p").text(ret[1]);
         $(elem).focus();
         $(".save_button, #editContactModal > .save_button").prop("disabled",true);
     }else{
         setLocalStorageValue('form_errors_phone', false);
-        $("#phone_error").html("");
+        $(elem).closest("tr").find("td.error_field").empty().append("p").text("");
         $(".save_button, #editContactModal > .save_button").prop("disabled",false);
     } 
 }
@@ -103,12 +103,12 @@ function valid_PAN(elem){
     ret = validate_PAN($(elem));
     if(!ret[0]){
         setLocalStorageValue('form_errors_pan', true);
-        $("#pan_error").html("*Please enter valid pan card number");
+        $(elem).closest("tr").find("td.error_field").empty().append("p").text("*Please enter valid pan card number");
         $(elem).focus();
         $(".save_button, #editContactModal > .save_button").prop("disabled",true);
     }else{
         setLocalStorageValue('form_errors_pan', false);
-        $("#pan_error").html("");
+        $(elem).closest("tr").find("td.error_field").empty().append("p").text("");
         $(".save_button, #editContactModal > .save_button").prop("disabled",false);
     } 
 }
@@ -122,12 +122,12 @@ function valid_GST(elem){
     ret = validate_GST($(elem));
     if(!ret[0]){
         setLocalStorageValue('form_errors_get', true);
-        $("#gst_error").html(ret[1]);
+        $(elem).closest("tr").find("td.error_field").empty().append("p").text(ret[1]);
         $(elem).focus();
         $(".save_button, #editContactModal > .save_button").prop("disabled",true);
     }else{
         setLocalStorageValue('form_errors_get', false);
-        $("#gst_error").html("");
+        $(elem).closest("tr").find("td.error_field").empty().append("p").text("");
         $(".save_button, #editContactModal > .save_button").prop("disabled",false);
     }  
 }
@@ -140,14 +140,12 @@ function valid_URL(elem){
     ret = validate_URL($(elem));
     if(!ret[0]){
         setLocalStorageValue('form_errors_url', true);
-        console.log(elem.toString())
-        $("#website_error").html(ret[1]);
+        $(elem).closest("tr").find("td.error_field").empty().append("p").text(ret[1]);
         $(elem).focus();
         $(".save_button, #editContactModal > .save_button").prop("disabled",true);
     }else{
         setLocalStorageValue('form_errors_url', false);
-        $("#website_error").html("");
-        $(elem).css({"background-color":"transparent"});
+        $(elem).closest("tr").find("td.error_field").empty().append("p").text("");
         $(".save_button, #editContactModal > .save_button").prop("disabled",false);
     }  
 }
@@ -162,13 +160,12 @@ function valid_IFSC(elem){
     ret = validate_IFSC($(elem));
     if(!ret[0]){
         setLocalStorageValue('form_errors_ifsc', true);
-        $("#ifcs_error").html(ret[1]);
+        $(elem).closest("tr").find("td.error_field").empty().append("p").text(ret[1]);
         $(elem).focus();
         $(".save_button, #editContactModal > .save_button").prop("disabled",true);
     }else{
         setLocalStorageValue('form_errors_ifsc', false);
-        $("#ifcs_error").html("");
-        $(elem).css({"background-color":"transparent"});        
+        $(elem).closest("tr").find("td.error_field").empty().append("p").text("");     
         $(".save_button, #editContactModal > .save_button").prop("disabled",false);
     }  
 }
@@ -273,7 +270,7 @@ $("#add_more_accounts").on("click", function(){
     inc = $("#id_form-TOTAL_FORMS").val();
 
     htm_all = '<tr class="tr-set-'+inc+'">';
-    htm_all += '<td style="padding-top:10px; color:#FF0000; border:0px; border-bottom:3px solid #ccc;" colspan="2">';
+    htm_all += '<td style="padding-top:10px; color:#FF0000; border:0px; border-bottom:3px solid #ccc;" colspan="4">';
     htm_all += '<i class="material-icons pull-right" style="cursor:pointer;" onclick="delete_account_block($(this),'+(parseInt(inc)-1)+')">delete_forever</i></td></tr>';
 
     $("#accounts-form tr.accounts_formset ").each(function(index, tr){
@@ -287,6 +284,8 @@ $("#add_more_accounts").on("click", function(){
     $("#id_form-TOTAL_FORMS").val(parseInt(inc)+1);
 
     $("#accounts-form > table > tbody").append(htm_all);
+
+    $('tr.tr-set-'+inc).find("td.error_field").empty();
 
 });
 
@@ -318,6 +317,8 @@ $("#add_more_addresses").on("click",function(){
     $("#address_table > tbody").append(htm_all);
 
     $("#tr-id_user_address_details_set-tr-"+(parseInt(inc)-1)+" td:nth-child(2)").find("table > tbody tr:nth-child(1)").hide();
+
+    $("#tr-id_user_address_details_set-tr-"+(parseInt(inc)-1)+" td:nth-child(2)").find("table").hide();
 
     $("#id_user_address_details_set-TOTAL_FORMS").val(parseInt(inc) + 2);
 
@@ -530,3 +531,20 @@ $.ajax({
 function can(d) {
 $('#'+'del'+d.toString()).modal('hide')
 }
+
+
+/********************************************************************/
+// INPUT TYPE NUMBER SROLL HIDE
+/********************************************************************/
+// Disable Mouse scrolling
+$('input[type=number]').on('mousewheel',function(e){ $(this).blur(); });
+// Disable keyboard scrolling
+$('input[type=number]').on('keydown',function(e) {
+    var key = e.charCode || e.keyCode;
+    // Disable Up and Down Arrows on Keyboard
+    if(key == 38 || key == 40 ) {
+	e.preventDefault();
+    } else {
+	return;
+    }
+});

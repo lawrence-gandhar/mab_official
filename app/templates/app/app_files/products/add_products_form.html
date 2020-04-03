@@ -13,43 +13,7 @@ input[type=number]::-webkit-inner-spin-button,
         appearance: none;
         margin: 0;
     }
-    /* .imageThumb {
-  max-height: 75px;
-  border: 2px solid;
-  padding: 1px;
-  cursor: pointer;
-}
-.pip {
-  display: inline-block;
-  margin: 10px 10px 0 0;
-}
-.remove {
-  display: block;
-  background: #444;
-  border: 1px solid black;
-  color: white;
-  text-align: center;
-  cursor: pointer;
-}
-.remove:hover {
-  background: white;
-  color: black;
-} */
-.thumb {
-            height: 80px;
-            width: 100px;
-            border: 1px solid #000;
-        }
-
-        ul.thumb-Images li {
-            width: 120px;
-            float: left;
-            display: inline-block;
-            vertical-align: top;
-            height: 120px;
-        }
-
-        .img-wrap {
+    .img-wrap {
             position: relative;
             display: inline-block;
             font-size: 0;
@@ -69,6 +33,7 @@ input[type=number]::-webkit-inner-spin-button,
                 font-size: 23px;
                 line-height: 10px;
                 border-radius: 50%;
+                display: none;
             }
 
             .img-wrap:hover .close {
@@ -76,9 +41,9 @@ input[type=number]::-webkit-inner-spin-button,
                 background-color: #ff0000;
             }
 
-        .FileNameCaptionStyle {
-            font-size: 12px;
-        }
+optgroup{
+    color: gray;
+}
 </style>
 
 <div class="row">
@@ -94,9 +59,19 @@ input[type=number]::-webkit-inner-spin-button,
                         <div class="col-2" style="margin-right: -4%;">
                             <b style="color: white;">Product Type</b>
                         </div>
-                        <div class="col">
+                        <div class="col-6">
                             {{add_product_form.product_type}}
                         </div>
+                        <div class="col" id="img_box" style="float: right;margin-bottom: -50%;">
+                            <div class="row" style="color: white;margin-left: -13px;margin-bottom: 5px;">
+                                Product Image
+                            </div>
+                            <div class="row img-wrap">
+                                <span class="close" >&times;</span>
+                                <img id="myImg" class="responsive" src="" style="color: white;width:200px;height:150px;"> 
+                            </div>
+                       </div>
+                       
                     </div>
                     <div class="row" style="margin-top: 15px;">
                         <div class="col-2" style="margin-right: -4%;">
@@ -105,13 +80,9 @@ input[type=number]::-webkit-inner-spin-button,
                         <div class="col-6">
                             {{add_product_form.sku}}
                         </div>
-                        <div id="img_box" class="col" style="margin-right: 9px;">
-                            <output id="Filelist" style="border:1px solid white;box-sizing: border-box;width: 300px;height: 230px;"></output>
-                        </div>
+                        
                     </div>
-              
-
-                    <div class="row" id="product" style="margin-top: -18%;">
+                    <div class="row" id="product" style="margin-top: 15px;">
                         <div class="col-2" style="margin-right: -4%;">
                             <b style="color: white;">Product Name</b>
                         </div>
@@ -138,7 +109,7 @@ input[type=number]::-webkit-inner-spin-button,
                             </a>
                         </div>
                     </div>
-                    <div class="row" id="img_file" style="margin-top: 15px;">
+                    <!-- <div class="row" id="img_file" style="margin-top: 15px;">
                         <div class="col-2" style="margin-right: -4%;">
                             <b style="color: white;">Product Images</b>
                         </div>
@@ -146,11 +117,8 @@ input[type=number]::-webkit-inner-spin-button,
                             {{add_product_images_form.product_image}}  
                         </div>
                         
-                        <!-- <div class="col" id="img" style="float: right;margin-bottom: -50%;">
-
-                             <img id="myImg" class="responsive"  style="color: white;width:200px;height:150px;"> 
-                        </div> -->
-                    </div>
+                        
+                    </div> -->
 
                     <div class="row" style="display: none;">
                         <div class="col-2" style="margin-right: -4%;">
@@ -164,12 +132,15 @@ input[type=number]::-webkit-inner-spin-button,
                         <div class="col-2" style="margin-right: -4%;">
                             <b style="color: white;">Units</b>
                         </div>
-                        <div class="col">
+                        <div class="col-6">
                             {{add_product_form.unit}}
+                        </div>
+                        <div class="col" style="margin-left: -14px;margin-top: 4px;">
+                            {{add_product_images_form.product_image}}
                         </div>
                     </div>
                     <!-- bundle table -->
-                    <div class="row" id="b_table" style="display: none;margin-top: 15px;"> 
+                    <div class="row" id="b_table" style="display: none;margin-top: 15px;margin-bottom: -15px;"> 
                         <div class="col-2" style="color: white;">
                             Bundle Table
                         </div>   

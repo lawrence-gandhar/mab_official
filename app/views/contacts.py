@@ -1028,12 +1028,16 @@ def add_contacts(request, slug = None, ins = None):
                 for form in address_formset:
                     if form.is_valid():
                         if form.data["user_address_details_set-"+str(rownum)+"-flat_no"]:
+
                             obj = form.save(commit = False)
                             obj.is_user = False
                             obj.contact = ins
+
+                            if form.data["user_address_details_set-"+str(rownum)+"-is_billing_address_diff"] == "True":    
+                                obj.is_billing_address = False
+                            
                             obj.save()
-                        rownum +=1
-            
+                        rownum +=1            
             #
             # Accounts Formset -- save
             #
@@ -1264,9 +1268,9 @@ def edit_other_details_form(request):
 def edit_address_details_form(request):
     if request.POST:
 
-        keys = [i for i in request.POST.keys() if "contact_person" in i]
+        keys = [i for i in request.POST.keys() if "flat_no" in i]
 
-        prefix = keys[0].replace("-contact_person", "").replace("form_", "")
+        prefix = keys[0].replace("-flat_no", "").replace("form_", "")
 
         try:
             obj = users_model.User_Address_Details.objects.get(pk = int(prefix))
@@ -1427,7 +1431,6 @@ class ContactsFileUploadView(View):
                 file_path = settings.MEDIA_ROOT+"/"+str(obj.csv_file)
                 err, self.data["row_count"] = csv_2_contacts(request.user,file_path)
 
-                self.data["saved_msg"] = '0'
                 if len(err) > 0:
                     self.data["saved_msg"] = '3'
                     obj.delete()
@@ -1437,17 +1440,12 @@ class ContactsFileUploadView(View):
                     else:
                         self.data["saved_msg"] = '2'
                 
-                #if(a == 'upload'):
-                #    messages.success(request, 'Upload Successfully.')
-
                 self.data["error"] = '<br>'.join(err)
             else:
-                pass
+               self.data["saved_msg"] = '4'
         else:
-            #messages.error(request, 'Only CSV file is supported.')
             self.data["error"] = "Only CSV file is supported"
 
-        #return redirect('contacts-upload', permanent=False, a = 'views')
         return render(request, self.template_name, self.data)
 
 #==============================================================================

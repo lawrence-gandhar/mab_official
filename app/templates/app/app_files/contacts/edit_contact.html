@@ -129,7 +129,7 @@ table{
                                                                                                    
                                             <td class="text-center">PAN</td>
                                             <td class="text-center">GST Registration Type</td>
-                                            <td class="text-center">GST No.</td>
+                                            <td class="text-center">GSTIN No.</td>
                                                            
                                         </tr>                                                
                                         
@@ -317,7 +317,7 @@ table{
                                                     {{ tax_form_details.get_invoice_terms_display|default_if_none:"" }}
                                                 </td>
                                                 <td style="border:0px;">
-                                                    {{ tax_form_details.bills_terms|default_if_none:"" }}
+                                                    {{ tax_form_details.get_bills_terms_display|default_if_none:"" }}
                                                 </td>
                                                   
                                             </tr>
@@ -527,7 +527,7 @@ table{
                             </tr>
                             <tr>
                                 <td style=" width:170px; border:0px; vertical-align: bottom; color:#a7a4a4">
-                                    GST Registration Type.
+                                    GST Registration Type
                                 </td>
                                 <td style="border:0px;">
                                     {{ tax_form.gst_reg_type }}
@@ -535,7 +535,7 @@ table{
                             </tr>
                             <tr id="gst_row" >
                                 <td style=" width:170px; border:0px; vertical-align: bottom; color:#a7a4a4">
-                                    GST No.
+                                    GSTIN No.
                                 </td>
                                 <td style="border:0px;">
                                     {{ tax_form.gstin }}
@@ -791,7 +791,7 @@ table{
                     </table>
                 </div>
                 <div class="modal-footer">
-                    <button class="btn btn-sm btn-success save_button" onclick="return check()">Update</button>
+                    <button class="btn btn-sm btn-success save_button" onclick="return check()">Add New</button>
                     <button class="btn btn-sm btn-danger close" type="reset" data-dismiss="modal" aria-label="Close">Cancel</button>
                     
                 </div>
@@ -935,7 +935,7 @@ table{
                     </table>
                 </div>
                 <div class="modal-footer">
-                    <button class="btn btn-sm btn-success save_button" onclick="return check()">Update</button>
+                    <button class="btn btn-sm btn-success save_button" onclick="return check()">Add New</button>
                     <button class="btn btn-sm btn-danger close" type="reset" data-dismiss="modal" aria-label="Close">Cancel</button>
                     
                 </div>

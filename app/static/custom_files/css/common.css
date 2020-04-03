@@ -353,3 +353,10 @@ input:checked + .slider:before {
 .slider.round:before {
   border-radius: 50%;
 }
+
+/**********************************/
+
+.error_field {
+  color: #FF0000;
+  font-weight:bold;
+}

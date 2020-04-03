@@ -4,8 +4,8 @@
 GST_REG_TYPE = (
     (0, 'Not Applicable'),
     (1, 'GST Registered-Regular'),
-    (2, 'GST Registered-Composition,'),
-    (3, 'GST unregistered'),
+    (2, 'GST Registered-Composition'),
+    (3, 'GST Unregistered'),
     (4, 'Consumer'),
     (5, 'Overseas'),
     (6, 'SEZ'),

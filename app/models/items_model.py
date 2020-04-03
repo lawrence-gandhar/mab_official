@@ -136,18 +136,20 @@ class ProductsModel(models.Model):
     )
 
 
-    selling_price = models.IntegerField(
+    selling_price = models.DecimalField(
+        max_digits = 9999999999,
+        decimal_places = 2,
         db_index = True,
-        default = 0,
+        default = 0.0,
     )
 
     discount = models.IntegerField(
         db_index = True,
-        default = 0,
+        default = 0.0,
     )
 
     tax = models.DecimalField(
-        max_digits = 100,
+        max_digits = 99,
         decimal_places = 2,
         default = 0.0,
         db_index = True,
@@ -156,7 +158,7 @@ class ProductsModel(models.Model):
     )
 
     gst = models.DecimalField(
-        max_digits = 100,
+        max_digits = 99,
         decimal_places = 2,
         default = 0.0,
         db_index = True,

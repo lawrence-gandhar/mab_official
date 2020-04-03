@@ -108,7 +108,8 @@ class User_Account_Details(models.Model):
         on_delete = models.CASCADE
     )
 
-    account_number = models.IntegerField(
+    account_number = models.CharField(
+        max_length = 250,
         blank = True,
         db_index = True,
         null = True,
@@ -437,12 +438,11 @@ class User_Tax_Details(models.Model):
         db_index = True,
     )
 
-    tds = models.DecimalField(
+    tds = models.IntegerField(
         db_index = True,
         null = True,
         blank = True,
-        max_digits = 20, 
-        decimal_places = 2
+        default = 0.00,
     )
 
     preferred_currency = models.CharField(
@@ -454,7 +454,8 @@ class User_Tax_Details(models.Model):
         null = True,
     )
 
-    opening_balance = models.IntegerField(
+    opening_balance = models.CharField(
+        max_length = 250,
         blank = True,
         null = True,
         db_index = True,

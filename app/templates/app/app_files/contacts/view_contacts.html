@@ -30,7 +30,7 @@
                                 <label class="form-check-label" style="margin-bottom: 3px;">
                                     <input class="form-check-input" type="checkbox" data-toggle="collapse" href="#Customer" name="CustomerType" style="width: 111%;margin-left: -47%;">
                                     <span class="form-check-sign">
-                                        <span class="check md" style="margin-left: 22px;color: black;">Cutomer Type</span>
+                                        <span class="check md" style="margin-left: 22px;color: black;">Customer Type</span>
                                     </span>
                                 </label>
                                 <hr style="margin-top: 0px;margin-bottom: -1px">
@@ -51,7 +51,7 @@
                                         <label class="form-check-label" style="margin-bottom: 3px;">
                                             <input class="form-check-input" type="checkbox" name="Empoloyee"style="width: 111%;margin-left: -38%;">
                                             <span class="form-check-sign">
-                                                <span class="check" style="margin-left: 41px;color: black;">Empoloyee</span>
+                                                <span class="check" style="margin-left: 41px;color: black;">Employee</span>
                                             </span>
                                         </label>
                                        
@@ -109,7 +109,7 @@
                                         <label class="form-check-label" style="margin-bottom: 3px;">
                                             <input class="form-check-input" type="checkbox" name="GvtOrganization"style="width: 111%;margin-left: -38%;">
                                             <span class="form-check-sign">
-                                                <span class="check" style="margin-left: 41px;color: black;">GvtOrganisation</span>
+                                                <span class="check" style="margin-left: 41px;color: black;">Gvt. Organisation</span>
                                             </span>
                                         </label>
 
@@ -190,15 +190,15 @@
                                 <tr id="t{{contact.id}}">
                                     <!-- <td>{{forloop.counter}}</td> -->
                                     <!-- <td>CT-0000{{contact.id}}</td> -->
-                                    <td>{{contact.display_name}}</td>
+                                    <td>{{contact.display_name|default_if_none:""}}</td>
                                     <!-- <td>{{contact.app_id}}</td>
                                     <td>{{contact.get_customer_type_display|upper}}</td>
                                     <td>{{contact.get_is_sub_customer_display|upper}}</td> -->
                                     
                                     <!-- <td>{{contact.get_organization_type_display|upper}}</td> -->
-                                    <td>{{contact.organization_name|upper}}</td>
-                                    <td>{{contact.email}}</td>
-                                    <td>{{contact.phone}}</td>
+                                    <td>{{contact.organization_name|default_if_none:""|upper}}</td>
+                                    <td>{{contact.email|default_if_none:""}}</td>
+                                    <td>{{contact.phone|default_if_none:""}}</td>
                                     <!-- <td>{{contact.website}}</td>                         -->
                                     <td class="text-center">
                                         {% if contact.is_active %}
