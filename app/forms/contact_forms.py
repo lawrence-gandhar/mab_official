@@ -50,7 +50,7 @@ class AddressForm(ModelForm):
     class Meta:
         model = users_model.User_Address_Details
         
-        fields = ('contact_person', 'flat_no', 'street', 'city', 'state', 'country', 'pincode', 'is_billing_address_diff', 'is_shipping_address')
+        fields = ('contact_person', 'flat_no', 'street', 'city', 'state', 'country', 'pincode', 'is_shipping_address_diff', 'is_shipping_address')
         
         widgets = {
             'contact_person' : TextInput(attrs={'class':'form-control input-sm','style':'width:40%;'}),
@@ -60,7 +60,7 @@ class AddressForm(ModelForm):
             'state' : Select(attrs={'class':'form-control input-sm','style':'width:40%;'}, choices = country_list.STATE_LIST_CHOICES),
             'country' : Select(attrs={'class':'form-control input-sm','style':'width:40%;'}, choices = country_list.COUNTRIES_LIST_CHOICES),
             'pincode' : TextInput(attrs={'class':'form-control input-sm','style':'width:40%;'}),
-            'is_billing_address_diff' : Select(attrs={'class':'form-control input-sm','style':'width:40%;','hidden':'true'}),
+            'is_shipping_address_diff' : Select(attrs={'class':'form-control input-sm','style':'width:40%;','hidden':'true'}),
             'is_shipping_address' : Select(attrs={'class':'form-control input-sm','style':'width:40%;','hidden':'true'}),
         }
 
@@ -116,32 +116,3 @@ class ContactsExtraForm(ModelForm):
             'twitter' : TextInput(attrs={'class':'form-control input-sm', 'max_length':'200','placeholder':'http://twitter.com/', }),
             'notes': Textarea(attrs = {'class':'form-control',})
         }         
-
-""""
-class ContactsEmailForm(ModelForm):
-    class Meta:
-        EMAIL_CHOICES = ((True, 'Yes'),(False, 'No'))
-        
-        model = Contacts_Email
-        fields = ('email', 'is_official', 'is_personal')
-
-        widgets = {
-            'email' : EmailInput(attrs={'class':'form-control input-sm',}),
-            'is_official' : Select(attrs={'class':'form-control input-sm',}, choices = EMAIL_CHOICES, ),
-            'is_personal' : Select(attrs={'class':'form-control input-sm',}, choices = EMAIL_CHOICES, ),
-        }
-
-class AccountDetailsForm(ModelForm):
-    class Meta:
-        model = Contact_Account_Details
-        fields = ('account_number', 'account_holder_name', 'ifsc_code', 'bank_name', 'bank_branch_name')
-
-        widgets = {
-            'account_number' : TextInput(attrs={'class':'form-control input-sm',}),
-            'account_holder_name' : TextInput(attrs={'class':'form-control input-sm',}),
-            'ifsc_code' : TextInput(attrs={'class':'form-control input-sm',}),
-            'bank_name' : TextInput(attrs={'class':'form-control input-sm',}),
-            'bank_branch_name' : TextInput(attrs={'class':'form-control input-sm',}),
-        }
-
-"""

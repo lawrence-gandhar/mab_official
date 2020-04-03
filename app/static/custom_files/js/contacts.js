@@ -26,22 +26,18 @@ $("tr#tr-id_user_address_details_set-tr-0 > td:nth-child(2)").hide()
 $(".is_billing_address, .is_shipping_address").prop("required",false);
 
 
-function set_shipping(elem,ids){
-    value = "False";
-    if($(elem).prop("checked")) value = "True";
-    $("select#id_user_address_details_set-"+(ids-1)+"-is_shipping_address").val(value);
-}
-
 // is shipping different
-function set_billing_diff(elem,ids){
+function set_shipping_diff(elem,ids){
 
     ids = ids - 1;
 
     if($(elem).prop("checked") == true){
-        $("select#id_user_address_details_set-"+ids+"-is_billing_address_diff").val("False");
-        $("select#id_user_address_details_set-"+(parseInt(ids)+1)+"-is_shipping_address").val("False");
+        $("select#id_user_address_details_set-"+ids+"-is_shipping_address_diff").val("True");
+        $("select#id_user_address_details_set-"+ids+"-is_shipping_address").val("False");
+        $("select#id_user_address_details_set-"+(parseInt(ids)+1)+"-is_shipping_address").val("True");
     }else{
-        $("select#id_user_address_details_set-"+ids+"-is_billing_address_diff").val("False");
+        $("select#id_user_address_details_set-"+ids+"-is_shipping_address_diff").val("False");
+        $("select#id_user_address_details_set-"+ids+"-is_shipping_address").val("True");
         $("select#id_user_address_details_set-"+(parseInt(ids)+1)+"-is_shipping_address").val("True");
     } 
     

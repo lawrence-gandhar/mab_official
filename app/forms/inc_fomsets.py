@@ -9,7 +9,7 @@ from django.forms import *
 # ADDRESS FORMSET
 #
 AddressFormset = inlineformset_factory(contacts_model.Contacts, users_model.User_Address_Details, extra = 2,
-    fields = ('contact_person', 'flat_no', 'street', 'city', 'state', 'country', 'pincode', 'is_billing_address_diff', 'is_shipping_address'),
+    fields = ('contact_person', 'flat_no', 'street', 'city', 'state', 'country', 'pincode', 'is_shipping_address_diff', 'is_shipping_address'),
     widgets = {
         'contact_person' : TextInput(attrs={'class':'form-control input-sm','style':'width:65%;',}),
         'flat_no' : TextInput(attrs={'class':'form-control input-sm','style':'width:65%;'}),
@@ -18,7 +18,7 @@ AddressFormset = inlineformset_factory(contacts_model.Contacts, users_model.User
         'state' : Select(attrs={'class':'form-control input-sm','style':'width:65%;'}, choices = country_list.STATE_LIST_CHOICES),
         'country' : Select(attrs={'class':'form-control input-sm','style':'width:65%;'}, choices = country_list.COUNTRIES_LIST_CHOICES),
         'pincode' : TextInput(attrs={'class':'form-control input-sm','type':'number','style':'width:65%;'}),
-        'is_billing_address_diff' : Select(attrs={'class':'form-control input-sm','style':'width:40%;','hidden':'true'}),
+        'is_shipping_address_diff' : Select(attrs={'class':'form-control input-sm','style':'width:40%;','hidden':'true'}),
         'is_shipping_address' : Select(attrs={'class':'form-control input-sm','style':'width:40%;','hidden':'true'}),
     }
 )

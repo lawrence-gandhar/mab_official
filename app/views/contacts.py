@@ -1033,8 +1033,8 @@ def add_contacts(request, slug = None, ins = None):
                             obj.is_user = False
                             obj.contact = ins
 
-                            if form.data["user_address_details_set-"+str(rownum)+"-is_billing_address_diff"] == "True":    
-                                obj.is_billing_address = False
+                            if form.data["user_address_details_set-"+str(rownum)+"-is_shipping_address_diff"] == "True":    
+                                obj.is_shipping_address = False
                             
                             obj.save()
                         rownum +=1            
