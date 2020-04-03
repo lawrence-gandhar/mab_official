@@ -32,14 +32,19 @@ function set_shipping(elem,ids){
     $("select#id_user_address_details_set-"+(ids-1)+"-is_shipping_address").val(value);
 }
 
+// is shipping different
 function set_billing_diff(elem,ids){
 
     ids = ids - 1;
 
-    value = "False";
-    if($(elem).prop("checked")) value = "True";
-    $("select#id_user_address_details_set-"+ids+"-is_billing_address_diff").val(value);
-    $("select#id_user_address_details_set-"+(parseInt(ids)+1)+"-is_shipping_address").val(value);
+    if($(elem).prop("checked") == true){
+        $("select#id_user_address_details_set-"+ids+"-is_billing_address_diff").val("False");
+        $("select#id_user_address_details_set-"+(parseInt(ids)+1)+"-is_shipping_address").val("False");
+    }else{
+        $("select#id_user_address_details_set-"+ids+"-is_billing_address_diff").val("False");
+        $("select#id_user_address_details_set-"+(parseInt(ids)+1)+"-is_shipping_address").val("True");
+    } 
+    
 
     if(ids == 0){
         elem_htm = $("tr#tr-id_user_address_details_set-tr-0 > td:nth-child(2)");
