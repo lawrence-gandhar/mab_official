@@ -34,11 +34,15 @@ function set_shipping_diff(elem,ids){
     if($(elem).prop("checked") == true){
         $("select#id_user_address_details_set-"+ids+"-is_shipping_address_diff").val("True");
         $("select#id_user_address_details_set-"+ids+"-is_shipping_address").val("False");
+        $("select#id_user_address_details_set-"+ids+"-is_billing_address").val("True");
         $("select#id_user_address_details_set-"+(parseInt(ids)+1)+"-is_shipping_address").val("True");
+        $("select#id_user_address_details_set-"+(parseInt(ids)+1)+"-is_billing_address").val("False");
     }else{
         $("select#id_user_address_details_set-"+ids+"-is_shipping_address_diff").val("False");
         $("select#id_user_address_details_set-"+ids+"-is_shipping_address").val("True");
+        $("select#id_user_address_details_set-"+ids+"-is_billing_address").val("True");
         $("select#id_user_address_details_set-"+(parseInt(ids)+1)+"-is_shipping_address").val("True");
+        $("select#id_user_address_details_set-"+(parseInt(ids)+1)+"-is_billing_address").val("True");
     } 
     
 
