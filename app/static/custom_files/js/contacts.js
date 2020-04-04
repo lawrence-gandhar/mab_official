@@ -26,39 +26,6 @@ $("tr#tr-id_user_address_details_set-tr-0 > td:nth-child(2)").hide()
 $(".is_billing_address, .is_shipping_address").prop("required",false);
 
 
-// is shipping different
-function set_shipping_diff(elem,ids){
-
-    ids = ids - 1;
-
-    if($(elem).prop("checked") == true){
-        $("select#id_user_address_details_set-"+ids+"-is_shipping_address_diff").val("True");
-        $("select#id_user_address_details_set-"+ids+"-is_shipping_address").val("False");
-        $("select#id_user_address_details_set-"+ids+"-is_billing_address").val("True");
-        $("select#id_user_address_details_set-"+(parseInt(ids)+1)+"-is_shipping_address").val("True");
-        $("select#id_user_address_details_set-"+(parseInt(ids)+1)+"-is_billing_address").val("False");
-    }else{
-        $("select#id_user_address_details_set-"+ids+"-is_shipping_address_diff").val("False");
-        $("select#id_user_address_details_set-"+ids+"-is_shipping_address").val("True");
-        $("select#id_user_address_details_set-"+ids+"-is_billing_address").val("True");
-        $("select#id_user_address_details_set-"+(parseInt(ids)+1)+"-is_shipping_address").val("True");
-        $("select#id_user_address_details_set-"+(parseInt(ids)+1)+"-is_billing_address").val("True");
-    } 
-    
-
-    if(ids == 0){
-        elem_htm = $("tr#tr-id_user_address_details_set-tr-0 > td:nth-child(2)");
-    }else{
-        ids = parseInt(ids)-2;
-        elem_htm = $("tr#tr-id_user_address_details_set-tr-"+ids+" > td:nth-child(2)");
-    }
-
-    if($(elem).prop("checked") == true){
-        $(elem_htm).show();
-    }else{
-        $(elem_htm).hide();
-    }
-}
 
 
 
@@ -313,7 +280,8 @@ $("#add_more_addresses").on("click",function(){
     htm_all += '<i class="material-icons pull-right" style="cursor:pointer;" onclick="delete_address_block($(this),'+(parseInt(inc)-1)+')">delete_forever</i></td></tr>';
     htm_all += '<tr id="tr-id_user_address_details_set-tr-'+(parseInt(inc)-1)+'">'+htm+'</tr>';
 
-    ids = parseInt(inc) + 1;
+    ids = parseInt(inc);
+
     row_num = 0;
     
     htm_all = htm_all.replace(/user_address_details_set-0/g, "user_address_details_set-"+ids);
@@ -321,16 +289,56 @@ $("#add_more_addresses").on("click",function(){
     
     $("#address_table > tbody").append(htm_all);
 
-    $("#tr-id_user_address_details_set-tr-"+(parseInt(inc)-1)+" td:nth-child(2)").find("table > tbody tr:nth-child(1)").hide();
+    $("#tr-id_user_address_details_set-tr-"+(parseInt(inc)-1)+"  td:nth-child(2)").find("table > tbody tr:nth-child(1)").hide();
 
-    $("#tr-id_user_address_details_set-tr-"+(parseInt(inc)-1)+" td:nth-child(2)").find("table").hide();
+    $("#tr-id_user_address_details_set-tr-"+(parseInt(inc)-1)+"  td:nth-child(2)").find("table").hide();
 
     $("#id_user_address_details_set-TOTAL_FORMS").val(parseInt(inc) + 2);
 
-    $("#tr-id_user_address_details_set-tr-"+(parseInt(inc)-1)+" td:nth-child(2)").find($(".address_is_billing_diff")).attr("onclick","set_billing_diff($(this),"+parseInt(ids + 1)+")")
+    $("#tr-id_user_address_details_set-tr-"+(parseInt(inc)-1)+"  td:nth-child(2)").find($(".address_is_billing_diff")).attr("onclick","set_shipping_diff($(this),"+parseInt(ids)+")")
 
 });
 
+
+/****************************************************************/
+// is shipping different
+/****************************************************************/
+
+function set_shipping_diff(elem,ids){
+
+    if($(elem).prop("checked") == true){
+        $("select#id_user_address_details_set-"+ids+"-is_shipping_address_diff").val(1);
+        $("select#id_user_address_details_set-"+ids+"-is_shipping_address").val(0);
+        $("select#id_user_address_details_set-"+ids+"-is_billing_address").val(1);
+        $("select#id_user_address_details_set-"+(parseInt(ids)+1)+"-is_shipping_address").val(1);
+        $("select#id_user_address_details_set-"+(parseInt(ids)+1)+"-is_billing_address").val(0);
+    }else{
+        $("select#id_user_address_details_set-"+ids+"-is_shipping_address_diff").val(0);
+        $("select#id_user_address_details_set-"+ids+"-is_shipping_address").val(1);
+        $("select#id_user_address_details_set-"+ids+"-is_billing_address").val(1);
+        $("select#id_user_address_details_set-"+(parseInt(ids)+1)+"-is_shipping_address").val(1);
+        $("select#id_user_address_details_set-"+(parseInt(ids)+1)+"-is_billing_address").val(1);
+    
+        $("#id_user_address_details_set-"+(parseInt(ids)+1)+"-contact_person").val("")
+        $("#id_user_address_details_set-"+(parseInt(ids)+1)+"-flat_no").val("")
+        $("#id_user_address_details_set-"+(parseInt(ids)+1)+"-street").val("")
+        $("#id_user_address_details_set-"+(parseInt(ids)+1)+"-city").val("")
+        $("#id_user_address_details_set-"+(parseInt(ids)+1)+"-pincode").val("")    
+    } 
+    
+    if(ids == 0){
+        elem_htm = $("tr#tr-id_user_address_details_set-tr-0 > td:nth-child(2)");
+    }else{
+        elem_htm = $(elem).closest("table").parent("td").parent("tr").children().eq(1);
+    }
+
+    if($(elem).prop("checked") == true){
+        $(elem_htm).show();
+        $(elem_htm).find("table").show();
+    }else{
+        $(elem_htm).find("table").hide();
+    }
+}
 
 
 /****************************************************************/
@@ -366,31 +374,6 @@ $(".set_required").find("input").attr("required", "true");
 $(".set_required").find("select").attr("required", "true");
 
 $("#editAccountsModal").find("input").attr("required", "true");
-
-
-/********************************************************************/
-// Billing Clicked
-/********************************************************************/
-
-function billing_clicked(elem){
-
-    var ids = $(elem).attr("id");
-
-    ids = ids.replace("id_user_address_details_set-", "").replace("-is_billing_address_diff", "");
-
-    if(ids == 0){
-        elem_htm = $("tr#tr-id_user_address_details_set-tr-0 > td:nth-child(2)");
-    }else{
-        ids = parseInt(ids)-2;
-        elem_htm = $("tr#tr-id_user_address_details_set-tr-"+ids+" > td:nth-child(2)");
-    }
-
-    if($(elem).prop("checked") == true){
-        $(elem_htm).show();
-    }else{
-        $(elem_htm).hide();
-    }
-}
 
 
 /********************************************************************/

@@ -1021,23 +1021,37 @@ def add_contacts(request, slug = None, ins = None):
             # Address Formset -- save
             #
             address_formset = AddressFormset(request.POST)
-            if address_formset.is_valid():
+            
+            if address_formset.is_valid():               
 
                 rownum = 0
 
-                for form in address_formset:
-                    if form.is_valid():
-                        if form.data["user_address_details_set-"+str(rownum)+"-flat_no"]:
+                flat_no = []
+                is_shipping_address_diff = []
 
+                for form in address_formset:
+                    for i in form.data.keys():
+                        
+                        if "flat_no" in i and i not in flat_no:
+                            flat_no.append(i)
+                        if "is_shipping_address_diff" in i and i not in is_shipping_address_diff:
+                            is_shipping_address_diff.append(i)
+                
+
+                for form in address_formset:
+                    if form.is_valid():                      
+
+                        if form.data[flat_no[rownum]]:
+                            
                             obj = form.save(commit = False)
                             obj.is_user = False
                             obj.contact = ins
 
-                            if form.data["user_address_details_set-"+str(rownum)+"-is_shipping_address_diff"] == "True":    
-                                obj.is_shipping_address = False
+                            if form.data[is_shipping_address_diff[rownum]] == "1":    
+                                obj.is_shipping_address = 0
                             
-                            obj.save()
-                        rownum +=1            
+                            obj.save()  
+                    rownum +=1    
             #
             # Accounts Formset -- save
             #
