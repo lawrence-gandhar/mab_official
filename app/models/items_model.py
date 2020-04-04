@@ -107,8 +107,9 @@ class ProductsModel(models.Model):
 
     product_type = models.IntegerField(
         db_index = True,
-        default = 0,
         choices = items_constant.PRODUCT_TYPE,
+        blank = True,
+        null = True,
     )
 
     sku = models.CharField(
@@ -133,14 +134,16 @@ class ProductsModel(models.Model):
     cost_price = models.IntegerField(
         default = 0,
         db_index = True,
+        blank = True,
+        null = True,
     )
 
 
-    selling_price = models.DecimalField(
-        max_digits = 9999999999,
-        decimal_places = 2,
+    selling_price = models.IntegerField(
         db_index = True,
         default = 0.0,
+        blank = True,
+        null = True,
     )
 
     discount = models.IntegerField(
@@ -148,18 +151,14 @@ class ProductsModel(models.Model):
         default = 0.0,
     )
 
-    tax = models.DecimalField(
-        max_digits = 99,
-        decimal_places = 2,
+    tax = models.IntegerField(
         default = 0.0,
         db_index = True,
         null=True,
         blank=True,
     )
 
-    gst = models.DecimalField(
-        max_digits = 99,
-        decimal_places = 2,
+    gst = models.IntegerField(
         default = 0.0,
         db_index = True,
         null=True,
@@ -360,3 +359,29 @@ class InventoryNotificationRemiander(models.Model):
 def image_delete(sender, instance, **kwargs):
     instance.product_image.delete(False)
 
+#=========================================================================================
+# BUNDLE TO PRODUCT MAPPING 
+#=========================================================================================
+#
+class BundleProducts(models.Model):
+    product_bundle = models.ForeignKey(
+        ProductsModel, 
+        on_delete = models.CASCADE,
+        related_name = "product_bundle",
+        db_index = True,
+    )
+
+    product = models.ForeignKey(
+        ProductsModel, 
+        on_delete = models.CASCADE,
+        related_name = "product_child",
+        db_index = True,
+    )
+
+    quantity = models.IntegerField(
+        null = True,
+        blank = True,
+        default = 0,
+        db_index = True,
+    )
+  

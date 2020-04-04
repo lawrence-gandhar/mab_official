@@ -172,56 +172,87 @@ $('#'+'del'+d.toString()).modal('hide')
 
 
 /********************************************************************/
-// bundle table 
+// bundle table -- Changes Made By Lawrence
 /********************************************************************/
 // Add Row
+/*
 var number = 1
 function addRow() {
     number += 1
     $('#table').append('<tr id="row'+number+'"><th scope="row'+number+'">'+number+'</th><td> <select class="form-control" id="product_type'+number+'" name="product_type'+number+'" onclick="bundle('+number+')" style="width: 107% !important;"><option value="------">------</option><option value="Goods">GOODS</option><option value="Services">SERVICES</option></td><td><select class="form-control" id="Product_name'+number+'" name="Product_name'+number+'" style="margin-left: 31px !important;width: 142% !important;"><option value="product_name">------</option></td><td><input type="number" class="form-control" id="Quantity'+number+'" name="Quantity'+number+'" style="margin-left: 90px !important;width:37% !important;"></td><td><button class="btn btn-danger btn-remove" type="button" id="'+number+'" name="'+number+'" onclick="removeRow(number)" style="padding-left:7px;padding-right:7px;margin-top:-8px;padding-top:6px;padding-bottom:6px;width: 96%;"><b>X</b></button></td></tr>')
     
 };
+*/
+var number = 1
+function addRow() {
+    number += 1
+    htm = '<tr id="row_'+number+'"><th>'+number+'</th>';
+    htm += '<td> <select class="form-control" name="prod_type[]" onchange="bundle($(this),'+number+')" style="width: 107% !important;"><option value="">------</option><option value="0">GOODS</option><option value="1">SERVICES</option></td>';
+    htm += '<td><select class="form-control" id="product_name_'+number+'" name="prod_name[]" style="margin-left: 31px !important;width: 142% !important;"><option value="">------</option></td>';
+    htm += '<td><input type="number" class="form-control" name="qty[]" style="margin-left: 90px !important;width:37% !important;"></td>';
+    htm += '<td><button class="btn btn-danger btn-remove" type="button" onclick="removeRow('+number+')" style="padding-left:7px;padding-right:7px;margin-top:-8px;padding-top:6px;padding-bottom:6px;width: 96%;"><b>X</b></button></td></tr>';
+    $('#table').append(htm);
+    
+};
+
 
 function removeRow(a) {
-    console.log(a)
-    $('#row'+a+'').remove();
-    number -=1
+    $('#row_'+a+'').remove();
+    number -=1;
+}
+
+function bundle(elem, ids){
+    if($(elem).val()!=""){
+        $('tr#row_'+ids+' input').val("");
+        get_products($(elem).val(), ids);        
+    }else{
+        $('tr#row_'+ids+' select').val("");
+        $('tr#row_'+ids+' input').val("");
+    }
+}
+
+function get_products(prod_type, ids){
+    $.get("/prducts/bundle/",{'prod_type' : prod_type},function(data){
+        $("select#product_name_"+ids).empty().append(data);
+    });
 }
 
 /********************************************************************/
 // bundle table   select INPUT FIELD
 /********************************************************************/
 
-    function bundle(number) {
-        var value = $('#product_type'+number+' :selected').text();
-        if(value == 'GOODS' || value == 'SERVICES'){
-            $.ajax({
-                type:"GET",
-                url: "/prducts/bundle/"+value+"",
-                dataType: "json",
-                success: function(data){
-                    var option = data.products
-                    // CLEAN SELECT OPTION //
-                    var select = document.getElementById('Product_name'+number+'');
-                    var length = select.options.length;
-                    for (i = length-1; i >= 1; i--) {
-                        select.options[i] = null;
-                    }
-                    // END //
-
-                    // ADD SELECT OPTION //
-                    for(var i = 0;i < option.length;i++){
-                        $('<option/>').val(option[i]).html(option[i]).appendTo('#Product_name'+number+'');
-                    }
-                    // END //
-                },
-                error: function (rs, e) {
-                    alert('Sorry, try again.');
+/*
+function bundle(number) {
+    var value = $('#product_type'+number+' :selected').text();
+    if(value == 'GOODS' || value == 'SERVICES'){
+        $.ajax({
+            type:"GET",
+            url: "/prducts/bundle/"+value+"",
+            dataType: "json",
+            success: function(data){
+                var option = data.products
+                // CLEAN SELECT OPTION //
+                var select = document.getElementById('Product_name'+number+'');
+                var length = select.options.length;
+                for (i = length-1; i >= 1; i--) {
+                    select.options[i] = null;
                 }
-            });
-        }
-      }
-    
+                // END //
+
+                // ADD SELECT OPTION //
+                for(var i = 0;i < option.length;i++){
+                    $('<option/>').val(option[i]).html(option[i]).appendTo('#Product_name'+number+'');
+                }
+                // END //
+            },
+            error: function (rs, e) {
+                alert('Sorry, try again.');
+            }
+        });
+    }
+}
+*/
+
 /********************************************************************/
 // product type to show and hide 
 /********************************************************************/

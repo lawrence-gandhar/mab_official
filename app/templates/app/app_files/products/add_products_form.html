@@ -157,17 +157,17 @@ optgroup{
                                   </tr>
                                 </thead>
                                 <tbody>
-                                  <tr>
+                                  <tr id="row_1">
                                     <th scope="row">1</th>
-                                    <td> <select class="form-control" id="product_type1" name="product_type1" onclick="bundle(1)" style="width: 107% !important;">
-                                        <option value="------">------</option>
-                                        <option value="Goods">GOODS</option>
-                                        <option value="Services">SERVICES</option>
+                                    <td> <select class="form-control" name="prod_type" onchange="bundle($(this),1)" style="width: 107% !important;">
+                                        <option value="">------</option>
+                                        <option value="0">GOODS</option>
+                                        <option value="1">SERVICES</option>
                                     </td>
-                                    <td><select class="form-control" id="Product_name1" name="Product_name1" style="margin-left: 31px !important;width: 142% !important;">
-                                        <option value="product_name">------</option>
+                                    <td><select class="form-control" id="product_name_1" name="prod_name[]" style="margin-left: 31px !important;width: 142% !important;">
+                                        <option value="">------</option>
                                     </td>
-                                    <td><input type="number" class="form-control" id="Quantity" name="Quantity" style="margin-left: 90px !important;width:37% !important;"></td>
+                                    <td><input type="number" class="form-control" name="qty[]" style="margin-left: 90px !important;width:37% !important;"></td>
                                     <td><button class="btn btn-success" type="button" onclick="addRow()" style="padding-left:7px;padding-right:7px;margin-top:-8px;padding-top:6px;padding-bottom: 6px;">Add </button></td>
                                   </tr>
                                   

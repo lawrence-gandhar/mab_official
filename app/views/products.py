@@ -236,6 +236,24 @@ class AddProducts(View):
                 )
 
                 img_save.save()
+        
+
+        product_names = request.POST.getlist("prod_name[]")
+        qty = request.POST.getlist("qty[]")
+
+        for i in range(len(product_names)):
+            try:
+                product = ProductsModel.objects.get(pk = int(product_names[i]))
+
+                obj = BundleProducts(
+                    product_bundle = ins,
+                    product = product,
+                    quantity = int(qty[i])
+                )
+
+                obj.save()
+            except:
+                pass
 
         return redirect('/products/', permanent = False)
 
@@ -376,10 +394,10 @@ def ajax_add_product(request):
 
 
 #===================================================================================================
-# BUNDLE 
+# BUNDLE - Commented by Lawrence
 #===================================================================================================
 #
-
+""""
 def bundle(request, slug):
 
     if(slug == 'GOODS'):
@@ -393,3 +411,22 @@ def bundle(request, slug):
 
     data = {'products' : name}
     return JsonResponse(data)
+
+"""
+
+def bundle(request):
+    html = ['<option value="">------</option>']
+    
+    if request.GET:
+        
+        prod_type = request.GET["prod_type"]
+
+        if prod_type != '':
+            products = ProductsModel.objects.filter(user = request.user, product_type = prod_type).values("id","product_name")
+            
+            print(products)
+            
+            for product in products:
+                html.append('<option value="{}">{}</option>'.format(product["id"], product["product_name"]))
+
+    return HttpResponse(''.join(html))
