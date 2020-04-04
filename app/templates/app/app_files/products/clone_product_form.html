@@ -3,6 +3,49 @@
 {% load static %}
 
 
+<style>
+select.form-control{padding:0px 10px;}
+select.form-control option{color : #000000; }
+input[type=number]::-webkit-inner-spin-button,
+    input[type=number]::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+        margin: 0;
+    }
+    .img-wrap {
+            position: relative;
+            display: inline-block;
+            font-size: 0;
+        }
+
+            .img-wrap .close {
+                position: absolute;
+                top: 2px;
+                right: 2px;
+                z-index: 100;
+                background-color: #D0E5F5;
+                padding: 5px 2px 2px;
+                color: #000;
+                font-weight: bolder;
+                cursor: pointer;
+                opacity: .5;
+                font-size: 23px;
+                line-height: 10px;
+                border-radius: 50%;
+                display: none;
+            }
+
+            .img-wrap:hover .close {
+                opacity: 1;
+                background-color: #ff0000;
+            }
+
+optgroup{
+    color: gray;
+}
+</style>
+
 <div class="row">
     <div class="col-lg-12" style="padding:0px">
         <div class="card">    
@@ -24,12 +67,81 @@
                                         {{ product.product_type }}
                                     </td>                                    
                                 </tr>
-                                <tr class="disabled-tr">
+                                <tr>
                                     <td style="border:0px; vertical-align: bottom; width:150px;">
-                                        SKU
+                                        SKU / Product Code
                                     </td>
                                     <td style="border:0px;">                                    
-                                        {{ product.sku|default_if_none:"" }}
+                                        {{ product.sku }}
+                                    </td>                                    
+                                </tr>
+                                <tr>
+                                    <td style="border:0px; vertical-align: bottom; width:150px;">
+                                        Product Name
+                                    </td>
+                                    <td style="border:0px;">                                    
+                                        {{ product.product_name }}
+                                    </td>                                    
+                                </tr>
+                                <tr class="disabled-tr">
+                                    <td style="border:0px; vertical-align: bottom; width:150px;">
+                                        HSN/SAC
+                                    </td>
+                                    <td style="border:0px;">                                    
+                                        {{ product.hsn_code }}
+                                    </td>                                    
+                                </tr>
+                                <tr class="disabled-tr">
+                                    <td style="border:0px; vertical-align: bottom; width:150px;">
+                                        Units
+                                    </td>
+                                    <td style="border:0px;">                                    
+                                        {{ product.unit }}
+                                    </td>                                    
+                                </tr>
+                                <tr class="disabled-tr">
+                                    <td style="border:0px; vertical-align: bottom; width:150px;">
+                                        Tax
+                                    </td>
+                                    <td style="border:0px;">                                    
+                                        {{ product.tax }}
+                                    </td>                                    
+                                </tr>
+                                <tr class="disabled-tr">
+                                    <td style="border:0px; vertical-align: bottom; width:150px;">
+                                        GST
+                                    </td>
+                                    <td style="border:0px;">                                    
+                                        {{ product.gst }}
+                                    </td>                                    
+                                </tr>
+                                <tr>
+                                    <td colspan="2" style="background-color:#000000; color:#FFFFFFF; font-weight:bold;">
+                                        SALES INFORMATION
+                                    </td>
+                                </tr>
+                                <tr class="disabled-tr">
+                                    <td style="border:0px; vertical-align: bottom; width:150px;">
+                                        Selling Price
+                                    </td>
+                                    <td style="border:0px;">                                    
+                                        {{ product.selling_price }}
+                                    </td>                                    
+                                </tr>                                
+                                <tr class="disabled-tr">
+                                    <td style="border:0px; vertical-align: bottom; width:150px;">
+                                        Accounts
+                                    </td>
+                                    <td style="border:0px;">                                    
+                                        {{ product.sales_account }}
+                                    </td>                                    
+                                </tr>
+                                <tr>
+                                    <td style="border:0px; vertical-align: bottom; width:150px;">
+                                        Product Description
+                                    </td>
+                                    <td style="border:0px; width:100%%">                                    
+                                        {{ product.product_description }}
                                     </td>                                    
                                 </tr>
                             </tbody>

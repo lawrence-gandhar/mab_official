@@ -462,13 +462,10 @@ class CloneProduct(View):
     def get(self, request, *args, **kwargs):
 
         if kwargs["ins"] is not None:
-            try:
-                self.data["product"] = ProductsModel.objects.get(pk = int(kwargs["ins"]))
-            except:
-                return redirect('/unauthorized/', permanent=False)
-
-            return render(request, self.template_name, self.data)
-        return redirect('/unauthorized/', permanent=False)
+            product = ProductsModel.objects.get(pk = int(kwargs["ins"]))
+            self.data["product"] = ProductForm(instance = product, user = request.user)
+            
+        return render(request, self.template_name, self.data)
 
     #
     #
@@ -482,6 +479,10 @@ class CloneProduct(View):
                 return redirect('/unauthorized/', permanent=False)
 
             product.pk = None
+            product.product_name = request.POST["product_name"]
+            product.product_description = request.POST["product_description"]
+            product.sku = request.POST["sku"]
             product.save()
+            
             return redirect('/products/', permanent=False)
         return redirect('/unauthorized/', permanent=False)

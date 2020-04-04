@@ -25,23 +25,20 @@ class ProductForm(ModelForm):
         )
 
         widgets = {
-            'product_type' : Select(attrs = {'class':'form-control input-sm','style':'width:71%','onchange':'show_bundle($(this))'}, choices = items_constant.PRODUCT_TYPE),
-            'sku' : TextInput(attrs = {'class':'form-control input-sm','style':'width:71%',}),
-            'product_name' : TextInput(attrs = {'class':'form-control input-sm','style':'width:40%',}),
-            
-            'product_description' : Textarea(attrs = {'class':'form-control input-sm','style':'width:40%',}),
-            'cost_price' : NumberInput(attrs = {'class':'form-control input-sm','style':'width:40%',}),
-            
-            'selling_price' : NumberInput(attrs = {'class':'form-control input-sm','style':'width:40%',}),
-            'discount' : NumberInput(attrs = {'class':'form-control input-sm','style':'width:40%',}),
-            'tax' : NumberInput(attrs = {'class':'form-control input-sm','style':'width:40%',}),
-            'gst' : NumberInput(attrs = {'class':'form-control input-sm','style':'width:40%',}),
-            'hsn_code' : TextInput(attrs = {'class':'form-control input-sm','style':'width:40%',}),
-            'abatement' : NumberInput(attrs = {'class':'form-control input-sm','style':'width:40%',}),
-            'unit' : Select(attrs = {'class':'form-control input-sm', 'style':'width:71%',}, choices = items_constant.UNITS),
-           
-            'purchase_account' : Select(attrs = {'class':'form-control input-sm', 'style':'width:40%',},),
-            'sales_account' : Select(attrs = {'class':'form-control input-sm', 'style':'width:40%',},),
+            'product_type' : Select(attrs = {'class':'form-control input-sm', 'onchange':'show_bundle($(this))'}, choices = items_constant.PRODUCT_TYPE),
+            'sku' : TextInput(attrs = {'class':'form-control input-sm',}),
+            'product_name' : TextInput(attrs = {'class':'form-control input-sm',}),            
+            'product_description' : Textarea(attrs = {'class':'form-control input-sm',}),
+            'cost_price' : NumberInput(attrs = {'class':'form-control input-sm',}),            
+            'selling_price' : NumberInput(attrs = {'class':'form-control input-sm',}),
+            'discount' : NumberInput(attrs = {'class':'form-control input-sm',}),
+            'tax' : NumberInput(attrs = {'class':'form-control input-sm',}),
+            'gst' : NumberInput(attrs = {'class':'form-control input-sm',}),
+            'hsn_code' : TextInput(attrs = {'class':'form-control input-sm',}),
+            'abatement' : NumberInput(attrs = {'class':'form-control input-sm',}),
+            'unit' : Select(attrs = {'class':'form-control input-sm',}, choices = items_constant.UNITS),           
+            'purchase_account' : Select(attrs = {'class':'form-control input-sm',},),
+            'sales_account' : Select(attrs = {'class':'form-control input-sm',},),
         }
 
 #==================================================================================

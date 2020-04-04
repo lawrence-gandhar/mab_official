@@ -16,6 +16,8 @@ $("#id_is_purchase").on("click", function(){
     }
 });
 
+$(".disabled-tr select, .disabled-tr input, .disabled-tr textarea").prop("disabled", true);
+
 
 /********************************************************************/
 // SHOW PRODUCT IMAGE 
@@ -61,6 +63,8 @@ $("#id_is_purchase").on("click", function(){
 //       alert("Your browser doesn't support to File API")
 //     }
 //   });
+
+/*
 window.addEventListener('load', function() {
     document.querySelector('input[type="file"]').addEventListener('change', function() {
 
@@ -92,6 +96,8 @@ window.addEventListener('load', function() {
 
     
 });
+
+*/
 /********************************************************************/
 // view product active inactive and delete 
 /********************************************************************/
