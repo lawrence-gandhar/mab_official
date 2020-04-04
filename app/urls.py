@@ -87,6 +87,7 @@ urlpatterns += [
     path('products/status_change/<slug:slug>/<int:ins>/', never_cache(login_required(products.status_change)), name='product-status-change'),
     # BUNDLE ADDED BY ROSHAN
     path('prducts/bundle/',never_cache(login_required(products.bundle)),name='bundle'),
+    path('products/clone/<int:ins>/', never_cache(login_required(products.CloneProduct.as_view())), name='product-clone'),
 ]
 
 # Inventory

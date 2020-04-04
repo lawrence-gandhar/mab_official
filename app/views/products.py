@@ -430,3 +430,58 @@ def bundle(request):
                 html.append('<option value="{}">{}</option>'.format(product["id"], product["product_name"]))
 
     return HttpResponse(''.join(html))
+
+#****************************************************************************
+#  CLONE PRODUCT
+#*****************************************************************************
+#
+
+class CloneProduct(View):
+    
+    # Template 
+    template_name = 'app/app_files/products/index.html'
+    
+    # Initialize 
+    data = defaultdict()
+    data["view"] = ""
+    data["contacts"] = {}
+    data["active_link"] = 'Products'
+    data["breadcrumb_title"] = 'PRODUCTS'
+
+    # Custom CSS/JS Files For Inclusion into template
+    data["css_files"] = []
+    data["js_files"] = ['custom_files/js/product.js']
+
+    data["included_template"] = 'app/app_files/products/clone_product_form.html'
+    
+    data["product"] = None
+
+    #
+    #
+    #
+    def get(self, request, *args, **kwargs):
+
+        if kwargs["ins"] is not None:
+            try:
+                self.data["product"] = ProductsModel.objects.get(pk = int(kwargs["ins"]))
+            except:
+                return redirect('/unauthorized/', permanent=False)
+
+            return render(request, self.template_name, self.data)
+        return redirect('/unauthorized/', permanent=False)
+
+    #
+    #
+    #
+    def post(self, request, *args, **kwargs):
+
+        if kwargs["ins"] is not None:
+            try:
+                product = ProductsModel.objects.get(pk = int(kwargs["ins"]))
+            except:
+                return redirect('/unauthorized/', permanent=False)
+
+            product.pk = None
+            product.save()
+            return redirect('/products/', permanent=False)
+        return redirect('/unauthorized/', permanent=False)
