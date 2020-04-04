@@ -467,9 +467,7 @@ table{
                                 <td style="width:40%;border:0px;">
                                     {{ contact_form.email }}
                                 </td>  
-                                <td style="border:0px;">
-                                    <p id="email_error" style="color: red;margin-bottom: 0px;"></p>
-                                </td>                                  
+                                <td style="border:0px;" class="error_field"></td>                                   
                             </tr>
                             <tr>
                             <tr>
@@ -479,9 +477,7 @@ table{
                                 <td style="width:40%;border:0px;">
                                     {{ contact_form.phone }}
                                 </td>    
-                                <td style="border:0px;">
-                                    <p id="phone_error" style="color: red;margin-bottom: 0px;"></p> 
-                                </td>                                 
+                                <td style="border:0px;" class="error_field"></td>                                   
                             </tr>
                         </tbody>
                     </table>
@@ -521,9 +517,7 @@ table{
                                 <td style="width: 45%;border:0px;">
                                     {{ tax_form.pan }}
                                 </td>    
-                                <td style="border:0px;">
-                                    <p id="pan_error" style="color: red;margin-bottom: 0px;"></p>
-                                </td>                                
+                                <td style="border:0px;" class="error_field"></td>                                 
                             </tr>
                             <tr>
                                 <td style=" width:170px; border:0px; vertical-align: bottom; color:#a7a4a4">
@@ -541,9 +535,7 @@ table{
                                     {{ tax_form.gstin }}
                                      
                                 </td> 
-                                <td style="border:0px;">
-                                    <p id="gst_error" style="color: red;margin-bottom: 0px;"></p>
-                                </td> 
+                                <td style="border:0px;" class="error_field"></td>  
                             </tr>
                             <!--
                             <tr>
@@ -607,18 +599,19 @@ table{
                                 <td style="text-align:left; padding:0px 0px 0px 10px; width:150px; border:0px; vertical-align: inherit">
                                     Is Shipping Address
                                 </td>
-                                <td style="border:0px; padding:0px">                                                                    
-                                    <label class="switch">
-                                        {{ i.is_shipping_address  }}
+                                <td style="border:0px; padding:0px">   
+                                    {{ i.is_shipping_address  }}      
+                                    {{ i.is_billing_address }}                                                       
+                                    <label class="switch">         
+                                        <input type="checkbox" class="checkbox_shipping" onclick="set_shipping($(this), '.shipping_address')" checked>                               
                                         <span class="slider round"></span>
                                     </label>
 
-                                    <span style="margin-left: 40px; position: relative; top: -7px;">
+                                    <span style="margin-left: 40px; position: relative; top: 5px;">
                                         Is Billing Address
-                                    </span>
-
+                                    </span>                                    
                                     <label class="switch" style="margin-left: 20px;">
-                                        {{ i.is_billing_address }}
+                                        <input type="checkbox" class="checkbox_billing" onclick="set_billing($(this),'.billing_address')" checked>
                                         <span class="slider round"></span>
                                     </label>
                                 </td>  
@@ -715,18 +708,21 @@ table{
                                 <td style="text-align:left; padding:0px 0px 0px 10px; width:150px; border:0px; vertical-align: inherit">
                                     Is Shipping Address
                                 </td>
-                                <td style="border:0px; padding:0px">                                                                    
-                                    <label class="switch">
-                                        {{ new_address_form.is_shipping_address  }}
+                                <td style="border:0px; padding:0px">     
+                                    {{ new_address_form.is_shipping_address  }}      
+                                    {{ new_address_form.is_billing_address }}
+                                                                                            
+                                    <label class="switch">                                        
+                                        <input type="checkbox" onclick="set_shipping($(this),'#id_is_shipping_address')" checked>
                                         <span class="slider round"></span>
                                     </label>
 
-                                    <span style="margin-left: 40px; position: relative; top: -7px;">
+                                    <span style="margin-left: 40px; position: relative; top: 5px;">
                                         Is Billing Address
                                     </span>
 
-                                    <label class="switch" style="margin-left: 20px;">
-                                        {{ new_address_form.is_billing_address }}
+                                    <label class="switch" style="margin-left: 20px;">                                        
+                                        <input type="checkbox" onclick="set_billing($(this),'#id_is_billing_address')" checked>
                                         <span class="slider round"></span>
                                     </label>
                                 </td>  
@@ -840,9 +836,7 @@ table{
                                 <td style="border:0px;">
                                     {{ i.ifsc_code }}
                                 </td>   
-                                <td style="border:0px;">
-                                    <p id="ifcs_error" style="color: red;margin-bottom: 0px;"></p> 
-                                </td>                                  
+                                <td style="border:0px;" class="error_field"></td>                                  
                             </tr>
                             <tr>
                                 <td style="padding:0px 0px 0px 10px;border:0px; vertical-align: bottom; color:#a7a4a4">
@@ -1050,9 +1044,7 @@ table{
                                     {{ social_form.website }}
                                      
                                 </td>
-                                <td style="border:0px;">
-                                    <p id="website_error" style="color: red;margin-bottom: 0px;"></p>
-                                </td>
+                                <td style="border:0px;" class="error_field"></td>  
                             </tr>
                             
                             <tr>
@@ -1062,6 +1054,7 @@ table{
                                 <td style="border:0px;">
                                     {{ social_form.facebook }}
                                 </td>
+                                <td style="border:0px;" class="error_field"></td>  
                             </tr>
                             <tr>
                                 <td style="border:0px; vertical-align: bottom">
@@ -1070,6 +1063,7 @@ table{
                                 <td style="border:0px;">
                                     {{ social_form.twitter }}
                                 </td>
+                                <td style="border:0px;" class="error_field"></td>  
                             </tr>
                             <tr>
                                 <td style="border:0px; vertical-align: bottom">

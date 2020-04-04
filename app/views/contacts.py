@@ -1297,6 +1297,9 @@ def edit_address_details_form(request):
             address_form = EditAddressForm(request.POST, prefix='form_'+prefix, instance = obj)
             if address_form.is_valid():
                 address_form.save()
+            else:
+                print(address_form.errors)
+            
         except:
             try:
                 contact = Contacts.objects.get(pk = int(request.POST["ids"]))

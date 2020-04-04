@@ -379,8 +379,22 @@ $("#editAccountsModal").find("input").attr("required", "true");
 /********************************************************************/
 //
 /********************************************************************/
-function openAddressModal(ids){
+function openAddressModal(ids, is_billing_address, is_shipping_address){
+    if(is_billing_address == 1){
+        $("#editAddressModal-"+ids).find(".checkbox_billing").prop("checked", true);
+    }else{
+        $("#editAddressModal-"+ids).find(".checkbox_billing").prop("checked", false);
+    }
+    
+    if(is_shipping_address == 1){
+        $("#editAddressModal-"+ids).find(".checkbox_shipping").prop("checked", true);
+    }else{
+        $("#editAddressModal-"+ids).find(".checkbox_shipping").prop("checked", false);
+    }
+
     $("#editAddressModal-"+ids).modal('show');
+
+
 }
 
 function openAccountsModal(ids){
@@ -425,6 +439,22 @@ function check() {
         return false;
     } 
     
+}
+
+function set_shipping(elem, target_elem){
+    if($(elem).prop("checked")){
+        $(target_elem).val(1);
+    }else{
+        $(target_elem).val(0);
+    }    
+}
+
+function set_billing(elem, target_elem){
+    if($(elem).prop("checked")){
+        $(target_elem).val(1);
+    }else{
+        $(target_elem).val(0);
+    }    
 }
 
 /************************************************************ */

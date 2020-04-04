@@ -82,8 +82,8 @@ class EditAddressForm(ModelForm):
             'state' : Select(attrs={'class':'form-control input-sm','style':'width:50%;'}, choices = country_list.STATE_LIST_CHOICES),
             'country' : Select(attrs={'class':'form-control input-sm','style':'width:50%;'}, choices = country_list.COUNTRIES_LIST_CHOICES),
             'pincode' : TextInput(attrs={'class':'form-control input-sm','style':'width:50%;'}),
-            'is_billing_address' : CheckboxInput(attrs={'class':'is_billing_address form-control input-sm','style':'width:50%;', 'required':'true'}),
-            'is_shipping_address' : CheckboxInput(attrs={'class':'is_shipping_address form-control input-sm','style':'width:50%;', 'required':'false'}),
+            'is_shipping_address' : Select(attrs={'class':'form-control input-sm shipping_address hide','style':'width:40%;', 'required':'false',}),
+            'is_billing_address' : Select(attrs={'class':'form-control input-sm billing_address hide','style':'width:40%;', 'required':'false'}),
         }
 
 #
