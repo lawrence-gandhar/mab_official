@@ -37,6 +37,12 @@
                                 File Uploading Failed. Only CSV is supported
                             </div>
                         {% endif %}
+
+                        {% if error %}
+                            <div class="alert alert-danger">
+                                {{error|safe}}
+                            </div>
+                        {% endif %}
     
                         <div class="table" style="padding:10px 0px;margin-left: 27%;">
                             <div class="d-table-row" style="padding:10px 0px;">

@@ -1452,14 +1452,15 @@ class ContactsFileUploadView(View):
                 #***************************************************************
 
                 file_path = settings.MEDIA_ROOT+"/"+str(obj.csv_file)
-                err, self.data["row_count"] = csv_2_contacts(request.user,file_path)
-
+                err, self.data["row_count"] = check_csv_validation(request.user, file_path)
+                
                 if len(err) > 0:
                     self.data["saved_msg"] = '3'
                     obj.delete()
                 else:
                     if obj:
                         self.data["saved_msg"] = '1'
+                        csv_2_contacts(request.user,file_path)
                     else:
                         self.data["saved_msg"] = '2'
                 
@@ -1475,7 +1476,8 @@ class ContactsFileUploadView(View):
 # Function to insert contact import csv data into database
 #==============================================================================
 #
-def csv_2_contacts(user, file_path):
+
+def check_csv_validation(user, file_path):
     row_count = 0
     error_row = []
 
@@ -1604,14 +1606,77 @@ def csv_2_contacts(user, file_path):
 
             row_count += 1
 
-        if len(error_row) > 0:
-            return error_row, row_count
+    return error_row, row_count
+        
 
 
-        #***************************************************************
-        # Phase 1
-        #***************************************************************
+#***************************************************************
+# Phase 1
+#***************************************************************
+def csv_2_contacts(user, file_path):
+    
+    with open(file_path, newline='', encoding='utf-8') as csvfile:
+        records = csv.DictReader(csvfile)
+
+        fields = records.fieldnames
+
+        contact_ins = None
+
         for row in records:
+
+            #*************************************************************** 
+            # Get and Set Missing/Existence of fields
+            #***************************************************************
+            salutation = row["salutation"] if "salutation" in fields else None
+            customer_type = row["customer_type"] if "customer_type" in fields else None
+            is_sub_customer = row["is_sub_customer"] if "is_sub_customer" in fields else 1
+            contact_name = row["contact_name"] if "contact_name" in fields else None
+            display_name = row["display_name"] if "display_name" in fields else None
+            organization_type = row["organisation_type"] if "organisation_type" in fields else 1
+            organization_name = row["organisation_name"] if "organisation_name" in fields else None
+            
+            if "is_msme_reg" in fields:
+                is_msme_reg = True if row["is_msme_reg"] == 'TRUE' else False
+            else:
+                is_msme_reg = False
+
+            email = row["email"] if "email" in fields else None
+            phone = row["phone"] if "phone" in fields else None
+            website = row["website"] if "website" in fields else None
+            facebook = row["facebook"] if "facebook" in fields else None
+            twitter = row["twitter"] if "twitter" in fields else None
+            notes = row["notes"] if "notes" in fields else None
+
+            contact_person = row["contact_person"] if "contact_person" in fields else None
+            flat_no = row["flat_door_no"] if "flat_door_no" in fields else None
+            street = row["street"] if "street" in fields else None
+            city = row["city"] if "city" in fields else None
+            pincode = row["pincode"] if "pincode" in fields else None
+            state = row["state"] if "state" in fields else None
+            country = row["country"] if "country" in fields else None
+
+            account_number = row["account_number"] if "account_number" in fields else None 
+            account_holder_name = row["account_holder_name"] if "account_holder_name" in fields else None 
+            ifsc_code = row["ifsc_code"] if "ifsc_code" in fields else None 
+            bank_name = row["bank_name"] if "bank_name" in fields else None 
+            bank_branch_name = row["branch_name"] if "branch_name" in fields else None
+            
+            pan = row["pan"] if "pan" in fields else None
+            gstin = row["gstin"] if "gstin" in fields else None
+            gst_reg_type = row["gst_reg_type"] if "gst_reg_type" in fields else None
+            business_reg_no = row["business_reg_no"] if "business_reg_no" in fields else None
+            tax_reg_no = row["tax_reg_no"] if "tax_reg_no" in fields else None
+            cst_reg_no = row["cst_reg_no"] if "cst_reg_no" in fields else None
+            tds = row["tds"] if "tds" in fields else None
+            preferred_currency = row["preferred_currency"] if "preferred_currency" in fields else None
+            opening_balance = row["opening_balance"] if "opening_balance" in fields else None
+            as_of = row["as_of"] if "as_of" in fields else None
+            preferred_payment_method = row["preferred_payment_method"] if "preferred_payment_method" in fields else None
+            preferred_delivery = row["preferred_delivery"] if "preferred_delivery" in fields else None
+            invoice_terms = row["invoice_terms"] if "invoice_terms" in fields else None
+            bills_terms = row["billing_terms"] if "billing_terms" in fields else None
+
+            
             if row["is_parent_record"] == 'TRUE':
                 
                 #***************************************************************
@@ -1643,7 +1708,7 @@ def csv_2_contacts(user, file_path):
                 #   csv record data.
                 #***************************************************************  
                  
-                if row["app_id"].strip() !="":
+                if "app_id" in fields and row["app_id"].strip() !="":
                     ret = get_app_user_id(row["app_id"])
 
                     if ret["ret"] == 1:                        
@@ -1680,12 +1745,10 @@ def csv_2_contacts(user, file_path):
                             contact.notes = notes
                             contact.save()
                     else:
-                        error_row.append("Error On Row {}: In-Valid APP ID. Row Skipped".format(row_count))    
                         contact_ins = None
                 else:
                     contact.save()
                     contact_ins = contact
-                row_count += 1
 
             #***************************************************************
             # Phase 2
@@ -1781,8 +1844,6 @@ def csv_2_contacts(user, file_path):
                         )
                     
                     tax_details.save()
-
-    return error_row, row_count
 
 #===================================================================================================
 # STATUS CHANGE
