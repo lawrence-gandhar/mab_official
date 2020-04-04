@@ -316,7 +316,7 @@ class EditProducts(View):
     data["js_files"] = ['custom_files/js/product.js',]
     data["active_link"] = 'Products'
 
-    data["included_template"] = 'app/app_files/products/add_products_form.html'
+    data["included_template"] = 'app/app_files/products/edit_products.html'
 
     data["add_product_images_form"] = ProductPhotosForm()
     
@@ -325,10 +325,18 @@ class EditProducts(View):
     #
     def get(self, request, *args, **kwargs):
 
+        product = None
+        self.data["bundle_products"] = {}
+
         try:
             product = ProductsModel.objects.get(pk = int(kwargs["ins"]))
         except:
             return redirect('/unauthorized/', permanent=False)
+
+        self.data["product_type"] = product.product_type
+
+        if product is not None:
+            self.data["bundle_products"] = items_model.BundleProducts.objects.filter(product_bundle = product) 
 
         self.data["add_product_form"] = ProductForm(request.user, instance = product)
         return render(request, self.template_name, self.data)
@@ -483,6 +491,6 @@ class CloneProduct(View):
             product.product_description = request.POST["product_description"]
             product.sku = request.POST["sku"]
             product.save()
-            
+
             return redirect('/products/', permanent=False)
         return redirect('/unauthorized/', permanent=False)
