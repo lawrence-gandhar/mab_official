@@ -1060,9 +1060,15 @@ def add_contacts(request, slug = None, ins = None):
 
                 rownum = 0
 
+                account_holder_name = []
+                for form in accounts_formset:
+                    for i in form.data.keys():
+                        if "account_holder_name" in i and i not in account_holder_name:
+                            account_holder_name.append(i)
+
                 for form in accounts_formset:
                     if form.is_valid():
-                        if form.data["form-"+str(rownum)+"-account_holder_name"]:
+                        if form.data[account_holder_name[rownum]]:
                             obj = form.save(commit = False)
                             obj.is_user = False
                             obj.contact = ins
