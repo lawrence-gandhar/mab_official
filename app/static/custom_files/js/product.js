@@ -334,5 +334,19 @@ $('input[type=number]').on('keydown',function(e) {
     }
 });
 
+/*******************************************************************/
+//  CODE BY LAWRENCE
+/*******************************************************************/
 
+function delete_bundle_product(ids, pro_id, sku, name){
 
+    if(sku!="" && name!="") $("#product_details_span").text(sku +" - "+name);
+    else if(sku!="" && name=="") $("#product_details_span").text(sku);
+    else if(sku=="" && name!="") $("#product_details_span").text(name);
+    else $("#product_details_span").text("");
+
+    $("#product_delete_link").attr("href","/delete_bundle_product/"+ids+"/"+pro_id+"/"); 
+
+    $("#delProductModal").modal('show');
+
+}

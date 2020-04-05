@@ -86,7 +86,7 @@ urlpatterns += [
     path('products/delete/<int:ins>/', never_cache(login_required(products.delete_product)), name='product-delete'),
     path('products/status_change/<slug:slug>/<int:ins>/', never_cache(login_required(products.status_change)), name='product-status-change'),
     # BUNDLE ADDED BY ROSHAN
-    path('prducts/bundle/',never_cache(login_required(products.bundle)),name='bundle'),
+    path('prducts/bundle/',never_cache(login_required(products.bundle)),name='bundle'),    
     path('products/clone/<int:ins>/', never_cache(login_required(products.CloneProduct.as_view())), name='product-clone'),
 ]
 
@@ -110,6 +110,7 @@ urlpatterns += [
     path('get_contacts_dropdown/', never_cache(login_required(common_views.get_contacts_dropdown)), name='get_contacts_dropdown'),
     path('add_edit_address/<int:ins>/', never_cache(login_required(common_views.add_edit_address)), name='add_edit_address'),
     path('add_edit_address/<int:ins>/<int:obj>/', never_cache(login_required(common_views.add_edit_address)), name='add_edit_address'),
+    path('delete_bundle_product/<int:ins>/<int:obj>/',never_cache(login_required(products.delete_bundle_product)),name='delete-bundle-product'),
 ]
 
 

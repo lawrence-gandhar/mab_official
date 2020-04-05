@@ -334,6 +334,7 @@ class EditProducts(View):
             return redirect('/unauthorized/', permanent=False)
 
         self.data["product_type"] = product.product_type
+        self.data["product_id"] = product.id
 
         if product is not None and product.product_type == 2:
             self.data["bundle_products"] = items_model.BundleProducts.objects.filter(product_bundle = product) 
@@ -432,12 +433,18 @@ def bundle(request):
         if prod_type != '':
             products = ProductsModel.objects.filter(user = request.user, product_type = prod_type).values("id","product_name")
             
-            print(products)
-            
             for product in products:
                 html.append('<option value="{}">{}</option>'.format(product["id"], product["product_name"]))
 
     return HttpResponse(''.join(html))
+
+
+def delete_bundle_product(request, ins = None, obj = None):
+    try:
+        items_model.BundleProducts.objects.get(pk = int(obj)).delete()
+        return redirect('/products/edit/{}/'.format(ins), permanent=False)
+    except:
+        return redirect('/unauthorized/', permanent=False)
 
 #****************************************************************************
 #  CLONE PRODUCT
