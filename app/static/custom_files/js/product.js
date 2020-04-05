@@ -288,10 +288,12 @@ function show_bundle(elem){
     }
 }
 
+// COMMENTED BY LAWRENCE
+
 /********************************************************************/
 // ADD PRODUCT SALE ACCOUNT SELECT OPTION
 /********************************************************************/
-
+/*
     var opt = {
         Income:[
             {name:"Discount"},
@@ -314,7 +316,7 @@ function show_bundle(elem){
             group.appendTo($select);
         });
     });
-
+*/
 /********************************************************************/
 // INPUT TYPE NUMBER SROLL HIDE
 /********************************************************************/

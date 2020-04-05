@@ -87,3 +87,27 @@ INVOICE_TYPE = (
     (0, 'One Time'), 
     (1, 'Recurring'),
 )
+
+
+#****************************************************************************
+#   SALES ACCOUNT 
+#****************************************************************************
+SALES_ACCOUNT_DICT = {
+    0:"Discount",
+    1:"General Income",
+    2:"Interest Income",
+    3:"Late Fee Income",
+    4:"Other Charges",
+    5:"Sales",
+    6:"Shipping Charges",
+}
+
+SALES_ACCOUNT_CHOICES = (
+    (0, "Discount"),
+    (1, "General Income"),
+    (2, "Interest Income"),
+    (3, "Late Fee Income"),
+    (4, "Other Charges"),
+    (5, "Sales"),
+    (6, "Shipping Charges"),
+)

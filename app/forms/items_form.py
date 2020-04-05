@@ -12,8 +12,6 @@ class ProductForm(ModelForm):
     def __init__(self, user, *args, **kwargs):
         self.user = user
         super(ProductForm, self).__init__(*args, **kwargs)
-        self.fields['sales_account'].queryset = ProductAccounts.objects.filter(user = self.user, is_sales = True, is_active = True,)
-        self.fields['purchase_account'].queryset = ProductAccounts.objects.filter(user = self.user, is_sales = False, is_active = True,)
         
     class Meta:
         model = ProductsModel

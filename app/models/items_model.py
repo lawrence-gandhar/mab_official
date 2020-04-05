@@ -189,22 +189,18 @@ class ProductsModel(models.Model):
         choices = user_constants.IS_TRUE,
     )
 
-    sales_account = models.ForeignKey(
-        ProductAccounts,
-        on_delete = models.SET_NULL,
+    sales_account = models.IntegerField(
         db_index = True,
-        related_name = "sales_account",
         null = True,
         blank = True,
+        choices = items_constant.SALES_ACCOUNT_CHOICES,
     )
 
-    purchase_account = models.ForeignKey(
-        ProductAccounts,
-        on_delete = models.SET_NULL,
-        db_index = True,
-        related_name = "purchase_account",
+    purchase_account = models.IntegerField(
+       db_index = True,
         null = True,
         blank = True,
+        choices = items_constant.SALES_ACCOUNT_CHOICES,
     )
 
 
