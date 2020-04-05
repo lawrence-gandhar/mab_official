@@ -446,6 +446,17 @@ def delete_bundle_product(request, ins = None, obj = None):
     except:
         return redirect('/unauthorized/', permanent=False)
 
+
+def edit_bundle_product_form(request):
+    try:
+        ins = items_model.BundleProducts.objects.get(pk = int(request.POST["obj"]), product_bundle_id = int(request.POST["ins"]))
+        ins.quantity = int(request.POST["quantity"])
+        ins.save() 
+    except:
+        pass
+    
+    return redirect('/products/edit/{}/'.format(request.POST["ins"]), permanent=False)
+
 #****************************************************************************
 #  CLONE PRODUCT
 #*****************************************************************************

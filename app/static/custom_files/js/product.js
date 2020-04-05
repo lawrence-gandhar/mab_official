@@ -351,13 +351,16 @@ function delete_bundle_product(ids, pro_id, sku, name){
 }
 
 
-function edit_bundle_product(ids, pro_id, sku, name){
+function edit_bundle_product(ids, pro_id, sku, name, qty = 0){
     if(sku!="" && name!="") $("#product_edit_details_span").text(sku +" - "+name);
     else if(sku!="" && name=="") $("#product_edit_details_span").text(sku);
     else if(sku=="" && name!="") $("#product_edit_details_span").text(name);
     else $("#product_edit_details_span").text("");
 
     $("#product_edit_link").attr("href","/edit_bundle_product/"+ids+"/"+pro_id+"/"); 
+
+    $("#bundle_product_quantity").val(qty);
+    $("#bundle_product_obj").val(pro_id);
     
     $("#editProductModal").modal('show');
 }

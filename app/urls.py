@@ -111,6 +111,7 @@ urlpatterns += [
     path('add_edit_address/<int:ins>/', never_cache(login_required(common_views.add_edit_address)), name='add_edit_address'),
     path('add_edit_address/<int:ins>/<int:obj>/', never_cache(login_required(common_views.add_edit_address)), name='add_edit_address'),
     path('delete_bundle_product/<int:ins>/<int:obj>/',never_cache(login_required(products.delete_bundle_product)),name='delete-bundle-product'),
+    path('edit_bundle_product_form/',never_cache(login_required(products.edit_bundle_product_form)),name='edit_bundle_product_form'),
 ]
 
 
