@@ -133,3 +133,18 @@ class InventoryProductEditForm(ModelForm):
             'threshold_notify_trigger' : Select(attrs = {'class':'form-control input-sm'}, choices = items_constant.PRODUCT_STOCK_NOTIFICATION_TRIGGERS),
             'min_hold_notify_trigger' : Select(attrs = {'class':'form-control input-sm'}, choices = items_constant.PRODUCT_STOCK_NOTIFICATION_TRIGGERS),
         }
+
+#==================================================================================
+# BUNDLE EDIT PRODUCT FORM
+#==================================================================================
+#
+
+class BundleProductEditForm(ModelForm):
+    class Meta:
+        model = BundleProducts
+
+        fields = ('quantity',)
+
+        widgets = {
+            'quantity' : NumberInput(attrs = {'class':'form-control input-sm'}),
+        }

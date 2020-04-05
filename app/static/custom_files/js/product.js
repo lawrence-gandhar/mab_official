@@ -348,5 +348,16 @@ function delete_bundle_product(ids, pro_id, sku, name){
     $("#product_delete_link").attr("href","/delete_bundle_product/"+ids+"/"+pro_id+"/"); 
 
     $("#delProductModal").modal('show');
+}
 
+
+function edit_bundle_product(ids, pro_id, sku, name){
+    if(sku!="" && name!="") $("#product_edit_details_span").text(sku +" - "+name);
+    else if(sku!="" && name=="") $("#product_edit_details_span").text(sku);
+    else if(sku=="" && name!="") $("#product_edit_details_span").text(name);
+    else $("#product_edit_details_span").text("");
+
+    $("#product_edit_link").attr("href","/edit_bundle_product/"+ids+"/"+pro_id+"/"); 
+    
+    $("#editProductModal").modal('show');
 }
