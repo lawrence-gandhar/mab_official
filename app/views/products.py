@@ -335,7 +335,7 @@ class EditProducts(View):
 
         self.data["product_type"] = product.product_type
 
-        if product is not None:
+        if product is not None and product.product_type == 2:
             self.data["bundle_products"] = items_model.BundleProducts.objects.filter(product_bundle = product) 
 
         self.data["add_product_form"] = ProductForm(request.user, instance = product)
