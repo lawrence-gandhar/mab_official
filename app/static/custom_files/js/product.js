@@ -18,6 +18,35 @@ $("#id_is_purchase").on("click", function(){
 
 $(".disabled-tr select, .disabled-tr input, .disabled-tr textarea").prop("disabled", true);
 
+/********************************************************************/
+// IMAGE SLIDER
+/********************************************************************/
+
+var slideIndex = 1;
+showDivs(slideIndex);
+
+function plusDivs(n) {
+  showDivs(slideIndex += n);
+}
+
+function showDivs(n) {
+    var i;
+    x = $("img.mySlides");
+    
+    if (n > x.length) {slideIndex = 1}
+    if (n < 1) {slideIndex = x.length}
+
+    console.log(slideIndex);
+
+    
+    for (i = 0; i < x.length; i++) {
+        x.eq(i).css("display","none");  
+    }
+
+    x.eq(slideIndex-1).css("display","block");
+    
+}
+
 
 /********************************************************************/
 // SHOW PRODUCT IMAGE 

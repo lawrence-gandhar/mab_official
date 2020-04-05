@@ -27,15 +27,23 @@ table{
                     <div class="table" style="padding:10px 0px; color:#FFFFFF; width:100%">
                         <table class="table-responsive">
                             <tbody style=" width: 100%; display: inline-table;">
-                                <tr class="disabled-tr">
+                                <tr>
                                     <td style="border:0px; width:150px; vertical-align:bottom">
                                         Product Type
                                     </td>
                                     <td style="border:0px;">
                                         {{add_product_form.product_type}}
                                     </td>   
-                                    <td style="border:0px; text-align:center; padding:10px 20px 0px 20px;" rowspan="7">
-                                        <img id="myImg" class="responsive" src="" style=" margin-bottom: 6px; color: white; width: 100%; height: 190px;"> 
+                                    <td style="border:0px; padding:10px 20px 0px 20px; text-align:-webkit-center; width:300px;" rowspan="7">
+                                        <div style="display:block; z-index:200; background-color:transparent; width: 260px; height: 190px; position:absolute;" id="img_block">
+                                            <i onclick="plusDivs(-1)" class="material-icons pull-left" style="background-color: #ffff00; position:relative; top:42%; cursor:pointer; color:#000000">keyboard_arrow_left</i>
+                                            <i onclick="plusDivs(+1)" class="material-icons pull-right" style="background-color: #ffff00; position:relative; top:42%; cursor:pointer; color:#000000">keyboard_arrow_right</i>
+                                            
+                                        </div>
+                                        {% for img in product.productphotos_set.all %}
+                                            <img class="mySlides hide" src="/media/{{ img.product_image }}" style=" margin-bottom: 6px; color: white; width: 100%; height: 190px;"> 
+                                        {% endfor %}
+                                        
                                         {{add_product_images_form.product_image}}
                                     </td>                                                           
                                 </tr>
@@ -63,19 +71,22 @@ table{
                                         {{add_product_form.product_description}}
                                     </td>
                                 </tr>
-                                <tr>
-                                    <td style="border:0px; width:150px; vertical-align:bottom">
-                                        HSN/SAC Code
-                                    </td>
-                                    <td style="border:0px;">
-                                        <div style="width:88%; display:inline-block">
-                                            {{add_product_form.hsn_code}}
-                                        </div>
-                                        <a href="{% static 'images/GST_HSN-SAC_CODES.pdf' %}" target="_blank">
-                                            <i class="material-icons" style="margin-left:20px; display:inline-block">picture_as_pdf</i>
-                                        </a>
-                                    </td>                        
-                                </tr>
+                                
+                                {% if product_type != 2 %}
+                                    <tr>
+                                        <td style="border:0px; width:150px; vertical-align:bottom">
+                                            HSN/SAC Code
+                                        </td>
+                                        <td style="border:0px;">
+                                            <div style="width:88%; display:inline-block">
+                                                {{add_product_form.hsn_code}}
+                                            </div>
+                                            <a href="{% static 'images/GST_HSN-SAC_CODES.pdf' %}" target="_blank">
+                                                <i class="material-icons" style="margin-left:20px; display:inline-block">picture_as_pdf</i>
+                                            </a>
+                                        </td>                        
+                                    </tr>
+                                {% endif %}
                                 <tr>
                                     <td style="border:0px; width:150px; vertical-align:bottom">
                                         Units
