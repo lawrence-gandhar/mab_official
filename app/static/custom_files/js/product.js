@@ -222,9 +222,9 @@ var number = 1
 function addRow() {
     number += 1
     htm = '<tr id="row_'+number+'"><th>'+number+'</th>';
-    htm += '<td> <select class="form-control" name="prod_type[]" onchange="bundle($(this),'+number+')" style="width: 107% !important;"><option value="">------</option><option value="0">GOODS</option><option value="1">SERVICES</option></td>';
+    htm += '<td> <select class="form-control" name="prod_type[]" onchange="bundle($(this),\'#product_name_'+number+'\', [\'#quantity_'+number+'\'])" style="width: 107% !important;"><option value="">------</option><option value="0">GOODS</option><option value="1">SERVICES</option></td>';
     htm += '<td><select class="form-control" id="product_name_'+number+'" name="prod_name[]" style="margin-left: 31px !important;width: 142% !important;"><option value="">------</option></td>';
-    htm += '<td><input type="number" class="form-control" name="qty[]" style="margin-left: 90px !important;width:37% !important;"></td>';
+    htm += '<td><input id="quantity_'+number+'" type="number" class="form-control" name="qty[]" style="margin-left: 90px !important;width:37% !important;"></td>';
     htm += '<td><button class="btn btn-danger btn-remove" type="button" onclick="removeRow('+number+')" style="padding-left:7px;padding-right:7px;margin-top:-8px;padding-top:6px;padding-bottom:6px;width: 96%;"><b>X</b></button></td></tr>';
     $('#table').append(htm);
     
@@ -236,19 +236,24 @@ function removeRow(a) {
     number -=1;
 }
 
-function bundle(elem, ids){
-    if($(elem).val()!=""){
-        $('tr#row_'+ids+' input').val("");
-        get_products($(elem).val(), ids);        
-    }else{
-        $('tr#row_'+ids+' select').val("");
-        $('tr#row_'+ids+' input').val("");
+function bundle(elem, target_elem, empty_elems){
+
+    if(empty_elems.length > 0){
+        for(i=0; i<empty_elems.length; i++){
+            $(empty_elems[i]).val("");
+        }
+    }   
+
+    if($(elem).val() !="-1"){
+        get_products($(elem).val(), target_elem);   
+    }else{   
+        $(target_elem).empty("").append('<option value="-1">---------</option>');
     }
 }
 
-function get_products(prod_type, ids){
+function get_products(prod_type, target_elem){
     $.get("/prducts/bundle/",{'prod_type' : prod_type},function(data){
-        $("select#product_name_"+ids).empty().append(data);
+        $(target_elem).empty().append(data);
     });
 }
 

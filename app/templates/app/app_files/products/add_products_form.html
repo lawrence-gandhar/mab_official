@@ -152,22 +152,21 @@ optgroup{
                                     <th scope="col">#</th>
                                     <th scope="col" style="width: 20%;color: white;">Product Type</th>
                                     <th scope="col" style="width: 26%;padding-left: 6%;color: white;"> Product Name</th>
-                                    <th scope="col" style="padding-left: 16%;color: white;">Quantity</th>
-                                    
+                                    <th scope="col" style="padding-left: 16%;color: white;">Quantity</th>                                    
                                   </tr>
                                 </thead>
                                 <tbody>
                                   <tr id="row_1">
                                     <th scope="row">1</th>
-                                    <td> <select class="form-control" name="prod_type" onchange="bundle($(this),1)" style="width: 107% !important;">
-                                        <option value="">------</option>
+                                    <td> <select class="form-control" name="prod_type" onchange="bundle($(this),'#product_name_1',['#quantity_1'])" style="width: 107% !important;">
+                                        <option value="-1">------</option>
                                         <option value="0">GOODS</option>
                                         <option value="1">SERVICES</option>
                                     </td>
                                     <td><select class="form-control" id="product_name_1" name="prod_name[]" style="margin-left: 31px !important;width: 142% !important;">
                                         <option value="">------</option>
                                     </td>
-                                    <td><input type="number" class="form-control" name="qty[]" style="margin-left: 90px !important;width:37% !important;"></td>
+                                    <td><input id="quantity_1" type="number" class="form-control" name="qty[]" style="margin-left: 90px !important;width:37% !important;"></td>
                                     <td><button class="btn btn-success" type="button" onclick="addRow()" style="padding-left:7px;padding-right:7px;margin-top:-8px;padding-top:6px;padding-bottom: 6px;">Add </button></td>
                                   </tr>
                                   

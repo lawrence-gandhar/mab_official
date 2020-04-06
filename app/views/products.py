@@ -339,6 +339,7 @@ class EditProducts(View):
 
         if product is not None and product.product_type == 2:
             self.data["bundle_products"] = items_model.BundleProducts.objects.filter(product_bundle = product) 
+            self.data["add_bundle_product_form"] = BundleProductForm(request.user, kwargs["ins"])
 
         self.data["add_product_form"] = ProductForm(request.user, instance = product)
         return render(request, self.template_name, self.data)
@@ -457,6 +458,25 @@ def edit_bundle_product_form(request):
         pass
     
     return redirect('/products/edit/{}/'.format(request.POST["ins"]), permanent=False)
+
+#
+#
+#
+def add_bundle_product_form(request):
+    
+    ins = items_model.ProductsModel.objects.get(pk = int(request.POST["ins"]))
+    
+    obj = items_model.BundleProducts(
+        product_bundle = ins,
+        product_id = int(request.POST["product"]),
+        quantity = int(request.POST["quantity"])
+    )
+
+    obj.save()
+
+    return redirect('/products/edit/{}/'.format(request.POST["ins"]), permanent=False)
+
+
 
 #****************************************************************************
 #  CLONE PRODUCT

@@ -139,12 +139,26 @@ class InventoryProductEditForm(ModelForm):
 #==================================================================================
 #
 
-class BundleProductEditForm(ModelForm):
+class BundleProductForm(ModelForm):
+
+    def __init__(self, user, inv, *args, **kwargs):
+        self.user = user
+        super(BundleProductForm, self).__init__(*args, **kwargs)
+        
+        # Exclude product, if already assigned to the bundle instance
+        #
+        products_in_inv = BundleProducts.objects.filter(product_bundle_id = inv)
+
+        self.fields['product'].queryset = ProductsModel.objects.filter(user = self.user).exclude(pk__in = products_in_inv)
+        
+
     class Meta:
         model = BundleProducts
 
-        fields = ('quantity',)
+        fields = ('product','quantity',)
 
         widgets = {
+            'product_type' : Select(attrs = {'class':'form-control input-sm', 'id':'bundle_product_type'}),
+            'product' : Select(attrs = {'class':'form-control input-sm'}),
             'quantity' : NumberInput(attrs = {'class':'form-control input-sm'}),
         }

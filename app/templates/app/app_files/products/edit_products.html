@@ -31,17 +31,16 @@ table{
                                     <td style="border:0px; width:150px; vertical-align:bottom">
                                         Product Type
                                     </td>
-                                    <td style="border:0px;">
+                                    <td style="border:0px;" class="disabled_tr">
                                         {{add_product_form.product_type}}
                                     </td>   
-                                    <td style="border:0px; padding:10px 20px 0px 20px; text-align:-webkit-center; width:300px;" rowspan="7">
-                                        <div style="display:block; z-index:200; background-color:transparent; width: 260px; height: 190px; position:absolute;" id="img_block">
+                                    <td style="border:0px; padding:10px 20px 0px 20px; text-align:-webkit-center; width:300px;" rowspan="6">
+                                        <div style="display:block; z-index:200; background-color:transparent; width: 260px; height: 160px; position:absolute;" id="img_block">
                                             <i onclick="plusDivs(-1)" class="material-icons pull-left" style="background-color: #ffff00; position:relative; top:42%; cursor:pointer; color:#000000">keyboard_arrow_left</i>
                                             <i onclick="plusDivs(+1)" class="material-icons pull-right" style="background-color: #ffff00; position:relative; top:42%; cursor:pointer; color:#000000">keyboard_arrow_right</i>
-                                            
                                         </div>
                                         {% for img in product.productphotos_set.all %}
-                                            <img class="mySlides hide" src="/media/{{ img.product_image }}" style=" margin-bottom: 6px; color: white; width: 100%; height: 190px;"> 
+                                            <img class="mySlides hide" src="/media/{{ img.product_image }}" style=" margin-bottom: 6px; color: white; width: 100%; height: 160px;"> 
                                         {% endfor %}
                                         
                                         {{add_product_images_form.product_image}}
@@ -124,7 +123,7 @@ table{
                                     <tr>
                                         <td colspan="3" style="border:0px;background-color:#000000;">
                                             PRODUCTS IN BUNDLE
-                                            <i class="material-icons" style="position:relative; top:5px; font-size:18px; margin-right:10px; float:right; vertical-align:middle;">queue</i>
+                                            <i class="material-icons" style="position:relative; top:5px; font-size:18px; margin-right:10px; float:right; vertical-align:middle; cursor:pointer;"  data-toggle="modal" data-target="#addBundleProductModal">queue</i>
                                         </td>                      
                                     </tr>                                
                                     <tr>
@@ -277,6 +276,68 @@ table{
                     <div class="modal-footer" style="justify-content: flex-start; border-top: none;padding:6px;margin-left: 29%">
                         <button class="btn btn-success save_button" type="submit()">Update</button>
                         <button data-dismiss="modal" class="btn btn-warning">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!--
+
+    -->
+
+    <!-- Modal -->
+    <div class="modal " tabindex="-1" role="dialog" id="addBundleProductModal" style="border-top: none;left: 20%;top:200px;width: 500">
+        <div class="modal-dialog" role="document" style="border-top: none;">
+            <div class="modal-content" style="background-color:currentcolor">
+                <form method="post" style="margin:0px" action="{% url 'add_bundle_product_form' %}">
+                    <div class="modal-header bg-warning">
+                        <h5 class="modal-title" style="color:#000000; font-weight:bold;">
+                            ADD PRODUCT
+                        </h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <input type="hidden" value="{{product_id}}" name="ins">
+                        {% csrf_token %}
+                        <table class="table-responsive">
+                            <tbody style=" width: 100%; display: inline-table;">
+                                <tr>
+                                    <td style="padding:0px 0px 0px 10px; width:150px; border:0px; vertical-align: bottom; color:#a7a4a4">
+                                        Product Type
+                                    </td>
+                                    <td style="border:0px;">
+                                        <select name="product_type" class="form-control input-sm" onchange="bundle($(this), '#id_product', ['#id_quantity'])">
+                                            <option value="-1">---------</option>
+                                            <option value="0">GOODS</option>
+                                            <option value="1">SERVICES</option>
+                                        </select>
+                                    </td>                                    
+                                </tr>
+                                <tr>
+                                    <td style="padding:0px 0px 0px 10px; width:150px; border:0px; vertical-align: bottom; color:#a7a4a4">
+                                        Product
+                                    </td>
+                                    <td style="border:0px;">
+                                        {{add_bundle_product_form.product}}
+                                    </td>                                    
+                                </tr>
+                                <tr>
+                                    <td style="padding:0px 0px 0px 10px; width:150px; border:0px; vertical-align: bottom; color:#a7a4a4">
+                                        Quantity
+                                    </td>
+                                    <td style="border:0px;">
+                                        {{add_bundle_product_form.quantity}}
+                                    </td>                                    
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="modal-footer" style="justify-content: flex-start; border-top: none;padding:6px;margin-left: 29%">
+                        <button type="button" class="btn btn-warning" data-dismiss="modal">Cancel</button>
+                        <button class="btn btn-success" type="submit">Save</button>
                     </div>
                 </form>
             </div>

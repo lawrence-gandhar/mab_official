@@ -100,7 +100,7 @@ urlpatterns += [
     path('inventory/edit_inventory_product/', never_cache(login_required(inventory.edit_inventory_product)), name = 'edit_inventory_product'),
 ]
 
-# AJAX
+# AJAX or Direct
 urlpatterns += [
     path('fetch_contact_addresses/<int:ins>/', never_cache(login_required(common_views.fetch_contact_addresses)), name='fetch_contact_addresses'),
     path('fetch_product_details/<int:ins>/', never_cache(login_required(common_views.fetch_product_details)), name='fetch_product_details'),
@@ -112,6 +112,7 @@ urlpatterns += [
     path('add_edit_address/<int:ins>/<int:obj>/', never_cache(login_required(common_views.add_edit_address)), name='add_edit_address'),
     path('delete_bundle_product/<int:ins>/<int:obj>/',never_cache(login_required(products.delete_bundle_product)),name='delete-bundle-product'),
     path('edit_bundle_product_form/',never_cache(login_required(products.edit_bundle_product_form)),name='edit_bundle_product_form'),
+    path('add_bundle_product_form/',never_cache(login_required(products.add_bundle_product_form)),name='add_bundle_product_form'),
 ]
 
 
