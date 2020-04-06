@@ -175,3 +175,5 @@ function getLocalStorageValue(i_name){
 function setLocalStorageValue(i_name, value){
     localStorage.setItem(i_name, value);
 }
+
+

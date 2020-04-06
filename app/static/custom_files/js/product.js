@@ -308,27 +308,15 @@ function bundle(number) {
 /********************************************************************/
 
 function show_bundle(elem){
-    var a = $('#id_product_type :selected').text();
-    if(a == "BUNDLE"){
-        $("#b_table").show()
-        $("#bundle_table").show()
-        $("#img_box").hide()
-        $("#hsn").hide()
-        $("#hsn_list").hide()
-        $("#img_file").hide()
-        $("#units").hide()
-        
-        
+    var a = $(elem).val();
+    if(a == "2"){
+        $(".bundle_dont_show").hide();
+        $(".bundle_show").show();
+        $("#set_row_span").attr("rowspan",5);
     }
     else{
-        $("#b_table").hide()
-        $("#bundle_table").hide()
-        $("#img_box").show()
-        $("#hsn").show()
-        $("#hsn_list").show()
-        $("#img_file").show()
-        $("#units").show()
-       
+        $(".bundle_dont_show").show();
+        $(".bundle_show").hide();
     }
 }
 
@@ -407,4 +395,26 @@ function edit_bundle_product(ids, pro_id, sku, name, qty = 0){
     $("#bundle_product_obj").val(pro_id);
     
     $("#editProductModal").modal('show');
+}
+
+
+/************************************************************/
+//   IMAGE PREVIEWS
+/************************************************************/
+function readURL(input, target_elem) {
+
+    const file = document.querySelector('input[type=file]').files[0];
+
+    var reader = new FileReader();
+    
+    reader.addEventListener("load", function () {
+        $(target_elem).css('background-image', 'url("'+reader.result+'")');
+        $(target_elem).css('background-repeat', 'no-repeat');
+        $(target_elem).css('background-size', '260px 160px');
+
+    }, false);
+    
+    if (file) {
+        reader.readAsDataURL(file);
+    }
 }

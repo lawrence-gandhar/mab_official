@@ -52,7 +52,7 @@ class ProductPhotosForm(ModelForm):
         fields= ('product_image',)
 
         widgets = {
-            'product_image' : FileInput(attrs = {'class':'form-control input-sm', 'id':'files','name':'files[]','type':'file','multiple' : 'true', 'accept':'image/jpeg, image/png, image/gif,',})
+            'product_image' : FileInput(attrs = {'class':'form-control input-sm', 'id':'files','name':'files[]','type':'file','multiple' : 'true', 'accept':'image/jpeg, image/png, image/gif,', 'onchange':'readURL($(this), "#img_block")'})
         }
 
 #==================================================================================
