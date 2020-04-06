@@ -411,10 +411,17 @@ function readURL(input, target_elem) {
         $(target_elem).css('background-image', 'url("'+reader.result+'")');
         $(target_elem).css('background-repeat', 'no-repeat');
         $(target_elem).css('background-size', '260px 160px');
-
     }, false);
     
     if (file) {
         reader.readAsDataURL(file);
     }
+}
+
+/************************************************************/
+//   IMAGE PREVIEW DELETE
+/************************************************************/
+function DeletePreview() {
+    $("input[type=file]").val("");
+    $("#img_block").css('background-image', 'url("")');
 }
