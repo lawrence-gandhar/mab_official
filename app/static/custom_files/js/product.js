@@ -44,7 +44,16 @@ function showDivs(n) {
     }
 
     x.eq(slideIndex-1).css("display","block");
-    
+}
+
+
+function deleteDivs(pid){
+    ids = $("img.mySlides").eq(slideIndex-1).attr("id");
+    ids = ids.replace("img_id_","");
+
+    $.get("/delete_product_image/"+pid+"/"+ids+"/", function(data){
+        location.reload();
+    });
 }
 
 
@@ -256,6 +265,7 @@ function get_products(prod_type, target_elem){
         $(target_elem).empty().append(data);
     });
 }
+
 
 /********************************************************************/
 // bundle table   select INPUT FIELD

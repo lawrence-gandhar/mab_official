@@ -36,14 +36,13 @@ table{
                                     </td>   
                                     <td style="border:0px; padding:10px 20px 0px 20px; text-align:-webkit-center; width:300px;" rowspan="6">
                                         <div style="display:block; z-index:200; background-color:transparent; width: 260px; height: 160px; position:absolute;" id="img_block">
-                                            <i onclick="plusDivs(-1)" class="material-icons pull-left" style="background-color: #ffff00; position:relative; top:42%; cursor:pointer; color:#000000">keyboard_arrow_left</i>
-                                            <i onclick="plusDivs(+1)" class="material-icons pull-right" style="background-color: #ffff00; position:relative; top:42%; cursor:pointer; color:#000000">keyboard_arrow_right</i>
-                                        </div>
+                                            <i onclick="plusDivs(-1)" class="material-icons pull-left" style="background-color: #FFFFFF; position:relative; top:42%; cursor:pointer; color:#000000">keyboard_arrow_left</i>
+                                            <i onclick="plusDivs(+1)" class="material-icons pull-right" style="background-color: #FFFFFF; position:relative; top:42%; cursor:pointer; color:#000000">keyboard_arrow_right</i>
+                                            <i onclick="deleteDivs({{product_id}})" class="material-icons text-center" style="background-color: #FFFFFF; position:relative; top:75%; cursor:pointer; color:#000000; border-radius:100%; padding:5px; ">delete_forever</i>
+                                        </div>                                        
                                         {% for img in product.productphotos_set.all %}
-                                            <img class="mySlides hide" src="/media/{{ img.product_image }}" style=" margin-bottom: 6px; color: white; width: 100%; height: 160px;"> 
+                                            <img id="img_id_{{img.id}}" class="mySlides hide" src="/media/{{ img.product_image }}" style=" margin-bottom: 6px; color: white; width: 100%; height: 160px;"> 
                                         {% endfor %}
-                                        
-                                        {{add_product_images_form.product_image}}
                                     </td>                                                           
                                 </tr>
                                 <tr>
@@ -109,6 +108,12 @@ table{
                                     <td style="border:0px;">
                                         {{add_product_form.gst}}
                                     </td>                        
+                                </tr>                                
+                                <tr>
+                                    <td style="border:0px; width:150px; vertical-align:bottom" colspan="2"></td>
+                                    <td style="border:0px; width:150px; vertical-align:bottom">
+                                        {{add_product_images_form.product_image}}
+                                    </td>
                                 </tr>
                                 
                                 <tr style="display: none;">

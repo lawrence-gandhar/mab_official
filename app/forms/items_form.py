@@ -52,7 +52,7 @@ class ProductPhotosForm(ModelForm):
         fields= ('product_image',)
 
         widgets = {
-            'product_image' : FileInput(attrs = {'class':'form-control input-sm', 'id':'files','name':'files[]','type':'file','multiple' : 'true', 'accept':'image/jpeg, image/png, image/gif,', 'style':'width:50%;padding:1px',})
+            'product_image' : FileInput(attrs = {'class':'form-control input-sm', 'id':'files','name':'files[]','type':'file','multiple' : 'true', 'accept':'image/jpeg, image/png, image/gif,',})
         }
 
 #==================================================================================

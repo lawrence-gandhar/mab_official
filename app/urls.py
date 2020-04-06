@@ -113,6 +113,7 @@ urlpatterns += [
     path('delete_bundle_product/<int:ins>/<int:obj>/',never_cache(login_required(products.delete_bundle_product)),name='delete-bundle-product'),
     path('edit_bundle_product_form/',never_cache(login_required(products.edit_bundle_product_form)),name='edit_bundle_product_form'),
     path('add_bundle_product_form/',never_cache(login_required(products.add_bundle_product_form)),name='add_bundle_product_form'),
+    path('delete_product_image/<int:pid>/<int:img_id>/',never_cache(login_required(products.delete_product_image)),name='delete_product_image'),
 ]
 
 

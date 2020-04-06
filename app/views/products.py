@@ -533,3 +533,18 @@ class CloneProduct(View):
 
             return redirect('/products/', permanent=False)
         return redirect('/unauthorized/', permanent=False)
+
+
+#****************************************************************************
+#  DELETE PRODUCT IMAGE
+#*****************************************************************************
+#
+def delete_product_image(request, pid = None, img_id = None):
+
+    try:
+        product = items_model.ProductsModel.objects.get(pk = int(pid))
+        image = items_model.ProductPhotos.objects.get(product = product, pk = img_id).delete()
+    except:
+        pass
+
+    return HttpResponse(1)
