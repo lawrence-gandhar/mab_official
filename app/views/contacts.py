@@ -1433,10 +1433,18 @@ class ContactsFileUploadView(View):
     #
     def get(self, request, a):        
         self.data["error"] = ""
+        self.data["saved_msg"] = '0'
         self.data["upload_form"] = UploadContactsForm()
         return render(request, self.template_name, self.data)
 
+    #
+    #
+    #
     def post(self, request, a):
+        
+        self.data["error"] = ""
+        self.data["saved_msg"] = '0'
+
         self.data["upload_form"] = UploadContactsForm(request.POST, request.FILES)
 
         if self.data["upload_form"].is_valid():

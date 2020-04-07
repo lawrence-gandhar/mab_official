@@ -57,8 +57,8 @@ table{
                                                 {% for img in product.productphotos_set.all %}
                                                     <li style="list-style-type:none; margin-right:10px; margin-bottom:10px; display:block;">
                                                         <img id="img_id_{{img.id}}" class="mySlides responsive" src="/media/{{ img.product_image }}" style="width: 120px; height: 80px;"> 
-                                                        <i title="View In Preview" onclick="previewDivs({{product_id}})" class="material-icons text-center" style="background-color: #4bf1c7; cursor:pointer; color:#000000; border-radius:100%; padding:5px; margin-left:10px;">visibility</i>
-                                                        <i title="Remove Image" onclick="deleteDivs({{product_id}})" class="material-icons text-center" style="background-color: #FF0000; cursor:pointer; color:#FFFFFF; border-radius:100%; padding:5px; margin-left:10px;">clear</i>                                                        
+                                                        <i title="View In Preview" onclick="previewDivs('#img_id_{{img.id}}')" class="material-icons text-center" style="background-color: #4bf1c7; cursor:pointer; color:#000000; border-radius:100%; padding:5px; margin-left:10px;">visibility</i>
+                                                        <i title="Remove Image" onclick="deleteDivs({{product_id}}, '#img_id_{{img.id}}')" class="material-icons text-center" style="background-color: #FF0000; cursor:pointer; color:#FFFFFF; border-radius:100%; padding:5px; margin-left:10px;">clear</i>                                                        
                                                     </li>
                                                 {% endfor %}
                                                 </ul>

@@ -58,13 +58,20 @@ function showDivs(n) {
 }
 
 
-function deleteDivs(pid){
-    ids = $("img.mySlides").eq(slideIndex-1).attr("id");
-    ids = ids.replace("img_id_","");
+function deleteDivs(pid, elem){
+    ids = elem.replace("#img_id_","");
 
     $.get("/delete_product_image/"+pid+"/"+ids+"/", function(data){
         location.reload();
     });
+}
+
+function previewDivs(elem){
+    ids = $(elem).attr("src");
+    $("#img_block").css('background-image', 'url("'+ids+'")');
+    $("#img_block").css('background-repeat', 'no-repeat');
+    $("#img_block").css('background-size', '282px 160px');
+
 }
 
 
