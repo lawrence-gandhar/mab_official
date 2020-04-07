@@ -13,14 +13,6 @@ table{
     font-size:14px;
     color:#a7a4a4;
 }
-/* Rounded sliders */
-.slider.round {
-  border-radius: 34px;
-}
-
-.slider.round:before {
-  border-radius: 50%;
-}
 </style>
 
 <div class="row">
@@ -32,34 +24,19 @@ table{
                 </div>  
                 <div class="card-body" style="margin-left: 13px;">
                     {% csrf_token %}
-                    <div class="table" style="padding:10px 0px; color:#FFFFFF; width:100%">
+                    <div class="table" style="padding:10px 0px; color:#FFFFFF; width:99%">
                         <table class="table-responsive">
                             <tbody style=" width: 100%; display: inline-table;">
-                                <tr>
-                                    <td style="border:0px; width:150px; vertical-align:bottom">
-                                        Product Type
-                                    </td>
-                                    <td style="border:0px;" class="disabled_tr type">
-                                        {{add_product_form.product_type}}
-                                    </td>   
-                                    <td style="border:0px; padding:10px 20px 0px 20px; text-align:-webkit-center; width:300px;" rowspan="6">
-                                        <div style="display:block; z-index:200; background-color:transparent; width: 260px; height: 160px; position:absolute;" id="img_block">
-                                            <i onclick="plusDivs(-1)" class="material-icons pull-left" style="background-color: #FFFFFF; position:relative; top:42%; cursor:pointer; color:#000000">keyboard_arrow_left</i>
-                                            <i onclick="plusDivs(+1)" class="material-icons pull-right" style="background-color: #FFFFFF; position:relative; top:42%; cursor:pointer; color:#000000">keyboard_arrow_right</i>
-                                            <i onclick="deleteDivs({{product_id}})" class="material-icons text-center" style="background-color: #FFFFFF; position:relative; top:75%; cursor:pointer; color:#000000; border-radius:100%; padding:5px; ">delete_forever</i>
-                                        </div>                                        
-                                        {% for img in product.productphotos_set.all %}
-                                            <img id="img_id_{{img.id}}" class="mySlides hide" src="/media/{{ img.product_image }}" style=" margin-bottom: 6px; color: white; width: 100%; height: 160px;"> 
-                                        {% endfor %}
-                                    </td>                                                           
-                                </tr>
                                 <tr>
                                     <td style="border:0px; width:150px; vertical-align:bottom">
                                         SKU/Product ID</label>
                                     </td>
                                     <td style="border:0px;">
                                         {{add_product_form.sku}}
-                                    </td>                        
+                                    </td>   
+                                    <td style="border:0px; text-align:-webkit-center; width:300px; border-left:1px solid #eee">
+                                        {{add_product_images_form.product_image}}
+                                    </td>               
                                 </tr>
                                 <tr>
                                     <td style="border:0px; width:150px; vertical-align:bottom">
@@ -67,7 +44,27 @@ table{
                                     </td>
                                     <td style="border:0px;">
                                         {{add_product_form.product_name}}
-                                    </td>                        
+                                    </td>    
+                                    <td style="border:0px; padding:10px 20px 0px 20px; text-align:-webkit-center; width:300px; border-left:1px solid #eee" rowspan="15">
+                                        <div style="display:block; border:1px solid #eeeeee; background-color:transparent; width: 282px; height: 160px; position:relative;" id="img_block">
+                                            <i onclick="plusDivs(-1)" class="material-icons pull-left image_buttons hide" style="background-color: #FFFFFF; position:relative; top:42%; cursor:pointer; color:#000000">keyboard_arrow_left</i>
+                                            <i onclick="plusDivs(+1)" class="material-icons pull-right image_buttons hide" style="background-color: #FFFFFF; position:relative; top:42%; cursor:pointer; color:#000000">keyboard_arrow_right</i>
+                                            <i id="delete_img_item" title="This Action will remove all files" onclick="DeletePreview()" params="0" class="material-icons text-center hide" style="background-color: #FFFFFF; position:relative; top:75%; cursor:pointer; color:#000000; border-radius:100%; padding:5px; ">delete_forever</i>
+                                        </div>
+                                        <div style="max-height:400px; overflow-y:auto; min-height:200px;margin-top:10px;">
+                                            <div style="display:block; margin-top:10px">
+                                                <ul style="margin:0px; padding:0px; display:block;">                                        
+                                                {% for img in product.productphotos_set.all %}
+                                                    <li style="list-style-type:none; margin-right:10px; margin-bottom:10px; display:block;">
+                                                        <img id="img_id_{{img.id}}" class="mySlides responsive" src="/media/{{ img.product_image }}" style="width: 120px; height: 80px;"> 
+                                                        <i title="View In Preview" onclick="previewDivs('#img_id_{{img.id}}')" class="material-icons text-center" style="background-color: #4bf1c7; cursor:pointer; color:#000000; border-radius:100%; padding:5px; margin-left:10px;">visibility</i>
+                                                        <i title="Remove Image" onclick="deleteDivs({{product_id}}, '#img_id_{{img.id}}')" class="material-icons text-center" style="background-color: #FF0000; cursor:pointer; color:#FFFFFF; border-radius:100%; padding:5px; margin-left:10px;">clear</i>                                                        
+                                                    </li>
+                                                {% endfor %}
+                                                </ul>
+                                            </div>
+                                        </div>                                        
+                                    </td>                     
                                 </tr>
                                 <tr style="display: none;">
                                     <td style="border:0px; width:150px; vertical-align:bottom">
@@ -91,10 +88,9 @@ table{
                                                 <i class="material-icons" style="margin-left:20px; display:inline-block">picture_as_pdf</i>
                                             </a>
                                         </td>                        
-                                    </tr>
-                                
-                                <tr id="unit">
-                                    <td  style="border:0px; width:150px; vertical-align:bottom">
+                                    </tr>                                
+                                <tr>
+                                    <td style="border:0px; width:150px; vertical-align:bottom">
                                         Units
                                     </td>
                                     <td style="border:0px;">
@@ -104,7 +100,7 @@ table{
                                 {% endif %}
                                 <tr>
                                     <td style="border:0px; width:150px; vertical-align:bottom">
-                                        TDS%
+                                        TDS
                                     </td>
                                     <td style="border:0px;">
                                         {{add_product_form.tax}}
@@ -112,19 +108,12 @@ table{
                                 </tr>
                                 <tr>
                                     <td style="border:0px; width:150px; vertical-align:bottom">
-                                        GST%
+                                        GST
                                     </td>
                                     <td style="border:0px;">
                                         {{add_product_form.gst}}
                                     </td>                        
-                                </tr>                                
-                                <tr>
-                                    <td style="border:0px; width:150px; vertical-align:bottom" colspan="2"></td>
-                                    <td style="border:0px; width:150px; vertical-align:bottom">
-                                        {{add_product_images_form.product_image}}
-                                    </td>
-                                </tr>
-                                
+                                </tr>                                     
                                 <tr style="display: none;">
                                     <td style="border:0px; width:150px; vertical-align:bottom">
                                         Abatement
@@ -135,17 +124,17 @@ table{
                                 </tr>
                                 {% if product_type == 2 %}
                                     <tr>
-                                        <td colspan="3" style="border:0px;background-color:#000000;">
+                                        <td colspan="2" style="border:0px;background-color:#000000;">
                                             PRODUCTS IN BUNDLE
                                             <i class="material-icons" style="position:relative; top:5px; font-size:18px; margin-right:10px; float:right; vertical-align:middle; cursor:pointer;"  data-toggle="modal" data-target="#addBundleProductModal">queue</i>
                                         </td>                      
                                     </tr>                                
                                     <tr>
-                                        <td style="border:0px; padding:0px; padding-bottom:10px;" colspan="3">
+                                        <td style="border:0px; padding:0px; padding-bottom:10px;" colspan="2">
                                             <table class="table-responsive table-bordered">
                                                 <tbody style="width:100%; display:inline-table;">
                                                     <tr style="width:100%; background-color: #EEEEEE; color:#000000; font-size:11px; font-weight:bold;">
-                                                                                                                
+                                                        <td class="text-center" style="width:80px">SL. No.</td>                                                        
                                                         <td class="text-center">Product Type</td>
                                                         <td class="text-center">SKU</td>
                                                         <td class="text-center">Product Name</td>
@@ -154,7 +143,7 @@ table{
                                                     </tr>
                                                     {% for product in bundle_products %}
                                                         <tr style="width:100%; font-size:12px;">
-                                                                                                                    
+                                                            <td style="width:80px">{{ forloop.counter }}</td>                                                        
                                                             <td>{{ product.product.get_product_type_display|default_if_none:"" }}</td>
                                                             <td>{{ product.product.sku|default_if_none:"" }}</td>
                                                             <td>{{ product.product.product_name|default_if_none:""|upper }}</td>
@@ -171,7 +160,7 @@ table{
                                     </tr>
                                 {% endif %}
                                 <tr>
-                                    <td colspan="3" style="border:0px;background-color:#000000;">
+                                    <td colspan="2" style="border:0px;background-color:#000000;">
                                         SALES INFORMATION
                                     </td>
                                     <td>
@@ -185,15 +174,7 @@ table{
                                         Selling Price
                                     </td>
                                     <td style="border:0px;">
-                                        <h5 style="position: absolute;"><b style="color: black;background-color: silver;">INR</b></h5>{{add_product_form.selling_price}}
-                                    </td>
-
-                                    <td style="border:0px;">
-                                        <label class="switch" style="padding-top: 5px;">
-                                            <input type="checkbox">
-                                            <span class="slider round"></span>
-                                            
-                                          </label><font style="margin-left: 6px;">Inclusive Of Tax</font>
+                                        {{add_product_form.selling_price}}
                                     </td>
                                 </tr>
                                 <tr style="display: none;">
@@ -358,8 +339,8 @@ table{
                         </table>
                     </div>
                     <div class="modal-footer" style="justify-content: flex-start; border-top: none;padding:6px;margin-left: 29%">
-                        <button class="btn btn-success" type="submit">Save</button>
                         <button type="button" class="btn btn-warning" data-dismiss="modal">Cancel</button>
+                        <button class="btn btn-success" type="submit">Save</button>
                     </div>
                 </form>
             </div>
@@ -367,7 +348,13 @@ table{
     </div>
 
 {% endif %}
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
 <script>
-    $('#id_product_type').attr("disabled", true);
+
+{% for img in product.productphotos_set.all %}
+
+
+
+{% endfor %}
+
 </script>

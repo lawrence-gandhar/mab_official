@@ -26,9 +26,6 @@ $("tr#tr-id_user_address_details_set-tr-0 > td:nth-child(2)").hide()
 $(".is_billing_address, .is_shipping_address").prop("required",false);
 
 
-
-
-
 /**************************************************************/
 // Email Validation
 /**************************************************************/
@@ -469,7 +466,7 @@ function set_billing(elem, target_elem){
 /********************************************************************/
 function hide_gst(elem){
     var a = $('#gst_reg :selected').text();
-    if(a != "Not Applicable" & a != "GST Unregistered"){
+    if(a != "Not Applicable" & a != "---------" & a != "GST unregistered"){
         $("#gst_row").show()
         
     }
@@ -477,35 +474,25 @@ function hide_gst(elem){
         $("#gst_row").hide()
     }
 }
-// Global 
-var a = $('#gst_reg :selected').text();
-    console.log(a)
-    if(a != "Not Applicable" & a != "GST Unregistered"){
-        $("#gst_row").show()
-        
-    }
-    else{
-        $("#gst_row").hide()
-    }
+
 
 
 /********************************************************************/
 // active, inactive and delete
 /********************************************************************/
+
 function status(a,c) {
     var status = 's'+a.toString()
-    var remove = 't'+a.toString()
     var b = document.getElementById(status).innerHTML;
     if(b.length == 13){
         $.ajax({
         type: 'GET',
         url: "/contacts/status_change/deactivate/"+a+"",
         success: function() {
-            // document.getElementById(a).innerHTML = 'clear'
-            // document.getElementById(status).innerHTML = 'Make Active'
-            $("#"+remove).hide();
+            document.getElementById(a).innerHTML = 'clear'
+            document.getElementById(status).innerHTML = 'Make Active'
             $('#'+'status'+a.toString()).modal('hide')
-            // document.getElementById('text').innerHTML = 'Are you sure you want to make '+c+' active '
+            document.getElementById('text').innerHTML = 'Are you sure you want to make '+c+' active '
         },
         error: function(XMLHttpRequest, textStatus, errorThrown) {
             alert("some error");
@@ -518,11 +505,10 @@ function status(a,c) {
         type: 'GET',
         url: "/contacts/status_change/activate/"+a+"",
         success: function() {
-            // document.getElementById(a).innerHTML = 'check'
-            // document.getElementById(status).innerHTML = 'Make Inactive'
-            $("#"+remove).hide();
+            document.getElementById(a).innerHTML = 'check'
+            document.getElementById(status).innerHTML = 'Make Inactive'
             $('#'+'status'+a.toString()).modal('hide')
-            // document.getElementById('text').innerHTML = 'Are you sure you want to make '+c+' inactive '
+            document.getElementById('text').innerHTML = 'Are you sure you want to make '+c+' inactive '
         },
         error: function(XMLHttpRequest, textStatus, errorThrown) {
             alert("some error");
@@ -562,7 +548,6 @@ $('#'+'del'+d.toString()).modal('hide')
 }
 
 
-
 /********************************************************************/
 // INPUT TYPE NUMBER SROLL HIDE
 /********************************************************************/
@@ -578,43 +563,16 @@ $('input[type=number]').on('keydown',function(e) {
 	return;
     }
 });
+
 /*code: 48-57 Numbers
-			  8  - Backspace,
-			  35 - home key, 36 - End key
-			  37-40: Arrow keys, 46 - Delete key*/
-              function restrictAlphabets(e){
-				var x=e.which||e.keycode;
-				if((x>=48 && x<=57) || x==8 ||
-					(x>=35 && x<=40)|| x==46)
-					return true;
-				else
-					return false;
-            }
-/********************************************************************/
-// INPUT TYPE NUMBER SROLL HIDE
-/********************************************************************/
-
-window.addEventListener('load', function() {
-    document.querySelector('input[type="file"]').addEventListener('change', function() {
-
-        // image extension validation
-        // if (!this.files[0].name.match(/.(jpg|jpeg|png|gif)$/i)){
-        //     alert('Please select Image file ');
-        //     $('#files').val("");
-        // }
-        
-            //  Image file size less then 1MB
-            if(this.files[0].size > 80000){
-                alert('File size less then 80KB');
-                $('#files').val("");
-
-            }
-            // else if (this.files && this.files[0]) {
-            //     var img = document.querySelector('img');  // $('img')[0]
-            //     img.src = URL.createObjectURL(this.files[0]); // set src to blob url
-            //     $(".close").show()
-                
-            // }
-        
-    });
-  });
+8  - Backspace,
+35 - home key, 36 - End key
+37-40: Arrow keys, 46 - Delete key*/
+function restrictAlphabets(e){
+	var x=e.which||e.keycode;
+	
+	if((x>=48 && x<=57) || x==8 ||
+		(x>=35 && x<=40)|| x==46)
+		return true;
+	else return false;
+}

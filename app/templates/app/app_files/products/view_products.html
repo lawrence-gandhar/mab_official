@@ -116,7 +116,7 @@
                             <th class="text-center">Description</th>
                             <th class="text-center">Cost Price</th>
                             <th class="text-center">Marked Price</th> -->
-                            <th class="text-center" style="width: 16%;">Selling Price(INR)</th>               
+                            <th class="text-center" style="width: 16%;">Selling Price</th>               
                             <!-- <th class="text-center">Images</th>                -->
                             <th class="text-center" style="width: 10%;">Active</th>
                             <th class="text-center" style="width: 10%;">Action</th>                
@@ -126,14 +126,14 @@
                                 <tr id="t{{product.id}}">
                                     <!-- <td>{{ forloop.counter }}</td> -->
                                     <!-- <td>P-0000{{ product.id }}</td> -->
-                                    <td>{{ product.sku|truncatechars:25 }}</td>
-                                    <td>{{ product.product_name|truncatechars:30 }}</td>
+                                    <td>{{ product.sku }}</td>
+                                    <td>{{ product.product_name }}</td>
                                     <!-- <td>{{ product.get_product_type_display }}</td> -->
                                     <!-- <td>{{ product.category }}</td>
                                     <td>{{ product.description }}</td>
                                     <td>{{ product.cost_price }}</td>
                                     <td>{{ product.marked_price }}</td> -->
-                                    <td>{{ product.selling_price|truncatechars:30 }}</td>
+                                    <td>{{ product.selling_price }}</td>
                                     <td class="text-center">
                                         {% if product.is_active %}
                                             <i class="material-icons" id="{{product.id}}">check</i>
@@ -155,7 +155,7 @@
                                                 <!-- <i class="material-icons">create</i> -->
                                             </a>
                                             {% if product.is_active %}
-                                            <a class="dropdown-item" title="Deactivate Product" href="#" data-toggle="modal" data-target="#status{{product.id}}" style="padding:5px 5px;">
+                                            <a class="dropdown-item" title="Deactivate Product" data-toggle="modal" data-target="#status{{product.id}}" style="padding:5px 5px;">
                                                 <p id="s{{product.id}}" style="margin-bottom:0px;margin-right: 67px;">Make Inactive</p>   
                                             </a>
                                             <!-- <button class="dropdown-item" title="Deactivate Product" onclick="status({{product.id}})" href="{% url 'product-status-change' 'deactivate' product.id %}" class="btn btn-sm btn-default" style="padding:5px 5px;">
@@ -163,7 +163,7 @@
                                                     <i class="material-icons">clear</i> 
                                             </button> -->
                                             {% else %}
-                                            <a class="dropdown-item" title="activate Product" href="#" data-toggle="modal" data-target="#status{{product.id}}" style="padding:5px 5px;">
+                                            <a class="dropdown-item" title="activate Product" data-toggle="modal" data-target="#status{{product.id}}" style="padding:5px 5px;">
                                                 <p id="s{{product.id}}" style="margin-bottom:0px;margin-right: 67px;">Make Active</p>   
                                             </a>
                                             <!-- <button class="dropdown-item" title="Activate Product" onclick="status({{product.id}})" href="{% url 'product-status-change' 'activate' product.id %}" class="btn btn-sm btn-success" style="padding:5px 5px;">
@@ -171,7 +171,7 @@
                                                 <i class="material-icons">check</i>
                                             </button> -->
                                             {% endif %}
-                                            <a class="dropdown-item" title="Delete Product" href="#" data-toggle="modal" data-target="#del{{product.id}}" style="padding:5px 5px;">
+                                            <a class="dropdown-item" title="Delete Product" data-toggle="modal" data-target="#del{{product.id}}" style="padding:5px 5px;">
                                                 Delete
                                                 <!-- <i class="material-icons">delete_forever</i> -->
                                             </a>

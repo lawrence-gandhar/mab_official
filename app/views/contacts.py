@@ -47,7 +47,7 @@ class ContactsView(View):
         x = a[-4:-1]
         search = request.GET.get('search',False)
 
-        contacts = contacts_model.Contacts.objects.filter(Q(user = request.user) & Q(is_active = True))
+        contacts = contacts_model.Contacts.objects.filter(user = request.user)
 
         if search:
             contacts = contacts.filter(
@@ -1418,7 +1418,7 @@ class ContactsFileUploadView(View):
 
     # Custom CSS/JS Files For Inclusion into template
     data["css_files"] = []
-    data["js_files"] = ['custom_files/js/contacts.js']
+    data["js_files"] = []
 
     data["included_template"] = 'app/app_files/contacts/upload_contacts.html'
     
@@ -1433,14 +1433,18 @@ class ContactsFileUploadView(View):
     #
     def get(self, request, a):        
         self.data["error"] = ""
-        data["saved_msg"] = '0'
+        self.data["saved_msg"] = '0'
         self.data["upload_form"] = UploadContactsForm()
         return render(request, self.template_name, self.data)
 
+    #
+    #
+    #
     def post(self, request, a):
-        self.data["error"] = ""
-        data["saved_msg"] = '0'
         
+        self.data["error"] = ""
+        self.data["saved_msg"] = '0'
+
         self.data["upload_form"] = UploadContactsForm(request.POST, request.FILES)
 
         if self.data["upload_form"].is_valid():

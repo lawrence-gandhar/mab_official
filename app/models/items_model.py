@@ -139,8 +139,7 @@ class ProductsModel(models.Model):
     )
 
 
-    selling_price = models.CharField(
-        max_length=15,
+    selling_price = models.IntegerField(
         db_index = True,
         default = 0.0,
         blank = True,
@@ -152,16 +151,14 @@ class ProductsModel(models.Model):
         default = 0.0,
     )
 
-    tax = models.CharField(
+    tax = models.IntegerField(
         default = 0.0,
-        max_length=5,
         db_index = True,
         null=True,
         blank=True,
     )
 
-    gst = models.CharField(
-        max_length=5,
+    gst = models.IntegerField(
         default = 0.0,
         db_index = True,
         null=True,

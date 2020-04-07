@@ -22,39 +22,109 @@ $(".disabled-tr select, .disabled-tr input, .disabled-tr textarea").prop("disabl
 // IMAGE SLIDER
 /********************************************************************/
 
+setLocalStorageValue('imagesArray', JSON.stringify([]));
+
 var slideIndex = 1;
-showDivs(slideIndex);
 
 function plusDivs(n) {
-  showDivs(slideIndex += n);
+    showDivs(slideIndex += n);
 }
 
 function showDivs(n) {
     var i;
-    x = $("img.mySlides");
     
-    if (n > x.length) {slideIndex = 1}
-    if (n < 1) {slideIndex = x.length}
+    A = JSON.parse(getLocalStorageValue('imagesArray'));
 
-    console.log(slideIndex);
+    if(A.length > 0){
+        $("#delete_img_item").show();
+    }else{
+        $("#delete_img_item").hide();
+    } 
 
-    
-    for (i = 0; i < x.length; i++) {
-        x.eq(i).css("display","none");  
-    }
+    if(A.length > 1){
+        $(".image_buttons").show();
+    }else{
+        $(".image_buttons").hide();
+    } 
 
-    x.eq(slideIndex-1).css("display","block");
+    if (n > A.length) {slideIndex = 1}
+    if (n < 1) {slideIndex = A.length}
+
+    $("#img_block").css('background-image', 'url("'+A[slideIndex-1]+'")');
+    $("#img_block").css('background-repeat', 'no-repeat');
+    $("#img_block").css('background-size', '282px 160px');
 }
 
 
-function deleteDivs(pid){
-    ids = $("img.mySlides").eq(slideIndex-1).attr("id");
-    ids = ids.replace("img_id_","");
+function deleteDivs(pid, elem){
+    ids = elem.replace("#img_id_","");
 
     $.get("/delete_product_image/"+pid+"/"+ids+"/", function(data){
         location.reload();
     });
 }
+
+function previewDivs(elem){
+    ids = $(elem).attr("src");
+    $("#img_block").css('background-image', 'url("'+ids+'")');
+    $("#img_block").css('background-repeat', 'no-repeat');
+    $("#img_block").css('background-size', '282px 160px');
+
+}
+
+
+/************************************************************/
+//   IMAGE PREVIEWS
+/************************************************************/
+
+function check_validation(file){
+    val = file["name"].toLowerCase();
+
+    regex = new RegExp("(.*?)\.(jpg|jpeg|png|gif|bmp)$");
+
+    if (!(regex.test(val))) {
+        alert('Please select correct file format');
+        return false;
+    }
+    return true;
+}
+
+
+function readURL(input, target_elem) {
+
+    const files = document.querySelector('input[type=file]').files;
+
+    for (var i = 0, f; f = files[i]; i++){
+
+        if(check_validation(files[i])){
+            var reader = new FileReader();
+    
+            reader.onload = (function (readerEvt) {
+                return function (e) {               
+                    A = JSON.parse(getLocalStorageValue('imagesArray'))
+                    A.push(e.target.result); 
+                    setLocalStorageValue('imagesArray', JSON.stringify(A));    
+                    showDivs(slideIndex);  
+                };
+            })(f);
+
+            reader.readAsDataURL(f);   
+        }else{
+            DeletePreview();
+        }           
+    }  
+}
+
+
+/************************************************************/
+//   IMAGE PREVIEW DELETE
+/************************************************************/
+function DeletePreview(){
+    $('input[type=file]').val("");
+    setLocalStorageValue('imagesArray', JSON.stringify([]));
+    showDivs(1);
+}
+
 
 
 /********************************************************************/
@@ -140,10 +210,11 @@ window.addEventListener('load', function() {
 // view product active inactive and delete 
 /********************************************************************/
 
+
+
 function status(a,b) {
 
     var status = 's'+a.toString()
-    var remove = 't'+a
     var c = document.getElementById(status).innerHTML;
     console.log(c.length)
     if(c.length == 13){
@@ -151,11 +222,10 @@ function status(a,b) {
         type: 'GET',
         url: "/products/status_change/deactivate/"+a+"",
         success: function() {
-            // document.getElementById(a).innerHTML = 'clear'
-            // document.getElementById(status).innerHTML = 'Make Active'
-            $("#"+remove).hide();
+            document.getElementById(a).innerHTML = 'clear'
+            document.getElementById(status).innerHTML = 'Make Active'
             $('#'+'status'+a.toString()).modal('hide')
-            // document.getElementById('text').innerHTML = 'Are you sure you want to make '+b+' active '
+            document.getElementById('text').innerHTML = 'Are you sure you want to make '+b+' active '
             
         },
         error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -169,11 +239,10 @@ function status(a,b) {
         type: 'GET',
         url: "/products/status_change/activate/"+a+"",
         success: function() {
-            // document.getElementById(a).innerHTML = 'check'
-            // document.getElementById(status).innerHTML = 'Make Inactive'
-            $("#"+remove).hide();
+            document.getElementById(a).innerHTML = 'check'
+            document.getElementById(status).innerHTML = 'Make Inactive'
             $('#'+'status'+a.toString()).modal('hide')
-            // document.getElementById('text').innerHTML = 'Are you sure you want to make '+b+' inactive '
+            document.getElementById('text').innerHTML = 'Are you sure you want to make '+b+' inactive '
             
         },
         error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -213,6 +282,9 @@ $.ajax({
 function can(d) {
 $('#'+'del'+d.toString()).modal('hide')
 }
+
+
+
 /********************************************************************/
 // bundle table -- Changes Made By Lawrence
 /********************************************************************/
@@ -231,7 +303,7 @@ function addRow() {
     htm = '<tr id="row_'+number+'"><th>'+number+'</th>';
     htm += '<td> <select class="form-control" name="prod_type[]" onchange="bundle($(this),\'#product_name_'+number+'\', [\'#quantity_'+number+'\'])" style="width: 107% !important;"><option value="">------</option><option value="0">GOODS</option><option value="1">SERVICES</option></td>';
     htm += '<td><select class="form-control" id="product_name_'+number+'" name="prod_name[]" style="margin-left: 31px !important;width: 142% !important;"><option value="">------</option></td>';
-    htm += '<td><input id="quantity_'+number+'" type="number" required class="form-control" name="qty[]" style="margin-left: 90px !important;width:37% !important;"></td>';
+    htm += '<td><input id="quantity_'+number+'" type="number" class="form-control" name="qty[]" style="margin-left: 90px !important;width:37% !important;"></td>';
     htm += '<td><button class="btn btn-danger btn-remove" type="button" onclick="removeRow('+number+')" style="padding-left:7px;padding-right:7px;margin-top:-8px;padding-top:6px;padding-bottom:6px;width: 96%;"><b>X</b></button></td></tr>';
     $('#table').append(htm);
     
@@ -310,14 +382,13 @@ function show_bundle(elem){
     if(a == "2"){
         $(".bundle_dont_show").hide();
         $(".bundle_show").show();
-        $("#set_row_span").attr("rowspan",6);
+        $("#set_row_span").attr("rowspan",5);
     }
     else{
         $(".bundle_dont_show").show();
         $(".bundle_show").hide();
     }
 }
-
 
 // COMMENTED BY LAWRENCE
 
@@ -364,18 +435,7 @@ $('input[type=number]').on('keydown',function(e) {
 	return;
     }
 });
-/*code: 48-57 Numbers
-			  8  - Backspace,
-			  35 - home key, 36 - End key
-			  37-40: Arrow keys, 46 - Delete key*/
-              function restrictAlphabets(e){
-				var x=e.which||e.keycode;
-				if((x>=48 && x<=57) || x==8 ||
-					(x>=35 && x<=40)|| x==46)
-					return true;
-				else
-					return false;
-			}
+
 /*******************************************************************/
 //  CODE BY LAWRENCE
 /*******************************************************************/
@@ -407,67 +467,4 @@ function edit_bundle_product(ids, pro_id, sku, name, qty = 0){
     $("#editProductModal").modal('show');
 }
 
-
-/************************************************************/
-//   IMAGE PREVIEWS
-/************************************************************/
-function readURL(input, target_elem) {
-
-    const file = document.querySelector('input[type=file]').files[0];
-
-    var reader = new FileReader();
-    
-    reader.addEventListener("load", function () {
-        $(target_elem).css('background-image', 'url("'+reader.result+'")');
-        $(target_elem).css('background-repeat', 'no-repeat');
-        $(target_elem).css('background-size', '260px 160px');
-        $("#delete_image_or_preview").attr("onclick","DeletePreview()")
-    }, false);
-    
-    if (file) {
-        reader.readAsDataURL(file);
-    }
-}
-
-/************************************************************/
-//   IMAGE PREVIEW DELETE
-/************************************************************/
-function DeletePreview(elem) {
-    $("input[type=file]").val("");
-    $("#img_block").css('background-image', 'url("")');
-}
-
-/************************************************************/
-//   IMAGE VALIDATION DELETE
-/************************************************************/
-
-
-window.addEventListener('load', function() {
-    document.querySelector('input[type="file"]').addEventListener('change', function() {
-
-        // image extension validation
-        if (!this.files[0].name.match(/.(jpg|jpeg|png|gif)$/i)){
-            alert('Please select Image file ');
-            $('#files').val("");
-        }
-        else {
-            //  Image file size less then 1MB
-            if(this.files[0].size >= 1000000){
-                alert('Image file size less then 1MB');
-                $('#files').val("");
-
-            }
-            else if (this.files && this.files[0]) {
-                var img = document.querySelector('img');  // $('img')[0]
-                img.src = URL.createObjectURL(this.files[0]); // set src to blob url
-                $(".close").show()
-                
-            }
-        }
-    });
-  });
-
-  /************************************************************/
-//   if type bundle then hide image
-/************************************************************/
 
