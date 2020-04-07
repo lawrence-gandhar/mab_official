@@ -468,10 +468,12 @@ def add_bundle_product_form(request):
     
     ins = items_model.ProductsModel.objects.get(pk = int(request.POST["ins"]))
     
+    quantity = request.POST.get("quantity",0)
+
     obj = items_model.BundleProducts(
         product_bundle = ins,
         product_id = int(request.POST["product"]),
-        quantity = int(request.POST["quantity"])
+        quantity = quantity,
     )
 
     obj.save()
