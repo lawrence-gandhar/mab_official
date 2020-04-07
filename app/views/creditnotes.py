@@ -4,6 +4,11 @@ from django.views import View
 from collections import OrderedDict, defaultdict
 from django.contrib import messages
 
+from app.models.contacts_model import Contacts
+from app.models.users_model import *
+from app.models.items_model import *
+
+from django.db.models import Q
 
 import json, os, csv
 
@@ -48,7 +53,7 @@ class CreditView(View):
         return render(request, self.template_name, self.data)
 
 #=====================================================================================
-#   ADD CONTACTS
+#   ADD CREDITNOTE
 #=====================================================================================
 #
 def add_creditnote(request, slug = None, ins = None):
@@ -62,25 +67,40 @@ def add_creditnote(request, slug = None, ins = None):
     
     # Custom CSS/JS Files For Inclusion into template
     data["css_files"] = []
-    data["js_files"] = ['custom_files/js/contacts.js']
+    data["js_files"] = ['custom_files/js/creditnote.js']
 
     # Set link as active in menubar
     data["active_link"] = 'Credit Note'
     data["breadcrumb_title"] = 'Credit Note'
 
-    # Initialize Forms
-    
-    # data["contact_form"] = ContactsForm()
-    # data["social_form"] = ContactsExtraForm()
-    # data["tax_form"] = TaxForm()
-    # data["other_details_form"] = OtherDetailsForm()
-    # data["contact_address_form_1"] = ContactsAddressForm(prefix = 'form1')
-    # data["contact_address_form_2"] = ContactsAddressForm(prefix = 'form2')
-    # data["contact_account_details_form"] = ContactAccountDetailsForm()
+    # list contact name
+    contacts = Contacts.objects.filter(user = request.user)
+    data["contacts"] = contacts
 
-    #
-    #
-    #
-     
+    # list product name
+
+    products = ProductsModel.objects.filter(user = request.user)
+    data["products"] = products
+
     return render(request, template_name, data)
 
+
+#=====================================================================================
+#   ADD CREDITNOTE
+#=====================================================================================
+#
+
+def data(request, slug):
+    print("aaaaaaaaaaaaaaaa")
+    print(request)
+     # Initialize 
+    data = defaultdict()
+    name = slug
+    address = User_Address_Details.objects.filter(contact = name)
+    print(address)
+    # products = ProductsModel.objects.filter(Q(user = request.user) & Q(product_type = product_type))
+    # for i in range(0,len(products)):
+    #     name.append(products[i].product_name)
+
+    # data = {'products' : name}
+    return JsonResponse(data)

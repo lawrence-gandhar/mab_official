@@ -109,7 +109,7 @@
                                         <label class="form-check-label" style="margin-bottom: 3px;">
                                             <input class="form-check-input" type="checkbox" name="GvtOrganization"style="width: 111%;margin-left: -38%;">
                                             <span class="form-check-sign">
-                                                <span class="check" style="margin-left: 41px;color: black;">Gvt. Organisation</span>
+                                                <span class="check" style="margin-left: 41px;color: black;">Gvt Organisation</span>
                                             </span>
                                         </label>
 
@@ -190,13 +190,13 @@
                                 <tr id="t{{contact.id}}">
                                     <!-- <td>{{forloop.counter}}</td> -->
                                     <!-- <td>CT-0000{{contact.id}}</td> -->
-                                    <td>{{contact.display_name|default_if_none:""}}</td>
+                                    <td>{{contact.display_name|default_if_none:""|truncatechars:25}}</td>
                                     <!-- <td>{{contact.app_id}}</td>
                                     <td>{{contact.get_customer_type_display|upper}}</td>
                                     <td>{{contact.get_is_sub_customer_display|upper}}</td> -->
                                     
                                     <!-- <td>{{contact.get_organization_type_display|upper}}</td> -->
-                                    <td>{{contact.organization_name|default_if_none:""|upper}}</td>
+                                    <td>{{contact.organization_name|default_if_none:""|upper | truncatechars:25}}</td>
                                     <td>{{contact.email|default_if_none:""}}</td>
                                     <td>{{contact.phone|default_if_none:""}}</td>
                                     <!-- <td>{{contact.website}}</td>                         -->

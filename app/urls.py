@@ -8,7 +8,7 @@ from django.conf.urls.static import static
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
 from app.views import dashboard, contacts, base, invoice, collections, \
-    products, inventory, common_views
+    products, inventory, common_views,creditnotes
 
 
 # Authorization
@@ -116,7 +116,13 @@ urlpatterns += [
     path('delete_product_image/<int:pid>/<int:img_id>/',never_cache(login_required(products.delete_product_image)),name='delete_product_image'),
 ]
 
+# Credit Notes
+urlpatterns += [
+    path('creditnotes/', never_cache(login_required(creditnotes.CreditView.as_view())), name = 'credit_note'),
+    path('creditnotes/add/', never_cache(login_required(creditnotes.add_creditnote)), name = 'add_credit_note'),
+    path('creditnote/data/<slug:slug>', never_cache(login_required(creditnotes.data)), name = 'data')
 
+]
 
 
 

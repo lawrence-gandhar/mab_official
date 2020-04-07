@@ -12,6 +12,14 @@ table{
     color:#a7a4a4;
 }
 
+input[type=number]::-webkit-inner-spin-button,
+    input[type=number]::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+        margin: 0;
+    }
+
 </style>
 
 <div class="row">
@@ -58,7 +66,7 @@ table{
                                     Contact
                                 </td>
                                 <td style="border:0px;">
-                                    {{ contact_details.contact_name|default_if_none:"" }}
+                                    {{ contact_details.contact_name|default_if_none:"" | truncatechars:25 }}
                                 </td>                                    
                             </tr>
                             <tr class="disabled-tr">
@@ -66,7 +74,7 @@ table{
                                     Contact Display Name
                                 </td>
                                 <td style="border:0px;">
-                                    {{ contact_details.display_name|default_if_none:"" }}
+                                    {{ contact_details.display_name|default_if_none:""| truncatechars:25 }}
                                 </td>                                    
                             </tr>  
                             <tr class="disabled-tr">
@@ -82,7 +90,7 @@ table{
                                     Organisation Name
                                 </td>
                                 <td style="border:0px;">
-                                    {{ contact_details.organization_name|default_if_none:"" }}
+                                    {{ contact_details.organization_name|default_if_none:"" | truncatechars:25}}
                                 </td>                                    
                             </tr>
                             <tr class="disabled-tr">
@@ -127,21 +135,21 @@ table{
 
                                         <tr style="width:100%; background-color: #EEEEEE; color:#000000; font-size:11px; font-weight:bold;">
                                                                                                    
-                                            <td class="text-center">PAN</td>
-                                            <td class="text-center">GST Registration Type</td>
-                                            <td class="text-center">GSTIN No.</td>
+                                            <td class="text-center" style="width: 25%;border: 1px solid white;">PAN</td>
+                                            <td class="text-center" style="width: 30%;border: 1px solid white;">GST Registration Type</td>
+                                            <td class="text-center" style="width: 25%;border: 1px solid white;">GSTIN</td>
                                                            
                                         </tr>                                                
                                         
                                             <tr style="font-size:12px">
                                                                  
-                                                <td style="vertical-align: bottom">
+                                                <td style="vertical-align: bottom;border: 1px solid white;">
                                                     {{ tax_form_details.pan|default_if_none:"" }}
                                                 </td>  
-                                                <td style="vertical-align: bottom">
+                                                <td style="vertical-align: bottom;border: 1px solid white;">
                                                     {{ tax_form_details.get_gst_reg_type_display|default_if_none:"" }}
                                                 </td>               
-                                                <td style="vertical-align: bottom">
+                                                <td style="vertical-align: bottom;border: 1px solid white;">
                                                     {{ tax_form_details.gstin|default_if_none:"" }}
                                                 </td>         
                                                                                    
@@ -167,53 +175,70 @@ table{
                                     <table class="table-responsive table-bordered">
                                         <tbody style="width:100%; display:inline-table;">
                                             <tr style="width:100%; background-color: #EEEEEE; color:#000000; font-size:11px; font-weight:bold;">
-                                                <td class="text-center">SL. No.</td>                                                        
-                                                <td class="text-center">Contact Person</td>
-                                                <td class="text-center">Flat/Building No.</td>
-                                                <td class="text-center">Street</td>
-                                                <td class="text-center">City</td>
-                                                <td class="text-center">Pincode</td>               
-                                                <td class="text-center">State</td>               
-                                                <td class="text-center">Country</td>  
-                                                <td class="text-center">Is Shipping</td>
-                                                <td class="text-center">Is Billing</td>             
-                                                <td class="text-center">Action</td>                
+                                                                                                       
+                                                <td class="text-center" style="width: 15%;border: 1px solid white;">Contact Person</td>
+                                                <td class="text-center" style="width: 9%;border: 1px solid white;">Flat/Building No.</td>
+                                                <td class="text-center" style="width: 10%;border: 1px solid white;">Street</td>
+                                                <td class="text-center" style="width: 11%;border: 1px solid white;">City</td>
+                                                <td class="text-center" style="width: 1%;border: 1px solid white;">Pincode</td>               
+                                                <td class="text-center" style="width:17%;border: 1px solid white;">State</td>               
+                                                <td class="text-center" style="width:11%;border: 1px solid white;">Country</td>  
+                                                <td class="text-center" style="border: 1px solid white;">Is Shipping</td>
+                                                <td class="text-center" style="border: 1px solid white;">Is Billing</td>             
+                                                <td class="text-center" style="border: 1px solid white;">Action</td>                
                                             </tr>                                                
                                             {% for i in contact_addresses %}
                                                 <tr id="table-{{forloop.counter}}" style="font-size:12px">
-                                                    <td style="vertical-align: bottom">                                                                    
-                                                        {{ forloop.counter  }}
-                                                    </td>   
-                                                    <td style="vertical-align: bottom">
-                                                        {{ i.contact_person|default_if_none:"" }}
+                                                   
+                                                    <td style="vertical-align: bottom;border: 1px solid white;">
+                                                        {{ i.contact_person|default_if_none:""|truncatechars:15 }}
                                                     </td>                  
-                                                    <td style="vertical-align: bottom">
-                                                        {{ i.flat_no|default_if_none:"" }}
+                                                    <td style="vertical-align: bottom;border: 1px solid white;">
+                                                        {{ i.flat_no|default_if_none:""|truncatechars:10 }}
                                                     </td>  
-                                                    <td style="vertical-align: bottom">
-                                                        {{ i.street|default_if_none:"" }}
+                                                    <td style="vertical-align: bottom;border: 1px solid white;">
+                                                        {{ i.street|default_if_none:""|truncatechars:10 }}
                                                     </td>               
-                                                    <td style="vertical-align: bottom">
-                                                        {{ i.city|default_if_none:"" }}
+                                                    <td style="vertical-align: bottom;border: 1px solid white;">
+                                                        {{ i.city|default_if_none:""|truncatechars:15 }}
                                                     </td>   
-                                                    <td style="vertical-align: bottom">
+                                                    <td style="vertical-align: bottom;border: 1px solid white;">
                                                         {{ i.pincode|default_if_none:"" }}
                                                     </td>      
-                                                    <td style="vertical-align: bottom">
-                                                        {{ i.state|default_if_none:"" }}
+                                                    <td style="vertical-align: bottom;border: 1px solid white;">
+                                                        {{ i.state|default_if_none:""|truncatechars:15 }}
                                                     </td>  
-                                                    <td style="vertical-align: bottom">
-                                                        {{ i.country|default_if_none:"" }}
+                                                    <td style="vertical-align: bottom;border: 1px solid white;">
+                                                        {{ i.country|default_if_none:""|truncatechars:15 }}
                                                     </td> 
-                                                    <td style="vertical-align: bottom; text-align:center;">                                                                    
+                                                    <td style="vertical-align: bottom; text-align:center;border: 1px solid white;">                                                                    
                                                         {{ i.get_is_shipping_address_display  }}
                                                     </td>
-                                                    <td style="vertical-align: bottom; text-align:center;">
+                                                    <td style="vertical-align: bottom; text-align:center;border: 1px solid white;">
                                                         {{ i.get_is_billing_address_display }}
                                                     </td>
-                                                    <td style="vertical-align: bottom">                                                                
+                                                    <td style="vertical-align: bottom;border: 1px solid white;">                                                                
                                                         <i title="Edit" class="material-icons" style="cursor:pointer; font-size:18px; color:#74ff63; position:relative; vertical-align:middle;" onclick="openAddressModal({{forloop.counter}}, '{{i.is_billing_address}}', '{{i.is_shipping_address}}')">create</i>
-                                                        <i title="Delete" class="material-icons" style="cursor:pointer; font-size:18px; color:#ff1f1f; margin-left:5px; position:relative; vertical-align:middle;" onclick="delete_address({{i.id}})">delete_forever</i>
+                                                        <i title="Delete" class="material-icons" data-toggle="modal" data-target="#del{{i.id}}" style="cursor:pointer; font-size:18px; color:#ff1f1f; margin-left:5px; position:relative; vertical-align:middle;">delete_forever</i>
+                                                    
+                                                        <!-- delete model popup -->
+                                                <div class="modal " tabindex="-1" role="dialog" id="del{{i.id}}" style="border-top: none;left: 20%;top:200px;width: 500">
+                                                    <div class="modal-dialog" role="document" style="border-top: none;">
+                                                        <div class="modal-content" style="border-top: none;background:white;position:bottom">
+                                                            <div class="modal-header" style="border-bottom: none;padding:5px;">
+                                                                
+                                                            </div>
+                                                            <div class="modal-body" style="border-top: none;position: bottom;">
+                                                                <h4 align="center"><b><font color="black">Are you sure you want to delete {{ i.contact_person|default_if_none:""|truncatechars:15 }} </font></b></h4>
+                                                            </div>
+                                                            
+                                                            <div class="modal-footer" style="justify-content: flex-start; border-top: none;padding:6px;margin-left: 29%">
+                                                                <center><button onclick="delete_address({{i.id}})" class="btn btn-success mr-2" style="align-content: left;">Yes</button></center>
+                                                                <button aria-label="Close" data-dismiss="modal" class="btn btn-warning">No</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                                     </td>                                   
                                                 </tr>
                                             {% endfor %}
@@ -238,37 +263,54 @@ table{
                                 <table class="table-responsive table-bordered">
                                     <tbody style="width:100%; display:inline-table;">
                                         <tr style="width:100%; background-color: #EEEEEE; color:#000000; font-size:11px; font-weight:bold;">
-                                            <td class="text-center">SL. No.</td>                                                        
-                                            <td class="text-center">Account Holder</td>
-                                            <td class="text-center">Account Number</td>
-                                            <td class="text-center">IFSC Code</td>
-                                            <td class="text-center">Bank Name</td>
-                                            <td class="text-center">Branch Name</td>              
-                                            <td class="text-center" width="60px">Action</td>                
+                                                                                                   
+                                            <td class="text-center" style="width: 20%;border: 1px solid white;">Account Holder</td>
+                                            <td class="text-center" style="width: 21%;border: 1px solid white;">Account Number</td>
+                                            <td class="text-center" style="width:15%;border: 1px solid white;">IFSC Code</td>
+                                            <td class="text-center" style="width: 16%;border: 1px solid white;">Bank Name</td>
+                                            <td class="text-center" style="width:17%;border: 1px solid white;">Branch Name</td>              
+                                            <td class="text-center" width="60px;border: 1px solid white;">Action</td>                
                                         </tr>   
                                         {% for i in contact_accounts %}
                                             <tr>
-                                                <td style="border:0px;" class="account_holder_name">
-                                                    {{ forloop.counter  }}
-                                                </td>
-                                                <td style="border:0px;" class="account_holder_name">
-                                                    {{ i.account_holder_name|default_if_none:"" }}
+                                                
+                                                <td style="border:0px;border: 1px solid white;" class="account_holder_name">
+                                                    {{ i.account_holder_name|default_if_none:""|truncatechars:20}}
                                                 </td> 
-                                                <td style="border:0px;">
-                                                    {{ i.account_number|default_if_none:"" }}
+                                                <td style="border:0px;border: 1px solid white;">
+                                                    {{ i.account_number|default_if_none:""|truncatechars:20}}
                                                 </td>
-                                                <td style="border:0px;">
-                                                    {{ i.ifsc_code|default_if_none:"" }}
+                                                <td style="border:0px;border: 1px solid white;">
+                                                    {{ i.ifsc_code|default_if_none:""}}
                                                 </td>
-                                                <td style="border:0px;">
-                                                    {{ i.bank_name|default_if_none:"" }}
+                                                <td style="border:0px;border: 1px solid white;">
+                                                    {{ i.bank_name|default_if_none:""|truncatechars:20 }}
                                                 </td>
-                                                <td style="border:0px;">
-                                                    {{ i.bank_branch_name|default_if_none:"" }}
+                                                <td style="border:0px;border: 1px solid white;">
+                                                    {{ i.bank_branch_name|default_if_none:""|truncatechars:20 }}
                                                 </td>
-                                                <td style="vertical-align: bottom" class="text-center">                                                                
+                                                <td style="vertical-align: bottom;border: 1px solid white;" class="text-center">                                                                
                                                     <i title="Edit" class="material-icons" style="cursor:pointer; font-size:18px; color:#74ff63; position:relative; vertical-align:middle;" onclick="openAccountsModal({{forloop.counter}})">create</i>
-                                                    <i title="Delete" class="material-icons" style="cursor:pointer; font-size:18px; color:#ff1f1f; margin-left:5px; position:relative; vertical-align:middle;" onclick="delete_accounts({{i.id}})">delete_forever</i>
+                                                    <i title="Delete" class="material-icons" data-toggle="modal" data-target="#del{{i.id}}" style="cursor:pointer; font-size:18px; color:#ff1f1f; margin-left:5px; position:relative; vertical-align:middle;">delete_forever</i>
+                                                
+                                                <!-- delete model popup -->
+                                                <div class="modal " tabindex="-1" role="dialog" id="del{{i.id}}" style="border-top: none;left: 20%;top:200px;width: 500">
+                                                    <div class="modal-dialog" role="document" style="border-top: none;">
+                                                        <div class="modal-content" style="border-top: none;background:white;position:bottom">
+                                                            <div class="modal-header" style="border-bottom: none;padding:5px;">
+                                                                
+                                                            </div>
+                                                            <div class="modal-body" style="border-top: none;position: bottom;">
+                                                                <h4><b><font color="black">Are you sure you want to delete {{ i.account_holder_name|default_if_none:""|truncatechars:20}} </font></b></h4>
+                                                            </div>
+                                                            
+                                                            <div class="modal-footer" style="justify-content: flex-start; border-top: none;padding:6px;margin-left: 29%">
+                                                                <center><button onclick="delete_accounts({{i.id}})" class="btn btn-success mr-2" style="align-content: left;">Yes</button></center>
+                                                                <button aria-label="Close" data-dismiss="modal" class="btn btn-warning">No</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                                 </td>  
                                             </tr>
                                         {% endfor %}
@@ -291,32 +333,32 @@ table{
                                     <tbody style="width:100%; display:inline-table;">
                                         <tr style="width:100%; background-color: #EEEEEE; color:#000000; font-size:11px; font-weight:bold;">
                                                                                                     
-                                            <td class="text-center">Preferred Currency</td>
-                                            <td class="text-center">Opening Balance</td>
-                                            <td class="text-center">Payment Method</td>
-                                            <td class="text-center">Preferred Delivery</td>
-                                            <td class="text-center">Invoice Terms</td>              
-                                            <td class="text-center">Billing Terms</td>   
+                                            <td class="text-center" style="width:20%;border: 1px solid white;">Preferred Currency</td>
+                                            <td class="text-center" style="width: 16%;border: 1px solid white;">Opening Balance</td>
+                                            <td class="text-center" style="width: 18%;border: 1px solid white;">Payment Method</td>
+                                            <td class="text-center" style="width: 15%;border: 1px solid white;">Preferred Delivery</td>
+                                            <td class="text-center" style="width: 15%;border: 1px solid white;">Invoice Terms</td>              
+                                            <td class="text-center" style="width:16%;border: 1px solid white;">Billing Terms</td>   
 
                                         </tr>   
                                         
                                             <tr>
-                                                <td style="border:0px;" class="account_holder_name">
+                                                <td style="border:0px;border: 1px solid white;" class="account_holder_name">
                                                     {{ tax_form_details.get_preferred_currency_display|default_if_none:"" }}
                                                 </td>
-                                                <td style="border:0px;" class="account_holder_name">
+                                                <td style="border:0px;border: 1px solid white;" class="account_holder_name">
                                                     {{ tax_form_details.opening_balance|default_if_none:"" }}
                                                 </td> 
-                                                <td style="border:0px;">
+                                                <td style="border:0px;border: 1px solid white;">
                                                     {{ tax_form_details.get_preferred_payment_method_display|default_if_none:"" }}
                                                 </td>
-                                                <td style="border:0px;">
+                                                <td style="border:0px;border: 1px solid white;">
                                                     {{ tax_form_details.get_preferred_delivery_display|default_if_none:"" }}
                                                 </td>
-                                                <td style="border:0px;">
+                                                <td style="border:0px;border: 1px solid white;">
                                                     {{ tax_form_details.get_invoice_terms_display|default_if_none:"" }}
                                                 </td>
-                                                <td style="border:0px;">
+                                                <td style="border:0px;border: 1px solid white;">
                                                     {{ tax_form_details.get_bills_terms_display|default_if_none:"" }}
                                                 </td>
                                                   
@@ -341,30 +383,28 @@ table{
                                     <tbody style="width:100%; display:inline-table;">
                                         <tr style="width:100%; background-color: #EEEEEE; color:#000000; font-size:11px; font-weight:bold;">
                                                                                                     
-                                            <td class="text-center">Website</td>
-                                            <td class="text-center">Facebook</td>
-                                            <td class="text-center">Twitter</td>
-                                            <td class="text-center">Notes</td>
-                                            <td class="text-center">Attachments</td>              
+                                            <td class="text-center" style="width: 20%;border: 1px solid white;">Website</td>
+                                            <td class="text-center" style="width: 20%;border: 1px solid white;">Facebook</td>
+                                            <td class="text-center" style="width: 20%;border: 1px solid white;">Twitter</td>
+                                            <td class="text-center" style="width: 20%;border: 1px solid white;">Notes</td>
+                                            <td class="text-center" style="width: 20%;border: 1px solid white;">Attachments</td>              
                                               
                                         </tr>   
                                         
                                             <tr>
-                                                <td style="border:0px;" class="account_holder_name">
-                                                    {{ contact_details.website|default_if_none:"" }}
+                                                <td style="border: 1px solid white;" class="account_holder_name">
+                                                    {{ contact_details.website|default_if_none:""|truncatechars:25 }}
                                                 </td>
-                                                <td style="border:0px;" class="account_holder_name">
-                                                    {{ contact_details.facebook|default_if_none:"" }}
+                                                <td style="border: 1px solid white;" class="account_holder_name">
+                                                    {{ contact_details.facebook|default_if_none:""|truncatechars:25 }}
                                                 </td> 
-                                                <td style="border:0px;">
-                                                    {{ contact_details.twitter|default_if_none:"" }}
+                                                <td style="border: 1px solid white;">
+                                                    {{ contact_details.twitter|default_if_none:""|truncatechars:25 }}
                                                 </td>
-                                                <td style="border:0px;">
-                                                    {{ contact_details.notes|default_if_none:"" }}
+                                                <td style="border: 1px solid white;">
+                                                    {{ contact_details.notes|default_if_none:"" |truncatechars:25}}
                                                 </td>
-                                                <td style="border:0px;">
-                                                    
-                                                </td>    
+                                                <td style="border: 1px solid white;"></td>    
                                             </tr>  
                                     </tbody>
                                 </table>
@@ -484,7 +524,7 @@ table{
                 </div>
                 <div class="modal-footer">
                     <button class="btn btn-sm btn-success" onclick="return check()" id="save_button">Update</button>
-                    <button class="btn btn-sm btn-danger close" type="button" data-dismiss="modal" aria-label="Close">Cancel</button>
+                    <button class="btn btn-sm btn-danger " type="button" data-dismiss="modal" aria-label="Close">Cancel</button>
                     
                 </div>
             </form>
@@ -527,9 +567,9 @@ table{
                                     {{ tax_form.gst_reg_type }}
                                 </td>                                    
                             </tr>
-                            <tr id="gst_row" >
+                            <tr id="gst_row" style="display: none;">
                                 <td style=" width:170px; border:0px; vertical-align: bottom; color:#a7a4a4">
-                                    GSTIN No.
+                                    GSTIN 
                                 </td>
                                 <td style="border:0px;">
                                     {{ tax_form.gstin }}
@@ -568,7 +608,7 @@ table{
                 </div>
                 <div class="modal-footer">
                     <button class="btn btn-sm btn-success save_button" onclick="return check()">Update</button>
-                    <button class="btn btn-sm btn-danger close" type="button" data-dismiss="modal" aria-label="Close">Cancel</button>
+                    <button class="btn btn-sm btn-danger" type="button" data-dismiss="modal" aria-label="Close">Cancel</button>
                     
                 </div>
             </form>
@@ -620,7 +660,7 @@ table{
                                 <td style="padding:0px 0px 0px 10px; width:150px; border:0px; vertical-align: bottom; color:#a7a4a4">
                                     Contact Person
                                 </td>
-                                <td style="border:0px;">
+                                <td style="border:0px;" >
                                     {{ i.contact_person}}
                                 </td>                                    
                             </tr>
@@ -677,7 +717,7 @@ table{
                 </div>
                 <div class="modal-footer">
                     <button class="btn btn-sm btn-success save_button" onclick="return check()">Update</button>
-                    <button class="btn btn-sm btn-danger close" type="button" data-dismiss="modal" aria-label="Close">Cancel</button>
+                    <button class="btn btn-sm btn-danger" type="button" data-dismiss="modal" aria-label="Close">Cancel</button>
                     
                 </div>
             </form>
@@ -788,7 +828,7 @@ table{
                 </div>
                 <div class="modal-footer">
                     <button class="btn btn-sm btn-success save_button" onclick="return check()">Add New</button>
-                    <button class="btn btn-sm btn-danger close" type="reset" data-dismiss="modal" aria-label="Close">Cancel</button>
+                    <button class="btn btn-sm btn-danger" type="reset" data-dismiss="modal" aria-label="Close">Cancel</button>
                     
                 </div>
             </form>
@@ -811,8 +851,8 @@ table{
                 <div class="modal-body">
                     <input type="hidden" value="{{contact_ins}}" name="ids">
                     {% csrf_token %}
-                    <table class="">
-                        <tbody style=" width:99%;display: inline-table;">
+                    <table class="table-responsive">
+                        <tbody style=" width:100%;display: inline-table;">
                             <tr>
                                 <td style="padding:0px 0px 0px 10px; width:150px; border:0px; vertical-align: bottom; color:#a7a4a4">
                                     Account Holder
@@ -830,13 +870,13 @@ table{
                                 </td>                                    
                             </tr>
                             <tr>
-                                <td style="padding:0px 0px 0px 10px; width:150px; border:0px; vertical-align: bottom; color:#a7a4a4">
+                                <td style="padding:2px 0px 0px 10px; width:150px; border:0px; vertical-align: bottom; color:#a7a4a4">
                                     IFSC Code
                                 </td>
                                 <td style="border:0px;">
                                     {{ i.ifsc_code }}
                                 </td>   
-                                <td style="border:0px;" class="error_field"></td>                                  
+                                <td style="border:0px;width: 36%;" class="error_field"></td>                                  
                             </tr>
                             <tr>
                                 <td style="padding:0px 0px 0px 10px;border:0px; vertical-align: bottom; color:#a7a4a4">
@@ -859,7 +899,7 @@ table{
                 </div>
                 <div class="modal-footer">
                     <button class="btn btn-sm btn-success save_button" onclick="return check()">Update</button>
-                    <button class="btn btn-sm btn-danger close" type="reset" data-dismiss="modal" aria-label="Close">Cancel</button>
+                    <button class="btn btn-sm btn-danger" type="reset" data-dismiss="modal" aria-label="Close">Cancel</button>
                     
                 </div>
             </form>
@@ -889,7 +929,7 @@ table{
                                 <td style="padding:0px 0px 0px 10px; width:150px; border:0px; vertical-align: bottom; color:#a7a4a4">
                                     Account Holder
                                 </td>
-                                <td style="border:0px;">
+                                <td style="border:0px;width: 40%">
                                     {{ new_accounts_form.account_holder_name }}
                                 </td>                                    
                             </tr>
@@ -897,23 +937,24 @@ table{
                                 <td style="padding:0px 0px 0px 10px; width:150px; border:0px; vertical-align: bottom; color:#a7a4a4">
                                     Account Number
                                 </td>
-                                <td style="border:0px;">
+                                <td style="border:0px;width: 40%">
                                     {{ new_accounts_form.account_number }}
                                 </td>                                    
                             </tr>
                             <tr>
-                                <td style="padding:0px 0px 0px 10px; width:150px; border:0px; vertical-align: bottom; color:#a7a4a4">
+                                <td style="padding:2px 0px 0px 10px; width:150px; border:0px; vertical-align: bottom; color:#a7a4a4">
                                     IFSC Code
                                 </td>
-                                <td style="border:0px;">
+                                <td style="border:0px;width: 40%;">
                                     {{ new_accounts_form.ifsc_code }}
-                                </td>                                    
+                                </td>                 
+                                <td style="border:0px;" class="error_field"></td>                    
                             </tr>
                             <tr>
                                 <td style="padding:0px 0px 0px 10px; width:150px; border:0px; vertical-align: bottom; color:#a7a4a4">
                                     Bank Name
                                 </td>
-                                <td style="border:0px;">
+                                <td style="border:0px;width: 40%">
                                     {{ new_accounts_form.bank_name }}
                                 </td>                                    
                             </tr>
@@ -921,7 +962,7 @@ table{
                                 <td style="padding:0px 0px 0px 10px; width:150px; border:0px; vertical-align: bottom; color:#a7a4a4">
                                     Branch Name
                                 </td>
-                                <td style="border:0px;">
+                                <td style="border:0px;width: 40%">
                                     {{ new_accounts_form.bank_branch_name }}
                                 </td>                                    
                             </tr>
@@ -930,7 +971,7 @@ table{
                 </div>
                 <div class="modal-footer">
                     <button class="btn btn-sm btn-success save_button" onclick="return check()">Add New</button>
-                    <button class="btn btn-sm btn-danger close" type="reset" data-dismiss="modal" aria-label="Close">Cancel</button>
+                    <button class="btn btn-sm btn-danger" type="reset" data-dismiss="modal" aria-label="Close">Cancel</button>
                     
                 </div>
             </form>
@@ -1010,7 +1051,7 @@ table{
                 </div>
                 <div class="modal-footer">
                     <button class="btn btn-sm btn-success save_button" onclick="return check()">Update</button>
-                    <button class="btn btn-sm btn-danger close" type="reset" data-dismiss="modal" aria-label="Close">Cancel</button>
+                    <button class="btn btn-sm btn-danger" type="reset" data-dismiss="modal" aria-label="Close">Cancel</button>
                 </div>
             </form>
         </div>
@@ -1084,7 +1125,7 @@ table{
                     </table>
                     <div class="modal-footer">
                         <button class="btn btn-sm btn-success save_button" onclick="return check()">Update</button>
-                        <button class="btn btn-sm btn-danger close" type="reset" data-dismiss="modal" aria-label="Close">Cancel</button>
+                        <button class="btn btn-sm btn-danger" type="reset" data-dismiss="modal" aria-label="Close">Cancel</button>
                         
                     </div>
                 </div>

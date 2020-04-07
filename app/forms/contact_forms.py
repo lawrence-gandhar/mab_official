@@ -8,7 +8,7 @@ class UploadContactsForm(ModelForm):
         fields = ('csv_file',)
 
         widgets = {
-            'csv_file' : FileInput(attrs = {'class':'form-control input-sm', 'accept': ".csv", 'required':True,'style':'padding:1px'}),
+            'csv_file' : FileInput(attrs = {'class':'form-control input-sm','id':'upload', 'accept': ".csv", 'required':True,'style':'padding:1px'}),
         }
 
 class ContactsForm(ModelForm):
@@ -81,7 +81,7 @@ class EditAddressForm(ModelForm):
             'city' : TextInput(attrs={'class':'form-control input-sm','style':'width:50%;'}),
             'state' : Select(attrs={'class':'form-control input-sm','style':'width:50%;'}, choices = country_list.STATE_LIST_CHOICES),
             'country' : Select(attrs={'class':'form-control input-sm','style':'width:50%;'}, choices = country_list.COUNTRIES_LIST_CHOICES),
-            'pincode' : TextInput(attrs={'class':'form-control input-sm','style':'width:50%;'}),
+            'pincode' : TextInput(attrs={'class':'form-control input-sm','style':'width:50%;','onkeypress':'return restrictAlphabets(event)',}),
             'is_shipping_address' : Select(attrs={'class':'form-control input-sm shipping_address hide','style':'width:40%;', 'required':'false',}),
             'is_billing_address' : Select(attrs={'class':'form-control input-sm billing_address hide','style':'width:40%;', 'required':'false'}),
         }
@@ -110,9 +110,9 @@ class ContactsExtraForm(ModelForm):
         fields = ('website', 'facebook', 'twitter', 'attachements', 'notes',)
 
         widgets = {
-            'attachements' : FileInput(attrs = {'class':'form-control input-sm','style':'padding:1px'}),
+            'attachements' : FileInput(attrs = {'class':'form-control input-sm','id':'files','style':'padding:1px'}),
             'website': TextInput(attrs={'class':'form-control input-sm','placeholder':'http://google.com/', 'onkeyup':'valid_URL($(this))', 'onfocusout':'valid_URL($(this))'}),
-            'facebook' : TextInput(attrs={'class':'form-control input-sm','placeholder':'http://facebook.com/', 'max_length':'200', }),
-            'twitter' : TextInput(attrs={'class':'form-control input-sm', 'max_length':'200','placeholder':'http://twitter.com/', }),
+            'facebook' : TextInput(attrs={'class':'form-control input-sm','placeholder':'Facebook Username', 'max_length':'200', }),
+            'twitter' : TextInput(attrs={'class':'form-control input-sm', 'max_length':'200','placeholder':'Tiwtter Username', }),
             'notes': Textarea(attrs = {'class':'form-control',})
         }         
