@@ -366,7 +366,7 @@ function show_bundle(elem){
     if(a == "2"){
         $(".bundle_dont_show").hide();
         $(".bundle_show").show();
-        $("#set_row_span").attr("rowspan",5);
+        $("#set_row_span").attr("rowspan",6);
     }
     else{
         $(".bundle_dont_show").show();
