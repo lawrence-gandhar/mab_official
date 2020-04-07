@@ -203,7 +203,7 @@ class AddProducts(View):
 
     # Custom CSS/JS Files For Inclusion into template
     data["css_files"] = []
-    data["js_files"] = ['custom_files/js/product.js',]
+    data["js_files"] = ['custom_files/js/product.js']
     data["active_link"] = 'Products'
 
     data["included_template"] = 'app/app_files/products/add_products_form.html'
@@ -230,13 +230,15 @@ class AddProducts(View):
         
         if add_images.is_valid() and ins is not None:
             for img in request.FILES.getlist('product_image'):
+
                 img_save = ProductPhotos(
                     product_image = img,
                     product = ins
                 )
 
                 img_save.save()
-        
+        else:
+            print(add_images.errors)
 
         product_names = request.POST.getlist("prod_name[]")
         qty = request.POST.getlist("qty[]")
@@ -341,7 +343,7 @@ class EditProducts(View):
             self.data["bundle_products"] = items_model.BundleProducts.objects.filter(product_bundle = product) 
             self.data["add_bundle_product_form"] = BundleProductForm(request.user, kwargs["ins"])
 
-        self.data["add_product_form"] = ProductForm(request.user, instance = product)
+        self.data["add_product_form"] = EditProductForm(request.user, instance = product)
         return render(request, self.template_name, self.data)
 
     #
@@ -353,7 +355,7 @@ class EditProducts(View):
         except:
             return redirect('/unauthorized/', permanent=False)
 
-        add_product = ProductForm(request.user, request.POST or None, instance = product)
+        add_product = EditProductForm(request.user, request.POST or None, instance = product)
         add_images = ProductPhotosForm(request.FILES or None)
 
         ins = None
@@ -372,7 +374,7 @@ class EditProducts(View):
 
                 img_save.save()
         
-        return redirect('/products/', permanent = False)
+        return redirect('/products/edit/{}'.format(kwargs["ins"]), permanent = False)
 
 #
 #

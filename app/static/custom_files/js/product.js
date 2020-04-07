@@ -22,28 +22,39 @@ $(".disabled-tr select, .disabled-tr input, .disabled-tr textarea").prop("disabl
 // IMAGE SLIDER
 /********************************************************************/
 
+setLocalStorageValue('imagesArray', JSON.stringify([]));
+
 var slideIndex = 1;
-showDivs(slideIndex);
 
 function plusDivs(n) {
-  showDivs(slideIndex += n);
+    showDivs(slideIndex += n);
 }
 
 function showDivs(n) {
     var i;
-    x = $("img.mySlides");
     
-    if (n > x.length) {slideIndex = 1}
-    if (n < 1) {slideIndex = x.length}
+    A = JSON.parse(getLocalStorageValue('imagesArray'));
 
-    console.log(slideIndex);
+    if(A.length > 0){
+        $("#delete_img_item").show();
+    }else{
+        $("#delete_img_item").hide();
+    } 
 
-    
-    for (i = 0; i < x.length; i++) {
-        x.eq(i).css("display","none");  
-    }
+    if(A.length > 1){
+        $(".image_buttons").show();
+    }else{
+        $(".image_buttons").hide();
+    } 
 
-    x.eq(slideIndex-1).css("display","block");
+    if (n > A.length) {slideIndex = 1}
+    if (n < 1) {slideIndex = A.length}
+
+    $("#img_block").css('background-image', 'url("'+A[slideIndex-1]+'")');
+    $("#img_block").css('background-repeat', 'no-repeat');
+    $("#img_block").css('background-size', '282px 160px');
+
+    console.log(slideIndex-1);
 }
 
 
@@ -55,6 +66,42 @@ function deleteDivs(pid){
         location.reload();
     });
 }
+
+
+/************************************************************/
+//   IMAGE PREVIEWS
+/************************************************************/
+
+function readURL(input, target_elem) {
+
+    const files = document.querySelector('input[type=file]').files;
+
+    for (var i = 0, f; f = files[i]; i++){
+        var reader = new FileReader();
+    
+        reader.onload = (function (readerEvt) {
+            return function (e) {               
+                A = JSON.parse(getLocalStorageValue('imagesArray'))
+                A.push(e.target.result); 
+                setLocalStorageValue('imagesArray', JSON.stringify(A));    
+                showDivs(slideIndex);  
+            };
+        })(f);
+
+        reader.readAsDataURL(f);      
+    }  
+}
+
+
+/************************************************************/
+//   IMAGE PREVIEW DELETE
+/************************************************************/
+function DeletePreview() {
+    $('input[type=file]').val("");
+    setLocalStorageValue('imagesArray', JSON.stringify([]));
+    showDivs(1);
+}
+
 
 
 /********************************************************************/
@@ -398,30 +445,3 @@ function edit_bundle_product(ids, pro_id, sku, name, qty = 0){
 }
 
 
-/************************************************************/
-//   IMAGE PREVIEWS
-/************************************************************/
-function readURL(input, target_elem) {
-
-    const file = document.querySelector('input[type=file]').files[0];
-
-    var reader = new FileReader();
-    
-    reader.addEventListener("load", function () {
-        $(target_elem).css('background-image', 'url("'+reader.result+'")');
-        $(target_elem).css('background-repeat', 'no-repeat');
-        $(target_elem).css('background-size', '260px 160px');
-    }, false);
-    
-    if (file) {
-        reader.readAsDataURL(file);
-    }
-}
-
-/************************************************************/
-//   IMAGE PREVIEW DELETE
-/************************************************************/
-function DeletePreview() {
-    $("input[type=file]").val("");
-    $("#img_block").css('background-image', 'url("")');
-}

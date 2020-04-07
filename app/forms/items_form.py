@@ -39,6 +39,39 @@ class ProductForm(ModelForm):
             'sales_account' : Select(attrs = {'class':'form-control input-sm',},),
         }
 
+
+class EditProductForm(ModelForm):
+        
+    def __init__(self, user, *args, **kwargs):
+        self.user = user
+        super(EditProductForm, self).__init__(*args, **kwargs)
+        
+    class Meta:
+        model = ProductsModel
+
+        fields = (
+            'sku', 'product_name', 'product_description', 
+            'cost_price','selling_price', 'discount', 'tax', 'gst', 'purchase_account',
+            'hsn_code', 'abatement', 'unit', 'sales_account', 
+        )
+
+        widgets = {
+            'sku' : TextInput(attrs = {'class':'form-control input-sm',}),
+            'product_name' : TextInput(attrs = {'class':'form-control input-sm',}),            
+            'product_description' : Textarea(attrs = {'class':'form-control input-sm',}),
+            'cost_price' : NumberInput(attrs = {'class':'form-control input-sm',}),            
+            'selling_price' : NumberInput(attrs = {'class':'form-control input-sm',}),
+            'discount' : NumberInput(attrs = {'class':'form-control input-sm',}),
+            'tax' : NumberInput(attrs = {'class':'form-control input-sm',}),
+            'gst' : NumberInput(attrs = {'class':'form-control input-sm',}),
+            'hsn_code' : TextInput(attrs = {'class':'form-control input-sm',}),
+            'abatement' : NumberInput(attrs = {'class':'form-control input-sm',}),
+            'unit' : Select(attrs = {'class':'form-control input-sm',}, choices = items_constant.UNITS),           
+            'purchase_account' : Select(attrs = {'class':'form-control input-sm',},),
+            'sales_account' : Select(attrs = {'class':'form-control input-sm',},),
+        }
+
+
 #==================================================================================
 # PRODUCT IMAGE FORM
 #==================================================================================
@@ -52,7 +85,13 @@ class ProductPhotosForm(ModelForm):
         fields= ('product_image',)
 
         widgets = {
-            'product_image' : FileInput(attrs = {'class':'form-control input-sm', 'id':'files','name':'files[]','type':'file','multiple' : 'true', 'accept':'image/jpeg, image/png, image/gif,', 'onchange':'readURL($(this), "#img_block")'})
+            'product_image' : FileInput(attrs = {
+                'class':'form-control input-sm', 'id':'files',
+                'name':'files[]','type':'file','multiple' : 'true', 
+                'accept':'image/jpeg, image/png, image/gif,', 
+                'onchange':'readURL($(this), "#img_block")',
+                }
+            )
         }
 
 #==================================================================================
