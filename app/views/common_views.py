@@ -48,7 +48,6 @@ def fetch_contact_addresses(request, ins=None):
         data['ret'] = 1
         data['organization_name'] = contact.organization_name
         data['addresses'] = list(contact_addresses)        
-
         return HttpResponse(json.dumps(data))
     return HttpResponse(json.dumps(data))
 

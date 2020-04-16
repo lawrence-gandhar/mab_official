@@ -36,6 +36,10 @@
                             <div class="alert alert-danger">
                                 File Uploading Failed. Only CSV is supported
                             </div>
+                        {% elif saved_msg == '5' %}
+                            <div class="alert alert-danger">
+                                File Uploading Failed. More than 100 records is not supported.
+                            </div>
                         {% endif %}
 
                         {% if error %}
@@ -53,18 +57,15 @@
                                     {{ upload_form.csv_file }}                                
                                 </div><br>
                                 <div style="align:left;padding: 0%;margin-left: -27%;position: absolute;margin-top:-0.2%">
-                                    <font color="white" style="font-size:x-small;">(Maximum File Size: 2 MB  |  File Format: CSV)</font>
+                                    <font color="white" style="font-size:x-small;">(File Size Less Than: 80 KB  |  File Format: CSV)</font>
                                 </div>
                                 <br><br>
     
                                 <div  style="align:left;padding: 0%;margin-left: -9%;position: absolute;">
                                     <a href="{% static 'images/sample_CSV.csv' %}">
                                         <h5 style=""><i class="fa fa-download"></i>  sample csv</h5>  
-                                    </a >
-                                </div>     
-                               
-                                    
-                               
+                                    </a>
+                                </div>   
                                 <div class="d-table-cell" style="padding:0px;margin-right: -10%;position: relative;margin-top: 0.2%">
                                     <button class="btn btn-success btn-sm" style="vertical-align: inherit;margin-right: 30%;" >Upload</button>
                                 </div><br><br>
@@ -108,7 +109,7 @@
         <form style="background-color: lightblue;">
             <body> 
                 <h3 style="margin-left: 39%"><font color="lightblue" ><b>IMPORT CONTACT</b></font></h><br>
-                  <h5 style="margin-left: 23%"> <font color="lightblue">To import Contact from Another System Please follow the Steps Below</font></h5><br><br>
+                  <h5 style="margin-left: 23%"> <font color="lightblue">To import contact from another system please follow the steps below</font></h5><br><br>
                 <!-- <div class="row" > -->
                     <center>
                 <div class="col-lg-8" style="overflow: hidden;background-color: white;float:left;margin-left: 15% "   > 
@@ -116,11 +117,11 @@
                         <div class="card" style="float: left;" > -->
                             <div class="card-header" style="background-color:white">
     
-                                <h3><font color="black"><b>STEP1: Download The Contact Sample File</b></font></h3>
+                                <h3><font color="black"><b>STEP1: Download the contact sample file</b></font></h3>
                                 <!-- <h3 class="card-title " style="text-decoration-color: black;"><font color="black"><b>STEP1: Download The Contact Sample File</b></font></h3> -->
-                                <font size="2">Start By the Downloading our Contacts CSV(comma seperated value) Templates File.This File Has the correect Column Headings MyAccountBook need to import Your Contact Data</font><br>
+                                <font size="2">Start by the downloading our contacts CSV(comma seperated value).This file has the correect column headings MyAccountBook need to import your contact data</font><br>
                                 <!-- <b>Start By the Downloading our Contacts CSV(comma seperated value) Templates File.This File Has the correect Column Headings MyAccountBook need to import Your Contact Data<b><br><br> -->
-                                Download Sample File<br><br>
+                                Download sample file<br><br>
                             </div>
                         <!-- </div>
                     </div> -->
@@ -128,10 +129,10 @@
                         <!-- <div class="card" style="float: left;"> -->
                         <div class="card-header" style="background-color: white;" >
     
-                                <h3><font color="black"><b>STEP 2: Copy Your contacts Into Templates</b></font></h3>
+                                <h3><font color="black"><b>STEP 2: Copy your contacts into templates</b></font></h3>
                                 <font size="2">Export Your contacts from your old System.Using Excel or Another Spreadsheet Editer, copy and paste your Contacts from the Exported File into the MyAccountBook template.Make sure the contact data you copy matches the column headings provided into the templates </font><br>
                                 <font color="red"><h4><b>IMPORTANT:</b></h4></font>
-                                <font color="red" size="2"><h6>Do Not Change The column Headings in The Templates file.This Need to be unchanged for the import to work in the next step.</h6></font><br>
+                                <font color="red" size="2"><h6>Do not change the column headings in the templates file.This Need to be unchanged for the import to work in the next step.</h6></font><br>
                                 <!-- <font color="blue">Help On Import Fileds</font><br> -->
     
                             <!-- </div>
@@ -141,8 +142,8 @@
                      <!-- <div class="col-lg-4" style="padding:10px;float: left;">
                         <div class="card"> -->
                             <div class="card-header" style="background-color: white;">
-                                <h3><font color="black"><b>STEP 3: Import The Updated Template File</b></font></h3>
-                                Choose a file to Import<br>
+                                <h3><font color="black"><b>STEP 3: Import the updated template file</b></font></h3>
+                                Choose a file to import<br>
                                 <font size="2">The file You Imported Must Be a CSV(comma seperated value).The name Of Your File Should be with .csv</font><br><br>
                                 <!-- <font size="2">How Do You Want Xero To Handle Empty Filed When Updating Existing Contacts?</font><br> -->
                                 <!-- <input type="radio" checked="checked" />Ignore empty fileds<br> -->

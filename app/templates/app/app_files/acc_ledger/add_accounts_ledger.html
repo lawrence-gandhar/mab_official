@@ -1,0 +1,173 @@
+{% load common_components %}
+{% loader_component %}
+{% load static %}
+
+
+<style>
+select.form-control, input.form-control, textarea.form-control{
+    padding:0px 10px;
+}
+select.form-control option, optgroup{color : #000000; }
+
+table{
+    font-size:14px;
+    color:#a7a4a4;
+}
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+.error{
+    color: white;
+    background-color: red;
+    margin-top:20px;
+    padding-top:10px;
+    margin-left: 320px;
+    font-weight: bold;
+}
+.img-wrap {
+            position: relative;
+            display: inline-block;
+            font-size: 0;
+        }
+
+            .img-wrap .close {
+                position: absolute;
+                top: 2px;
+                right: 2px;
+                z-index: 100;
+                background-color: #D0E5F5;
+                padding: 5px 2px 2px;
+                color: #000;
+                font-weight: bolder;
+                cursor: pointer;
+                opacity: .5;
+                font-size: 23px;
+                line-height: 10px;
+                border-radius: 50%;
+                display: none;
+            }
+
+            .img-wrap:hover .close {
+                opacity: 1;
+                background-color: #ff0000;
+            }
+</style>
+</style>
+
+
+
+<div class="row">
+    <div class="col-lg-12" style="padding:0px">
+        <div class="card">    
+            <form method="post" action="">
+                <div class="card-header card-header-primary">
+                    <h4 class="card-title ">Add Accounts</h4>
+                </div>  
+                <div class="card-body" style="margin-left: 13px;">
+                    {% csrf_token %}
+                    <div class="table" style="padding:10px 0px; color:#FFFFFF; width:100%">
+                        <table class="table-responsive">
+                            <tbody style=" width: 100%; display: inline-table;">
+                                <tr>
+                                    <td style="border:0px; width:150px; vertical-align:bottom">
+                                        Major Heads
+                                    </td>
+                                    <td style="border:0px;" class="set_required">
+                                        {{ledger_form.major_heads}}
+                                    </td>  
+                                </tr>
+                                <tr>
+                                    <td style="border:0px; width:150px; vertical-align:bottom">
+                                        Grouping
+                                    </td>
+                                    <td style="border:0px;" class="set_required">
+                                        {{ledger_form.acc_group}}                                       
+                                    </td>  
+                                </tr>
+                                <tr>
+                                    <td style="border:0px; width:150px; vertical-align:bottom">
+                                        Info Message
+                                    </td>
+                                    <td style="border:0px;" class="set_required">
+                                        {{ledger_form.info_message}}
+                                    </td>  
+                                </tr>
+                                <tr>
+                                    <td style="border:0px; width:150px; vertical-align:bottom">
+                                        Accounts Name
+                                    </td>
+                                    <td style="border:0px;" class="set_required">
+                                        {{ledger_form.accounts_name}}
+                                    </td>  
+                                </tr>
+                                <tr>
+                                    <td style="border:0px; width:150px; vertical-align:bottom">
+                                        Description
+                                    </td>
+                                    <td style="border:0px;" class="set_required">
+                                        {{ledger_form.description}}
+                                    </td>  
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>                    
+                </div>
+                <div class="card-footer"  style="justify-content: center;">
+                    <button class="btn btn-success">Save</button>
+                    <a class="btn btn-warning" type="reset">Cancel</a>              
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- MODAL -->
+
+<div class="modal fade" id="addGroupModal" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content" style="background-color:currentcolor">
+            <form method="post" style="margin:0px" id="add_group_form">
+                {% csrf_token %}
+                <div class="modal-header bg-warning">
+                    <h5 class="modal-title" style="color:#000000; font-weight:bold;">Add New Group</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" value="{{major_ins}}" name="ids" id="major_head_ins">
+                    <table class="table-responsive">
+                        <tbody style=" width: 100%; display: inline-table;">
+                            <tr>
+                                <td style="border:0px;">
+                                    Group Name
+                                </td>
+                                <td style="border:0px;">
+                                    {{ groups_form.group_name }}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="border:0px;">
+                                    Group Info
+                                </td>
+                                <td style="border:0px;">
+                                    {{ groups_form.group_info }}                                
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-sm btn-success save_button" type="button" onclick="add_group_form(0)">Save</button>
+                    <!--<button class="btn btn-sm btn-info save_button" type="button" onclick="add_group_form(1)">Save & Select</button>-->
+                    <button class="btn btn-sm btn-danger" type="reset" data-dismiss="modal" aria-label="Close">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

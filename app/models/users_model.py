@@ -6,6 +6,7 @@ from django.dispatch import receiver
 from django.utils.crypto import get_random_string
 
 from app.models.contacts_model import *
+from app.models.accounts_model import *
 
 #**************************************************************************
 #   USER'S PROFILE DETAILS
@@ -517,4 +518,6 @@ def create_user_profile(sender, instance, created, **kwargs):
         pro = Profile.objects.create(user=instance)
         pro.app_id = 'APK-'+get_random_string(length=10)
         pro.save()
+
+
 

@@ -8,7 +8,7 @@ from django.conf.urls.static import static
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
 from app.views import dashboard, contacts, base, invoice, collections, \
-    products, inventory, common_views
+    products, inventory, common_views, creditnotes, accounts_ledger
 
 
 # Authorization
@@ -114,11 +114,23 @@ urlpatterns += [
     path('edit_bundle_product_form/',never_cache(login_required(products.edit_bundle_product_form)),name='edit_bundle_product_form'),
     path('add_bundle_product_form/',never_cache(login_required(products.add_bundle_product_form)),name='add_bundle_product_form'),
     path('delete_product_image/<int:pid>/<int:img_id>/',never_cache(login_required(products.delete_product_image)),name='delete_product_image'),
+    path('check_existing_product/',never_cache(login_required(products.check_existing_product)),name='check_existing_product'),
+    path('get_predefined_groups/', never_cache(login_required(accounts_ledger.get_predefined_groups)), name = 'get_predefined_groups'),
+    path('add_ledger_group/', never_cache(login_required(accounts_ledger.add_ledger_group)), name = 'add_ledger_group'),
 ]
 
+# Credit Notes
+urlpatterns += [
+    path('creditnotes/', never_cache(login_required(creditnotes.CreditView.as_view())), name = 'credit_note'),
+    path('creditnotes/add/<slug:slug>', never_cache(login_required(creditnotes.add_creditnote)), name = 'add_credit_note'),
+    path('creditnote/contact/<slug:slug>', never_cache(login_required(creditnotes.fetch_contact)), name = 'creditnote_contact'),
+    path('creditnote/product/<slug:slug>', never_cache(login_required(creditnotes.fetch_product)), name = 'creditnote_product'),
+]
 
-
-
+# Accounts Ledger
+urlpatterns += [
+    path('ledger/add/', never_cache(login_required(accounts_ledger.AccLedger.as_view())), name = 'add_accounts'),
+]
 
 #
 if settings.DEBUG:

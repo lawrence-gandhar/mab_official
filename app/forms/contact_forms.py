@@ -8,7 +8,7 @@ class UploadContactsForm(ModelForm):
         fields = ('csv_file',)
 
         widgets = {
-            'csv_file' : FileInput(attrs = {'class':'form-control input-sm', 'accept': ".csv", 'required':True,'style':'padding:1px'}),
+            'csv_file' : FileInput(attrs = {'class':'form-control input-sm','id':'upload', 'accept': ".csv", 'required':True,'style':'padding:1px'}),
         }
 
 class ContactsForm(ModelForm):
@@ -29,16 +29,16 @@ class ContactsForm(ModelForm):
             'is_msme_reg': Select(attrs={'class':'form-control input-sm',}, choices = user_constants.IS_TRUE),
             'is_imported_user': CheckboxInput(attrs={'class':'form-check-input','value':'1', 'style':'margin:5px; height:15px; width:15px;',}),
             'imported_user': TextInput(attrs={'class':'form-control input-sm', 'type':'hidden',}),
-            'email': TextInput(attrs={'class':'form-control input-sm', 'placeholder':'abc@gmail.com', 'onkeyup':'valid_Email($(this))', 'onfocusout':'valid_Email($(this))' }),
-            'phone':  NumberInput(attrs={'class':'form-control input-sm','placeholder':'10 digit phone number','onkeyup':'valid_Phone($(this))', 'onfocusout':'valid_Phone($(this))'}),
+            'email': TextInput(attrs={'class':'form-control input-sm', 'placeholder':'abc@gmail.com','style':'padding-left: 9px;', 'onkeyup':'valid_Email($(this))', 'onfocusout':'valid_Email($(this))' }),
+            'phone':  NumberInput(attrs={'class':'form-control input-sm','placeholder':'10 digit phone number','style':'padding-left: 9px;','onkeyup':'valid_Phone($(this))', 'onfocusout':'valid_Phone($(this))'}),
             'website': TextInput(attrs={'class':'form-control input-sm', 'onkeyup':'valid_URL($(this))', 'onfocusout':'valid_URL($(this))'}),
             'salutation' : Select(attrs={'class':'form-control input-sm',}, choices = user_constants.SALUTATIONS),
-            'contact_name' : TextInput(attrs={'class':'form-control input-sm', 'max_length':'200',}),
-            'display_name' : TextInput(attrs={'class':'form-control input-sm', 'max_length':'200',}),
+            'contact_name' : TextInput(attrs={'class':'form-control input-sm', 'max_length':'200','style':'padding-left: 9px;',}),
+            'display_name' : TextInput(attrs={'class':'form-control input-sm', 'max_length':'200','style':'padding-left: 9px;',}),
             'facebook' : TextInput(attrs={'class':'form-control input-sm', 'max_length':'200','onkeyup':'valid_URL($(this))', 'onfocusout':'valid_URL($(this))'}),
             'twitter' : TextInput(attrs={'class':'form-control input-sm', 'max_length':'200', 'onkeyup':'valid_URL($(this))', 'onfocusout':'valid_URL($(this))'}),
             'organization_type' : Select(attrs={'class':'form-control input-sm',}, choices = user_constants.ORGANIZATION_TYPE, ),
-            'organization_name' : TextInput(attrs={'class':'form-control input-sm', 'max_length':'200', 'require':True,}),
+            'organization_name' : TextInput(attrs={'class':'form-control input-sm', 'max_length':'200', 'require':True,'style':'padding-left: 9px;',}),
             'notes': Textarea(attrs = {'class':'form-control',},)
         }
 
@@ -81,7 +81,7 @@ class EditAddressForm(ModelForm):
             'city' : TextInput(attrs={'class':'form-control input-sm','style':'width:50%;'}),
             'state' : Select(attrs={'class':'form-control input-sm','style':'width:50%;'}, choices = country_list.STATE_LIST_CHOICES),
             'country' : Select(attrs={'class':'form-control input-sm','style':'width:50%;'}, choices = country_list.COUNTRIES_LIST_CHOICES),
-            'pincode' : TextInput(attrs={'class':'form-control input-sm','style':'width:50%;'}),
+            'pincode' : TextInput(attrs={'class':'form-control input-sm','style':'width:50%;','onkeypress':'return restrictAlphabets(event)',}),
             'is_shipping_address' : Select(attrs={'class':'form-control input-sm shipping_address hide','style':'width:40%;', 'required':'false',}),
             'is_billing_address' : Select(attrs={'class':'form-control input-sm billing_address hide','style':'width:40%;', 'required':'false'}),
         }
@@ -110,9 +110,9 @@ class ContactsExtraForm(ModelForm):
         fields = ('website', 'facebook', 'twitter', 'attachements', 'notes',)
 
         widgets = {
-            'attachements' : FileInput(attrs = {'class':'form-control input-sm','style':'padding:1px'}),
-            'website': TextInput(attrs={'class':'form-control input-sm','placeholder':'http://google.com/', 'onkeyup':'valid_URL($(this))', 'onfocusout':'valid_URL($(this))'}),
-            'facebook' : TextInput(attrs={'class':'form-control input-sm','placeholder':'http://facebook.com/', 'max_length':'200', }),
-            'twitter' : TextInput(attrs={'class':'form-control input-sm', 'max_length':'200','placeholder':'http://twitter.com/', }),
-            'notes': Textarea(attrs = {'class':'form-control',})
+            'attachements' : FileInput(attrs = {'class':'form-control input-sm','id':'files','style':'padding:1px'}),
+            'website': TextInput(attrs={'class':'form-control input-sm','style':'padding-left:9px','placeholder':'http://google.com/', 'onkeyup':'valid_URL($(this))', 'onfocusout':'valid_URL($(this))'}),
+            'facebook' : TextInput(attrs={'class':'form-control input-sm','style':'padding-left:9px','placeholder':'Facebook Username', 'max_length':'200', }),
+            'twitter' : TextInput(attrs={'class':'form-control input-sm','style':'padding-left:9px', 'max_length':'200','placeholder':'Twitter Username', }),
+            'notes': Textarea(attrs = {'class':'form-control','style':'padding-left:9px',})
         }         

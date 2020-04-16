@@ -9,8 +9,8 @@ class TaxForm(ModelForm):
         fields = ('pan', 'gstin', 'gst_reg_type')
 
         widgets = {
-            'pan' : TextInput(attrs = {'class':'form-control input-sm','placeholder':'Eg. ABCDE1234D','onkeyup':'valid_PAN($(this))', 'onfocusout':'valid_PAN($(this))'}), 
-            'gstin' : TextInput(attrs = {'class':'form-control input-sm','placeholder':'Eg. 36ARVPS3698F1ZF', 'onkeyup':'valid_GST($(this))', 'onfocusout':'valid_GST($(this))'}), 
+            'pan' : TextInput(attrs = {'class':'form-control input-sm','placeholder':'Eg. ABCDE1234D','style':'padding-left: 9px;','onkeyup':'valid_PAN($(this))', 'onfocusout':'valid_PAN($(this))'}), 
+            'gstin' : TextInput(attrs = {'class':'form-control input-sm','placeholder':'Eg. 36ARVPS3698F1ZF','style':'padding-left: 9px;', 'onkeyup':'valid_GST($(this))', 'onfocusout':'valid_GST($(this))'}), 
             'gst_reg_type' : Select(attrs = {'class':'form-control input-sm','id':'gst_reg','onchange':'hide_gst($(this))',}, choices = user_constants.GST_REG_TYPE), 
         }
 
@@ -25,7 +25,7 @@ class OtherDetailsForm(ModelForm):
 
         widgets = {
             'preferred_currency' : Select(attrs = {'class':'form-control input-sm','style':'width:50%;',}, choices = currency_list.CURRENCY_CHOICES), 
-            'opening_balance' : TextInput(attrs = {'class':'form-control input-sm','style':'width:50%;',}),
+            'opening_balance' : TextInput(attrs = {'class':'form-control input-sm','style':'width:50%;padding-left:9px;','onkeypress':'return restrictAlphabets(event)',}),
             'preferred_payment_method' : Select(attrs = {'class':'form-control input-sm','style':'width:50%;',}, choices = payment_constants.PREFERRED_PAYMENT_TYPE), 
             'preferred_delivery' : Select(attrs = {'class':'form-control input-sm','style':'width:50%;',}, choices = payment_constants.PREFERRED_DELIVERY), 
             'invoice_terms' : Select(attrs = {'class':'form-control input-sm','style':'width:50%;',}, choices = payment_constants.PAYMENT_DAYS), 

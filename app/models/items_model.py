@@ -107,6 +107,7 @@ class ProductsModel(models.Model):
 
     product_type = models.IntegerField(
         db_index = True,
+        default=0,
         choices = items_constant.PRODUCT_TYPE,
         blank = True,
         null = True,
@@ -138,12 +139,28 @@ class ProductsModel(models.Model):
         null = True,
     )
 
-
-    selling_price = models.IntegerField(
+    preferred_currency = models.CharField(
+        max_length = 5,
         db_index = True,
-        default = 0.0,
+        default='INR',
+        choices=items_constant.Currency,
         blank = True,
         null = True,
+    )
+
+    selling_price = models.CharField(
+        max_length=15,
+        db_index = True,
+        default = 0.0,
+        blank = False,
+        null = False,
+    )
+    selling_GST = models.CharField(
+        max_length=15,
+        db_index = True,
+        default = 0.0,
+        blank = False,
+        null = False,
     )
 
     discount = models.IntegerField(
@@ -151,14 +168,16 @@ class ProductsModel(models.Model):
         default = 0.0,
     )
 
-    tax = models.IntegerField(
+    tax = models.CharField(
         default = 0.0,
+        max_length=5,
         db_index = True,
         null=True,
         blank=True,
     )
 
-    gst = models.IntegerField(
+    gst = models.CharField(
+        max_length=5,
         default = 0.0,
         db_index = True,
         null=True,
@@ -180,6 +199,8 @@ class ProductsModel(models.Model):
     unit = models.IntegerField(
         default = 0,
         db_index = True,
+        blank = True,
+        null = True,
         choices = items_constant.UNITS
     )
 

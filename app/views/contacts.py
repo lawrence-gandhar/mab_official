@@ -47,7 +47,7 @@ class ContactsView(View):
         x = a[-4:-1]
         search = request.GET.get('search',False)
 
-        contacts = contacts_model.Contacts.objects.filter(user = request.user)
+        contacts = contacts_model.Contacts.objects.filter(Q(user = request.user) & Q(is_active = True))
 
         if search:
             contacts = contacts.filter(
@@ -1297,8 +1297,6 @@ def edit_address_details_form(request):
             address_form = EditAddressForm(request.POST, prefix='form_'+prefix, instance = obj)
             if address_form.is_valid():
                 address_form.save()
-            else:
-                print(address_form.errors)
             
         except:
             try:
@@ -1418,7 +1416,7 @@ class ContactsFileUploadView(View):
 
     # Custom CSS/JS Files For Inclusion into template
     data["css_files"] = []
-    data["js_files"] = []
+    data["js_files"] = ['custom_files/js/contacts.js']
 
     data["included_template"] = 'app/app_files/contacts/upload_contacts.html'
     
@@ -1437,14 +1435,10 @@ class ContactsFileUploadView(View):
         self.data["upload_form"] = UploadContactsForm()
         return render(request, self.template_name, self.data)
 
-    #
-    #
-    #
     def post(self, request, a):
-        
         self.data["error"] = ""
         self.data["saved_msg"] = '0'
-
+        
         self.data["upload_form"] = UploadContactsForm(request.POST, request.FILES)
 
         if self.data["upload_form"].is_valid():
@@ -1460,19 +1454,24 @@ class ContactsFileUploadView(View):
                 #***************************************************************
 
                 file_path = settings.MEDIA_ROOT+"/"+str(obj.csv_file)
-                err, self.data["row_count"] = check_csv_validation(request.user, file_path)
+
+                if check_record_count(file_path) <= 100:
+
+                    err, self.data["row_count"] = check_csv_validation(request.user, file_path)
                 
-                if len(err) > 0:
-                    self.data["saved_msg"] = '3'
-                    obj.delete()
-                else:
-                    if obj:
-                        self.data["saved_msg"] = '1'
-                        csv_2_contacts(request.user,file_path)
+                    if len(err) > 0:
+                        self.data["saved_msg"] = '3'
+                        obj.delete()
                     else:
-                        self.data["saved_msg"] = '2'
-                
-                self.data["error"] = '<br>'.join(err)
+                        if obj:
+                            self.data["saved_msg"] = '1'
+                            csv_2_contacts(request.user,file_path)
+                        else:
+                            self.data["saved_msg"] = '2'
+                    
+                    self.data["error"] = '<br>'.join(err)
+                else:
+                    self.data["saved_msg"] = '5'                
             else:
                self.data["saved_msg"] = '4'
         else:
@@ -1485,6 +1484,23 @@ class ContactsFileUploadView(View):
 #==============================================================================
 #
 
+def check_record_count(file_path):
+    row_count = 0
+
+    with open(file_path, newline='', encoding='utf-8') as csvfile:
+        records = csv.DictReader(csvfile)
+
+        fields = records.fieldnames
+
+        for row in records:
+            if row["is_parent_record"] == 'TRUE':
+                row_count += 1
+
+    return row_count
+
+#
+#
+#
 def check_csv_validation(user, file_path):
     row_count = 0
     error_row = []
@@ -1493,8 +1509,6 @@ def check_csv_validation(user, file_path):
         records = csv.DictReader(csvfile)
 
         fields = records.fieldnames
-
-        contact_ins = None
 
         for row in records:
 
@@ -1611,6 +1625,14 @@ def check_csv_validation(user, file_path):
             # check Opening Balance
             if not currency_pattern.match(opening_balance) and opening_balance is not None:
                 error_row.append("Error On Row {}: In-Valid Opening Balance.".format(row_count))   
+
+            # GST_REG_TYPE validation
+            if gst_reg_type is not None:
+                if not(gst_reg_type >= 0 and gst_reg_type <=7):
+                    error_row.append("Error On Row {}: GST_REG_TYPE is invalid".format(row_count))  
+
+            if not(organization_type >= 1 and organization_type <=6):
+                error_row.append("Error On Row {}: ORGANIZATION_TYPE is invalid".format(row_count))  
 
             row_count += 1
 

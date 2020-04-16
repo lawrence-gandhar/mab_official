@@ -7,6 +7,19 @@
                         <h4>View Products</h4>
                     </div>
                     <div class="col">
+                        <form method="get" action="{% url 'view_products' %}">
+                            <div class="input-group pull-right" style="width:400px; margin-bottom:10px;">
+                        
+                            <input name="search" id="search" type="text" class="form-control" placeholder="Product Name / SKU Code" style="height: 41px !important">
+                            <div class="input-group-append">
+                                <button class="btn btn-sm btn-success" type="submit" style="border-radius:0px;">
+                                    <i class="material-icons">search</i> <span style="font-size:14px;">Search</span>
+                                </button>
+                            </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="col-2">
                         <form action="{% url 'view_products' %}" method="get">
                             <div class="dropdown">
                             
@@ -93,28 +106,18 @@
                 </div>
             </div>
             <div class="card-body">
-                <form method="get" action="{% url 'view_products' %}">
-                    <div class="input-group pull-right" style="width:400px; margin-bottom:10px;">
                 
-                    <input name="search" id="search" type="text" class="form-control" placeholder="Product / SKU code" style="height: 41px !important">
-                    <div class="input-group-append">
-                        <button class="btn btn-sm btn-success" type="submit" style="border-radius:0px;">
-                            <i class="material-icons">search</i> <span style="font-size:14px;">Search</span>
-                        </button>
-                    </div>
-                    </div>
-                </form>
                 <div class="table">
                     <table class="table-bordered" width="100%" cellspacing="0">
                         <thead  style="background-color: #EEEEEE; color:#000000; font-size:11px">
                             <!-- <th class="text-center">SL. No.</th> -->
                             <!-- <th class="text-center">PID</th> -->
-                            <th class="text-center" style="width:15%;">SKU Code</th>
-                            <th class="text-center" style="width: 25%;">Product Name</th>
-                            <!-- <th class="text-center">Product Type</th>
-                            <th class="text-center">Category</th>
+                            <th class="text-center" style="width:7%;">SKU Code</th>
+                            <th class="text-center" style="width: 8%;">Product Type</th>
+                            <th class="text-center" style="width: 16%;">Product Name</th> 
+                            <th class="text-center" style="width: 8%;">HSN/SAC</th>
                             <th class="text-center">Description</th>
-                            <th class="text-center">Cost Price</th>
+                            <!--<th class="text-center">Cost Price</th>
                             <th class="text-center">Marked Price</th> -->
                             <th class="text-center" style="width: 16%;">Selling Price</th>               
                             <!-- <th class="text-center">Images</th>                -->
@@ -126,19 +129,28 @@
                                 <tr id="t{{product.id}}">
                                     <!-- <td>{{ forloop.counter }}</td> -->
                                     <!-- <td>P-0000{{ product.id }}</td> -->
-                                    <td>{{ product.sku }}</td>
-                                    <td>{{ product.product_name }}</td>
-                                    <!-- <td>{{ product.get_product_type_display }}</td> -->
+                                    <td>{{ product.sku|truncatechars:6 }}</td>
+                                    <td>{{ product.get_product_type_display }}</td>
+                                    <td><a href="{% url 'edit_product' product.id %}" style="color: #8b92a9;">
+                                            {{ product.product_name|truncatechars:15 }}
+                                        </a>
+                                    </td>
+                                    <td>{{ product.hsn_code|truncatechars:8 }}</td>
+                                    <td>{{ product.product_description|truncatechars:30  }}</td>
                                     <!-- <td>{{ product.category }}</td>
-                                    <td>{{ product.description }}</td>
+                                    
                                     <td>{{ product.cost_price }}</td>
                                     <td>{{ product.marked_price }}</td> -->
-                                    <td>{{ product.selling_price }}</td>
+                                    <td>{{product.preferred_currency}}.  {{ product.selling_price|truncatechars:15 }}</td>
                                     <td class="text-center">
                                         {% if product.is_active %}
-                                            <i class="material-icons" id="{{product.id}}">check</i>
+                                        <a title="Active" data-toggle="modal" data-target="#status{{product.id}}" style="padding:5px 5px;">
+                                            <i class="material-icons" id="{{product.id}}">check</i>   
+                                        </a> 
                                         {% else %}
+                                        <a title="Inactive" data-toggle="modal" data-target="#status{{product.id}}" style="padding:5px 5px;">
                                             <i class="material-icons" id="{{product.id}}">clear</i>
+                                        </a>  
                                         {% endif %}
                                     </td>               
                                     <!-- <td>
@@ -155,7 +167,7 @@
                                                 <!-- <i class="material-icons">create</i> -->
                                             </a>
                                             {% if product.is_active %}
-                                            <a class="dropdown-item" title="Deactivate Product" data-toggle="modal" data-target="#status{{product.id}}" style="padding:5px 5px;">
+                                            <a class="dropdown-item" title="Inactivate Product" href="#" data-toggle="modal" data-target="#status{{product.id}}" style="padding:5px 5px;">
                                                 <p id="s{{product.id}}" style="margin-bottom:0px;margin-right: 67px;">Make Inactive</p>   
                                             </a>
                                             <!-- <button class="dropdown-item" title="Deactivate Product" onclick="status({{product.id}})" href="{% url 'product-status-change' 'deactivate' product.id %}" class="btn btn-sm btn-default" style="padding:5px 5px;">
@@ -163,7 +175,7 @@
                                                     <i class="material-icons">clear</i> 
                                             </button> -->
                                             {% else %}
-                                            <a class="dropdown-item" title="activate Product" data-toggle="modal" data-target="#status{{product.id}}" style="padding:5px 5px;">
+                                            <a class="dropdown-item" title="activate Product" href="#" data-toggle="modal" data-target="#status{{product.id}}" style="padding:5px 5px;">
                                                 <p id="s{{product.id}}" style="margin-bottom:0px;margin-right: 67px;">Make Active</p>   
                                             </a>
                                             <!-- <button class="dropdown-item" title="Activate Product" onclick="status({{product.id}})" href="{% url 'product-status-change' 'activate' product.id %}" class="btn btn-sm btn-success" style="padding:5px 5px;">
@@ -171,13 +183,16 @@
                                                 <i class="material-icons">check</i>
                                             </button> -->
                                             {% endif %}
-                                            <a class="dropdown-item" title="Delete Product" data-toggle="modal" data-target="#del{{product.id}}" style="padding:5px 5px;">
+                                            <a class="dropdown-item" title="Delete Product" href="#" data-toggle="modal" data-target="#del{{product.id}}" style="padding:5px 5px;">
                                                 Delete
                                                 <!-- <i class="material-icons">delete_forever</i> -->
                                             </a>
+											
+											{% if product.product_type != 2 %}
                                             <a class="dropdown-item" title="Clone Product" href="{% url 'product-clone' product.id %}" style="padding:5px 5px;">
-                                                Clone
+                                                Make a Copy
                                             </a>
+											{% endif %}
                                         </div> 
                                         
                                     <!-- DELETE PopUP -->
@@ -189,7 +204,7 @@
                                                         
                                                     </div>
                                                     <div class="modal-body" style="border-top: none;position: bottom;">
-                                                        <h4><b><center style="color: black;">Are you sure you want to delete {{ product.product_name }} </center></b></h4>
+                                                        <h4><b><center style="color: black;">Are you sure you want to delete {{ product.product_name|truncatechars:10 }}. Deleting products will not affect reports or historical transactions. </center></b></h4>
                                                     </div>
                                                     
                                                     <div class="modal-footer" style="justify-content: flex-start; border-top: none;padding:6px;margin-left: 29%">
@@ -208,7 +223,7 @@
                                                         
                                                     </div>
                                                     <div class="modal-body" style="border-top: none;position: bottom;">
-                                                        <h4 ><b><center style="color: black;"id="text">Are you sure you want to make {{ product.product_name }} inactive </center></b></h4>
+                                                        <h4 ><b><center style="color: black;"id="text">Are you sure you want to make {{ product.product_name|truncatechars:10 }} inactive </center></b></h4>
                                                     </div>
                                                     
                                                     <div class="modal-footer" style="justify-content: flex-start; border-top: none;padding:6px;margin-left: 29%">
@@ -227,7 +242,7 @@
                                                         
                                                     </div>
                                                     <div class="modal-body" style="border-top: none;position: bottom;">
-                                                        <h4 ><b><center style="color: black;" id="text">Are you sure you want to make {{ product.product_name }} active</center></b></h4>
+                                                        <h4 ><b><center style="color: black;" id="text">Are you sure you want to make {{ product.product_name|truncatechars:10 }} active</center></b></h4>
                                                     </div>
                                                     
                                                     <div class="modal-footer" style="justify-content: flex-start; border-top: none;padding:6px;margin-left: 29%">

@@ -10,6 +10,14 @@ PRODUCT_TYPE_DICT = {
     2: 'BUNDLE',
 }
     
+Currency = (
+    ('INR','INR'),
+    ('USD','USD'),
+    ('CAD','CAD'),
+    ('CAD','EUR'),
+    ('CZK','CZK'),
+    ('AUD','AUD'),
+)
 
 
 UNITS = (
@@ -26,7 +34,7 @@ UNITS = (
     (10, 'Yard'),
     (11, 'Mile'),
     (12, 'Meter'),
-    (13, 'Millimetres '),
+    (13, 'Millimetres'),
     (14, 'Square Feet'),
     (15, 'Square Metre'),
     (16, 'Centimetre'),

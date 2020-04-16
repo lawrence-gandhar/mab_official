@@ -11,12 +11,22 @@
                 <div class="col">
                     <h4 class="card-title ">View Contacts</h4>
                 </div>
-
+                <form method="get">
+                    <div class="input-group pull-right" style="width:400px; margin-bottom:10px;">
+                
+                    <input name="search" type="text" class="form-control" placeholder="Contact / Organisation Name" style="height: 41px !important">
+                    <div class="input-group-append">
+                        <button class="btn btn-sm btn-success" type="submit()" style="border-radius:0px;">
+                            <i class="material-icons">search</i> <span style="font-size:14px;">Search</span>
+                        </button>
+                    </div>
+                    </div>
+                </form>
                 
                  <!-- added by roshan -->
                 <!-- filter -->
                 <!-- filter Cutomer Type -->
-                <div class="col" >
+                <div class="col-2" >
                     <form action="{% url 'contacts' %}" method="get">
                         <div class="dropdown">
                         
@@ -109,7 +119,7 @@
                                         <label class="form-check-label" style="margin-bottom: 3px;">
                                             <input class="form-check-input" type="checkbox" name="GvtOrganization"style="width: 111%;margin-left: -38%;">
                                             <span class="form-check-sign">
-                                                <span class="check" style="margin-left: 41px;color: black;">Gvt. Organisation</span>
+                                                <span class="check" style="margin-left: 41px;color: black;">Gvt Organisation</span>
                                             </span>
                                         </label>
 
@@ -157,17 +167,7 @@
                 </div>
             </div>
             <div class="card-body">
-                <form method="get">
-                    <div class="input-group pull-right" style="width:400px; margin-bottom:10px;">
                 
-                    <input name="search" type="text" class="form-control" placeholder="Contact / Organisation Name" style="height: 41px !important">
-                    <div class="input-group-append">
-                        <button class="btn btn-sm btn-success" type="submit()" style="border-radius:0px;">
-                            <i class="material-icons">search</i> <span style="font-size:14px;">Search</span>
-                        </button>
-                    </div>
-                    </div>
-                </form>
                 <div class="table">
                     <table class=" table-bordered" width="100%" cellspacing="0">
                         <thead  style="background-color: #EEEEEE; color:#000000; font-size:11px">
@@ -190,21 +190,30 @@
                                 <tr id="t{{contact.id}}">
                                     <!-- <td>{{forloop.counter}}</td> -->
                                     <!-- <td>CT-0000{{contact.id}}</td> -->
-                                    <td>{{contact.display_name|default_if_none:""}}</td>
+                                    <td><a href="{% url 'edit-contact' contact.id %}" style="color: #8b92a9;">
+                                        {{contact.contact_name|default_if_none:""|upper |truncatechars:25}}
+                                        </a>
+                                    </td>
                                     <!-- <td>{{contact.app_id}}</td>
                                     <td>{{contact.get_customer_type_display|upper}}</td>
                                     <td>{{contact.get_is_sub_customer_display|upper}}</td> -->
                                     
                                     <!-- <td>{{contact.get_organization_type_display|upper}}</td> -->
-                                    <td>{{contact.organization_name|default_if_none:""|upper}}</td>
-                                    <td>{{contact.email|default_if_none:""}}</td>
-                                    <td>{{contact.phone|default_if_none:""}}</td>
+                                    <td>{{contact.organization_name|default_if_none:""|upper | truncatechars:25}}</td>
+                                    <td>{{contact.email}}</td>
+                                    <td>{{contact.phone}}</td>
                                     <!-- <td>{{contact.website}}</td>                         -->
                                     <td class="text-center">
                                         {% if contact.is_active %}
+                                        <a title="Active" data-toggle="modal" data-target="#status{{contact.id}}" style="padding:5px 5px;">
                                             <i id="{{contact.id}}" class="material-icons">check</i>
+                                        </a>
+                                            
                                         {% else %}
-                                            <i id="{{contact.id}}" class="material-icons">clear</i>
+                                        <a title="Inactive" data-toggle="modal" data-target="#status{{contact.id}}" style="padding:5px 5px;">
+                                            <i id="{{contact.id}}" class="material-icons">clear</i>   
+                                        </a>
+                                            
                                         {% endif %}
                                     </td>
                                     <td class="text-center">
@@ -218,7 +227,7 @@
                                                    <!--  <i class="material-icons">create</i> -->
                                                 </a>
                                                 {% if contact.is_active %}
-                                                <a class="dropdown-item" title="Deactivate" data-toggle="modal" data-target="#status{{contact.id}}" style="padding:5px 5px;">
+                                                <a class="dropdown-item" title="Inactivate" data-toggle="modal" data-target="#status{{contact.id}}" style="padding:5px 5px;">
                                                     <p id="s{{contact.id}}" style="margin-bottom:0px;margin-right: 67px;">Make Inactive</p>   
                                                 </a>
                                                     <!-- <button class="dropdown-item" title="Deactivate"  onclick="status({{contact.id}})" style="padding: 5px 5px;">
@@ -254,7 +263,7 @@
                                                             
                                                         </div>
                                                         <div class="modal-body" style="border-top: none;position: bottom;">
-                                                            <h4><b><font color="black">Are you sure you want to delete {{contact.display_name}} </font></b></h4>
+                                                            <h4><b><font color="black">Are you sure you want to delete {{contact.display_name |truncatechars:10 }}. Deleting contacts will not affect reports or historical transactions.</font></b></h4>
                                                         </div>
                                                         
                                                         <div class="modal-footer" style="justify-content: flex-start; border-top: none;padding:6px;margin-left: 29%">
@@ -274,7 +283,7 @@
                                                         
                                                     </div>
                                                     <div class="modal-body" style="border-top: none;position: bottom;">
-                                                        <h4 ><b><center style="color: black;"id="text">Are you sure you want to make {{contact.display_name}} inactive </center></b></h4>
+                                                        <h4 ><b><center style="color: black;"id="text">Are you sure you want to make {{contact.display_name |truncatechars:10}} inactive </center></b></h4>
                                                     </div>
                                                     
                                                     <div class="modal-footer" style="justify-content: flex-start; border-top: none;padding:6px;margin-left: 29%">
@@ -293,7 +302,7 @@
                                                         
                                                     </div>
                                                     <div class="modal-body" style="border-top: none;position: bottom;">
-                                                        <h4 ><b><center style="color: black;" id="text">Are you sure you want to make {{contact.display_name}} active</center></b></h4>
+                                                        <h4 ><b><center style="color: black;" id="text">Are you sure you want to make {{contact.display_name |truncatechars:10}} active</center></b></h4>
                                                     </div>
                                                     
                                                     <div class="modal-footer" style="justify-content: flex-start; border-top: none;padding:6px;margin-left: 29%">

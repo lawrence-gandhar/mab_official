@@ -1,7 +1,14 @@
 {% load common_components %}
 {% loader_component %}
 
+<!-- <link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet" /> -->
+<!-- <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script> -->
+
 <style>
+@import url(https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/css/select2.min.css);
+.select{
+    width: 213.6px;
+}
 select.form-control{padding:0px 10px;}
 select.form-control option{color : #000000; }
 .form-group{
@@ -11,10 +18,24 @@ select.form-control option{color : #000000; }
 }
 .form-control{
     margin-top: -7px;
-    /* width: 157%;
-    margin-left: -13px; */
 }
+input[type=number]::-webkit-inner-spin-button,
+input[type=date]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button,
+input[type=date]::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+        margin: 0;
+    }
 
+
+textarea.form-control{
+    padding:0px 10px;
+}
+.tax::-webkit-calendar-picker-indicator {
+  display: none;
+}
 </style>
 
 <form method="post" enctype="multipart/form-data">
@@ -22,274 +43,291 @@ select.form-control option{color : #000000; }
     <div class="row">
         <div class="col-lg-12" style="padding:0px">
             <div class="card">
-            <div style="margin-top: 16px;">
-                
+            <div style="margin-top: 4%;">
+
                 <div class="form-group">
-                    <div class="row">
-                        <div class="col">
-                            <label for="customerName1">Customer Name</label>
+                    <div class="row" style="width: 265%;">
+                        <div class="col-2">
+                            <label for="customerName1">Contact Name</label>
                         </div>
-                        <div class="col">
-                            <input list="customerName" class="form-control" autocomplete="off" name="customerName" id="customerName1" style=" width: 157%;margin-left: -13px;" required="Please Enter Customer Name">
-                            <datalist id="customerName">
-                                <option value="Internet Explorer">
-                                <option value="Firefox">
-                                <option value="Chrome">
-                                <option value="Opera">
-                                <option value="Safari">
-                            </datalist> 
+                        <div class="col-4" >
+                            <select class="form-control" id="customerName" onchange=data($(this)) style="padding-left: 0px; width: 90%;margin-top: 1px;" required> 
+                                <option value="-------"></option>
+                                {% for contact in contacts %}
+                                <option value="{{contact.id}}">{{contact.contact_name}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-1">
+                            <label for="email">Email</label>
+                        </div>
+                        <div class="col-4">
+                            <input type="email" class="form-control" id="email" name="Email_Address" multiple style="padding: 12px 3px; padding-top: 6%;;width: 95%;margin-left: 18%;">
+                            <a class="btn btn-link" onclick="show_cc_mail()" style="padding-bottom: 0px;padding-top: 0px;margin-left: 10%;"><font>Add CC</font></a>
                         </div>
                     </div>      
                 </div>
 
-                <div class="form-group">
-                    <div class="row" style="width: 173%;">
-                        <div class="col">
-                            <label for="email">Email</label>
-                        </div>
-                        <div class="col">
-                            <input type="email" class="form-control" id="email" name="Email Address" style=" width: 145%;margin-left: -29px;" required>
-                        </div>
-                        <div class="col">
-                            <p id="mailValidation" style="color:#e62a2a;margin-left: 45px;"></p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <div class="row">
-                        <div class="col">
-                            <label for="Reference">Invoice Reference#</label>
-                        </div>
-                        <div class="col">
-                            <input type="text" class="form-control" id="Reference" name="Reference" style=" width: 157%;margin-left: -13px;">
-                        </div>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <div class="row">
-                        <div class="col">
+                <div class="form-group" style="margin-top: -11px;">
+                    <div class="row" style="width:265%;">
+                        <div class="col-2">
                             <label for="BillingAddress">Billing Address</label>
                         </div>
-                        <div class="col">
-                            <textarea class="form-control" id="BillingAddress" rows="3" style=" width: 157%;margin-left: -13px;"></textarea>
+                        <div class="col-4">
+                            <input list="BillingAddress" class="form-control" name="BillingAddress" id="BillingAddress1" style="padding: 12px 3px; padding-top: 6%;;width: 91%;">
+                            <datalist id="BillingAddress">
+                                
+                            </datalist> 
+                        </div>
+                        
+                        <div class="col-2">
+                            <label for="supplyPlace1" class="ccemail" style="display: none;">CC Email</label>
+                        </div>
+                        <div class="col-4">
+                            <input type="email" class="form-control ccemail" id="ccemail" name="CC_Email_Address" multiple  style="display: none;position: absolute;padding: 12px 3px;padding-top: 6%;;width: 88%;margin-left: -9%;">
+                            <a class="btn btn-link btn-danger" id="close" onclick="hide_cc_mail()" style="display: none;margin-left: 78%;margin-top: -3px;">X</a>
                         </div>
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <div class="row">
-                        <div class="col">
-                            <label for="supplyPlace1">Place Supply</label>
+                    <div class="row cc" style="width: 265%;">
+                        <div class="col-2">
+                            <label for="CreditNoteDate">Credit Note Date</label>
                         </div>
-                        <div class="col">
-                            <input list="supplyPlace" class="form-control" autocomplete="off" name="supplyPlace" id="supplyPlace1" style=" width: 157%;margin-left: -13px;">
+                        <div class="col-4">
+                            <input type="date" class="form-control"  id="CreditNoteDate" name="CreditNoteDate" required style="padding: 12px 3px;margin-top:1px;width: 91%;margin-left: 2px;">
+                        </div>
+
+                        <div class="col-2">
+                            <label for="supplyPlace1">State of Supply</label>
+                        </div>
+                        <div class="col-4">
+                            <input list="supplyPlace" class="form-control" autocomplete="off" name="supplyPlace" id="supplyPlace1" style="padding: 12px 3px;padding-top: 6%;;width: 95%;margin-left: -9%;">
                                 <datalist id="supplyPlace">
-                                    <option value="Maharashtra">
-                                    <option value="Gurjrat">
-                                    <option value="Delhi">
-                                    <option value="U.P.">
-                                    <option value="Safari">
+                                    {% for i in state %}
+                                        <option value="{{i}}">
+                                    {% endfor %}
                                 </datalist>
                         </div>
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <div class="row">
-                        <div class="col">
-                            <label for="CreditNoteDate">Credit Note Date</label>
+                    <div class="row" style="width: 265%;">
+                        <div class="col-2">
+                            <label for="Reference">Invoice Reference#</label>
                         </div>
-                        <div class="col">
-                            <input type="date" class="form-control"  id="CreditNoteDate"  name="CreditNoteDate" style=" width: 157%;margin-left: -13px;">
+                        <div class="col-4">
+                            <input type="text" class="form-control" id="Reference" name="Reference" style="margin-top: 1px;width: 90%;margin-left: 2px;">
+                        </div>
+                        <div class="col-2">
+                            <label for="supplyPlace1">Credit Note Number </label>
+                        </div>
+                        <div class="col-4">
+                            <input type="text" class="form-control"  name="CreditNoteNumber" id="CreditNoteNumber" style="padding: 12px 3px;padding-top: 6%;;width: 95%;margin-left: -9%;">
+                              
                         </div>
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <div class="row">
-                        <div class="col">
-                            <label for="MessageOnStatement">Message on customer statement</label>
-                        </div>
-                        <div class="col">
-                            <textarea class="form-control" id="MessageOnStatement" rows="2" style=" width: 157%;margin-left: -13px;"></textarea>
-                        </div>
-                    </div>
+                    <label class="switch" style="padding-top: 5px;">
+                        <input type="checkbox" id="checked" name="checkbox" onclick="hide_table()">
+                        <span class="slider round"></span>
+                      </label><font style="margin-left: 6px;color: #AAAAAA;">Blank Credit Note</font>
                 </div>
-
-                <div class="form-group" style="width: 60% !important;">
+                <div class="form-group tbl" style="width: 91%">
                     <table class="table" id="table">
-                        <thead>
-                          <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">Item</th>
-                            <th scope="col" style="padding-left: 66px;">Quantity</th>
-                            <th scope="col">Price</th>
-                            <th scope="col" style="padding-left: 33px;">Discount</th>
-                            <th scope="col" style="padding-left: 17px;">Tax</th>
-                            <th scope="col" style="padding-left: 38px;">Amount</th>
-                          </tr>
+                        <thead class=" text-primary" style="background-color: black;">
+                          
+                            <th scope="col" style="border:1px solid white;width: 5%;">#</th>
+                            <th scope="col" style="border:1px solid white;width: 23%;">Product</th>
+                            <th scope="col" style="border:1px solid white;width: 9%;">Type</th>
+                            <th scope="col" style="border:1px solid white;width: 13%;">Price</th>
+                            <th scope="col" style="border:1px solid white;width: 12%;">Unit</th>
+                            <th scope="col" style="border:1px solid white;width: 7%;">Quantity</th>
+                            <th scope="col" style="border:1px solid white;width: 11%;">Discount</th>
+                            <th scope="col" style="border:1px solid white;width: 8%;">Tax</th>
+                            <th scope="col" style="border:1px solid white;width: 12%;"><font>Amount(Exc.Taxe)</font></th>
+                            <th scope="col" style="border:1px solid white;width: 5%;">Action</th>
+                          
                         </thead>
                         <tbody>
-                          <tr>
-                            <th scope="row">1</th>
-                            <td> <textarea class="form-control" id="ItemDetail" name="ItemDetail" rows="3" style="width: 185% !important;"></textarea></td>
-                            <td><input type="number" class="form-control" id="Quantity" name="Quantity" style="margin-left: 56px !important;width: 57% !important;"></td>
-                            <td><input type="text" class="form-control" id="Price" name="Price" style="margin-left: 12px !important;width:115% !important;"></td>
-                            <td><input type="text" class="form-control" id="Discount" name="Discount" style="margin-left: 23px !important;"></td>
-                            <td><input type="text" class="form-control" id="Tax" name="Tax" style="margin-left: 25px !important;"></td>
-                            <td><input type="text" class="form-control" id="Amount" name="Amount" style="margin-left: 26px !important;width: 79% !important;"></td>
-                            <td><button class="btn btn-success" type="button" onclick="addRow()" style="padding-left:7px;padding-right:7px;margin-top:-8px;padding-top:6px;padding-bottom: 6px;">Add</button></td>
+                          <tr style="border:1px solid white;">
+                            <td scope="row" style="border:1px solid white;">1</td>
+                            <td style="border:1px solid white;">
+                                
+                                <select class="form-control select" id="ItemName1" name="ItemName1" onchange=product(1) style="padding-left: 0px;">
+                                    
+                                    <option value="-------">-------</option>
+                                    
+                                    {% for product in products %}
+                                        <option value="{{product.id}}">{{product.product_name}}</option>
+                                    {% endfor %}
+                                </select>
+                                <!-- <label class="mdb-main-label">Example label</label>
+                                <button class="btn-save btn btn-primary btn-sm">Save</button> -->
+                                <!-- <a href="#" class="">
+                                    <i class="material-icons">add</i>Add Product
+                                </a> -->
+                                <input type="text" class="form-control" id="desc1" placeholder="Product Describtion" style="margin-top: 1px;font-size: x-small;display: none;">
+                                
+                            </td>
+                            <td style="border:1px solid white;"><input type="text" class="form-control" id="type1" name="type1" readonly></td>                  
+                            <td style="border:1px solid white;"><input type="text" class="form-control" onkeypress="return restrictAlphabets(event)" onkeyup='calculate(1)' id="Price1" name="Price1" ></td>
+                            <td style="border:1px solid white;">
+                                <select class="form-control"  id="Unit1" name="Unit1" style="padding-left: 0px;">
+                                    <option value="-------">-------</option>
+                                    
+                                    {% for i in unit %}
+                                        <option value="{{i}}">{{i}}</option>
+                                    {% endfor %}
+                                </select>
+                            </td>
+                            <td style="border:1px solid white;"><input type="number" class="form-control" onkeyup='calculate(1)' id="Quantity1" name="Quantity1"></td>
+                            <td style="border:1px solid white;">
+                                <input type="text" onkeypress="return restrictAlphabets(event)" class="form-control" onkeyup='calculate(1)' id="Discount1" name="Discount1">
+                                <select class="form-control"  id="Dis1" name="Dis1" onchange="dicount_type(1)" style="background-color: white;color: black;position: absolute;padding-left: 0px;margin-top: -20px;width: 2%;margin-left: 71px;">
+                                    <option value="%">%</option>
+                                    <option value="₹">₹</option>
+                                </select>
+                            </td>
+                            <td style="border:1px solid white;">
+                                <font style="position: absolute;margin-left: 5%;color: white;margin-top: -1%;">%</font>
+                                
+                                <input list="tax" class="form-control tax" maxlength="5" size="5" name="tax1" onkeypress="return restrictAlphabets(event)" id="tax1" style="padding: 12px 3px;padding-top: 6%;;width: 95%;margin-left: -5%;">
+                                <datalist id="tax">
+                                    
+                                    <option value="0">
+                                    <option value="5">
+                                    <option value="12">
+                                    <option value="18">
+                                    <option value="28">
+                                </datalist>
+                                <!-- <input type="text" maxlength="5" size="5" onkeypress="return restrictAlphabets(event)" class="form-control" id="Tax1" name="Tax1"> -->
+                            </td>
+                            <td style="border:1px solid white;"><input type="text" class="form-control" onkeypress="return restrictAlphabets(event)" id="Amount1" name="Amount1" readonly></td>
+                            <td style="border:1px solid white;"><button class="btn btn-success btn-sm" type="button" onclick="addRow()" style="margin-top: -4px;margin-bottom: -3px;">Add</button></td>
                           </tr>
                           
                         </tbody>
                       </table>
-                    </div>
-
-                    
-                <div class="form-group">
-                    <div class="row">
-                        <div class="col">
-                            <label for="MessageOnCreditNote">Message on credit note</label>
-                        </div>
-                        <div class="col">
-                            <textarea class="form-control" id="MessageOnCreditNote" rows="2" style=" width: 157%;margin-left: -13px;"></textarea>
-                        </div>
-                    </div>
                 </div>
-                <div class="form-group">
+
+                <div style="margin-left: 61px;">
+                    <div class="row" >
+                        <div class="col-2">
+                            <label for="MessageOnStatement">Terms and Conditions</label>
+                        </div>
+                        <div class="col-4">
+                            <textarea class="form-control" id="MessageOnStatement" rows="2" style="margin-top: 1px;width:86%;margin-left: -13px;"></textarea>
+                        </div> 
+                    </div>  
+                </div>
+                <div style="margin-left: 61px;">
+                    <div class="row" style="margin-top:1% ;">
+                        <div class="col-2">
+                            <label for="MessageOnStatement">Message </label>
+                        </div>
+                        <div class="col-4">
+                            <textarea class="form-control" id="Message" name="Message" rows="2" style="margin-top: 1px;width:86%;margin-left: -13px;"></textarea>
+                        </div> 
+                    </div>  
+                </div>
+                
+                <div style="margin-left: 61px;margin-top: 13px;">
                     <div class="row">
-                        <div class="col">
+                        <div class="col-2">
                             <label for="Attachment">Attachment</label>
                         </div>
-                        <div class="col">
-                            <input type="file" class="form-control" id="Attachment"  style=" width: 157%;margin-left: -13px;color: aqua;">
+                        <div class="col-4 " style="margin-top:6px">
+                            <input type="file" class="form-control" id="Attachment"  style="padding-top: 1px;margin-left: -13px;width: 86%;">
+                            <input type="button"  style="margin-left: 78%;position: absolute;margin-top: -9%;" value="clean" onclick="clean()">
+                            <font color="white" style="font-size:x-small;margin-left: -4%;">File Size Less Than: 20 MB  |  File Format: CSV,PDF,DOC,IMG</font><br>
+                           
+                            <label class="switch" style="padding-top: 5px;margin-left: -5%;">
+                                <input type="checkbox" id="attach_check" name="attach_check" onclick="hide_table()">
+                                <span class="slider round"></span>
+                            </label><font style="margin-left: 6px;color: #AAAAAA;">Do you want to send this attachment with email?</font>
                         </div>
-                    </div>
-                </div>
-              
-                <div style="margin-left: 33%;">  
-                    <div class="row">
-                        <div class="col">
-                            <label for="SubTotal">Sub Total(without Tax):</label>
-                        </div>
-                        <div class="col">
-                            <input type="text" class="form-control" id="SubTotal" name="SubTotal" style="margin-left: -59%;width: 49%;">
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-2" style="margin-left: 2px;">
-                            <label for="GST">GST:</label>
-                        </div>
-                        <div class="col" style="margin-top: 20px;
-                        margin-left: -62px;">
+                        
+                        <div class="col" style="position: inherit;margin-top: -82px;margin-left: 11%;">
                             <div class="row">
                                 <div class="col">
-                                    <label for="CGST">CGST:</label>
+                                    <label for="SubTotal">Sub Total:</label>
                                 </div>
                                 <div class="col">
-                                    <input type="text" class="form-control" id="CGST" name="CGST" style="margin-left: -75%;width: 54%;">
+                                    <input type="text" class="form-control" id="SubTotal" onkeypress="return restrictAlphabets(event)" name="SubTotal" readonly style="margin-top: 1%;margin-left: -72%;width: 59%;">
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col">
-                                    <label for="SGST">SGST:</label>
+                                <div class="col-2" style="margin-left: 2px;">
+                                    <label for="GST">GST:</label>
                                 </div>
-                                <div class="col">
-                                    <input type="text" class="form-control" id="SGST" name="SGST" style="margin-left: -75%;width: 54%;">
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col">
-                                    <label for="IGST">IGST:</label>
-                                </div>
-                                <div class="col">
-                                    <input type="text" class="form-control" id="IGST" name="IGST" style="margin-left: -75%;width: 54%;">
+                                <div class="col" style="margin-top: 20px;margin-left: -62px;">
+                                    <div class="row">
+                                        <div class="col-2">
+                                            <label for="CGST">CGST:</label>
+                                        </div>
+                                        <div class="col-4">
+                                            <input type="text" onkeypress="return restrictAlphabets(event)" class="form-control" id="CGST" name="CGST" style="margin-top: 1px;">
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-2">
+                                            <label for="SGST">SGST:</label>
+                                        </div>
+                                        <div class="col-4">
+                                            <input type="text" class="form-control" onkeypress="return restrictAlphabets(event)" id="SGST" name="SGST" style="margin-top: 1px;">
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-2">
+                                            <label for="IGST">IGST:</label>
+                                        </div>
+                                        <div class="col-4">
+                                            <input type="text" class="form-control" onkeypress="return restrictAlphabets(event)" id="IGST" name="IGST" style="margin-top: 1px;">
+                                        </div>  
+                                    </div>
                                 </div>  
                             </div>
-                        </div>  
-                    </div>
-                   
-                    <div class="row">
-                        <div class="col">
-                            <label for="Adjustment">Adjustment:</label>
+                            
+                            <div class="row">
+                                <div class="col">
+                                    <label for="Total">Total:</label>
+                                </div>
+                                <div class="col">
+                                    <input type="text" onkeypress="return restrictAlphabets(event)" class="form-control" id="Total" name="Total" style="margin-left:-72%;width: 58%;margin-top: 1px;">
+                                </div> 
+                            </div>
                         </div>
-                        <div class="col">
-                            <input type="text" class="form-control" id="Adjustment" name="Adjustment"style="margin-left: -59%;width: 49%;">
-                        </div> 
-                    </div>
-                    <div class="row">
-                        <div class="col">
-                            <label for="Total">Total:</label>
-                        </div>
-                        <div class="col">
-                            <input type="text" class="form-control" id="Total" name="Total" style="margin-left: -59%;width: 49%;">
-                        </div> 
                     </div>
                 </div>
+            
+                <!-- The Modal -->
+<div id="myModal" class="modal">
 
+    <!-- Modal content -->
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <p>Some text in the Modal..</p>
+    </div>
+  
+  </div>
                 <div class="card-footer text-center"  style="justify-content: center;">
+                   
+                    <button class="btn btn-success" onclick="return error()" style="width: 9%;margin-right: 10px;">Save</button>
                     <button class="btn btn-warning">Cancel</button>
-                    <button class="btn btn-success">Save</button>
+                    
                 </div>
             </div>
             </div>
         </div>
     </div>
 </form>
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-<script>
-    $(document).ready(function(){
-        $("#email").keydown(function(){
-            var mail =  document.getElementById("email").value
-            var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-            console.log(mail)
-            if(mail.match(mailformat)){
-                // $("#mailValidation").val("Valid Email Address*");
-                document.getElementById("mailValidation").innerHTML = "Valid Email Address*";
-            }
-            else{
-
-                // $("#mailValidation").val("Invalide Email Address*");
-                document.getElementById("mailValidation").innerHTML = "Invalide Email Address*";
-               
-            }
-     
-        });
-    });
-
-//  date function
-    var d = new Date();
-    var day = d.getDate()
-    var month =  (d.getMonth() + 1).toString()
-    var year = d.getFullYear().toString()
-    if(day < 10 ){
-        day = "0" + day.toString()
-    }
-    if(month.length < 2){
-        month = "0" + month
-    }
-    var date = year+ '-' + month + '-' + day.toString()
-    console.log(date)
-    $("#CreditNoteDate").val(date)
-// ////////////////////////////////////////////////
-
-// Add Row
-var number = 1
-function addRow() {
-    number += 1
-    $('#table').append('<tr id="row'+number+'"><th scope="roww'+number+'">'+number+'</th><td> <textarea class="form-control" id="ItemDetail'+number+'" name="ItemDetail" rows="3" style="width: 185% !important;"></textarea></td><td><input type="number" class="form-control" id="Quantity'+number+'" name="Quantity" style="margin-left: 56px !important;width: 57% !important;"></td><td><input type="text" class="form-control" id="Price'+number+'" name="Price" style="margin-left: 12px !important;width:115% !important;"></td><td><input type="text" class="form-control" id="Discount'+number+'" name="Discount" style="margin-left: 23px !important;"></td><td><input type="text" class="form-control" id="Tax'+number+'" name="Tax" style="margin-left: 25px !important;"></td><td><input type="text" class="form-control" id="Amount'+number+'" name="Amount" style="margin-left: 26px !important;width: 79% !important;"></td><td><button class="btn btn-danger btn-remove" type="button" id="'+number+'" name="'+number+'" onclick="removeRow(number)" style="padding-left:7px;padding-right:7px;margin-top:-8px;padding-top:6px;padding-bottom: 6px;"><b>X</b></button></td></tr>')
-    
-};
-
-function removeRow(a) {
-// console.log("aaaaaaaaaaaa")
-// var button_id = $(this).attr("id");
-// console.log(button_id)
-console.log(a)
-$('#row'+a+'').remove();
-number -=1
-}
-
-</script>   
+<!-- <script>
+    $(document).ready(function() {
+    $('.js-example-basic-single').select2();
+});
+</script> -->
